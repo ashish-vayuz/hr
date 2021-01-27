@@ -13,12 +13,62 @@ const signup = asyncHandler(async (req, res) => {
 
     const user = await User.findOne({ email })
     if (user) {
-        if (user.verified) {
-            res.status(400)
-            throw new Error("User Already Exists")
+        if (!user.verified) {
+            const val = Math.floor(1000 + Math.random() * 9000);
+            //STEP 1
+            let transporter = await nodemailer.createTransport({
+
+                service: 'gmail',
+                auth: {
+                    user: process.env.EMAIL,//
+                    pass: process.env.PASSWORD
+                }
+
+            })
+
+            //STEP 2
+            let info = {
+                from: process.env.EMAIL,
+                to: email,
+                subject: "OTP VERIFICATION",
+                text: `Your OTP is ${val}`
+            }
+            //STEP 3
+            transporter.sendMail(info, function (err, data) {
+                if (err) {
+                    console.log(err)
+                }
+
+                else {
+                    console.log("Email Sent")
+                }
+            })
+            user.OTP = val
+            await user.save()
+            res.status(200).json({
+                res: "otp",
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                token: generateToken(user._id)
+            })
+
+        } else if (user.location === "None") {
+            res.status(400).json({
+                res: "location",
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                token: generateToken(user._id)
+            })
         } else {
-            res.status(200)
-            throw new Error("Verification Pending")
+            res.status(400).json({
+                res: "registered",
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                token: generateToken(user._id)
+            })
         }
     } else {
         const val = Math.floor(1000 + Math.random() * 9000);
@@ -123,6 +173,13 @@ const otp = asyncHandler(async (req, res) => {
         res.status(400)
         throw new Error('Incorrect OTP')
     }
+})
+
+// @desc allow user to forgot otp
+// route POST users/OTP
+// access Public
+const forgotOtp = asyncHandler(async (req, res) => {
+
 })
 
 // @desc User to update Profile Image
