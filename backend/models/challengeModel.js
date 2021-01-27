@@ -2,22 +2,36 @@ import mongoose from 'mongoose'
 
 const reviewSchema = mongoose.Schema(
     {
-        name: { type: String, required: true },
-        rating: { type: Number, required: true },
-        comment: { type: String, required: true },
-        user: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true,
-            ref: 'User',
-        },
+       status:{
+           type:"String",
+           required:true,
+           default:"Pending"
+       }
     },
     {
         timestamps: true,
     }
 )
 
-const challengeSchema = mongoose.Schema({
+const participantSchema = mongoose.Schema({
     user: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User',
+    },
+    video: {
+        type: String,
+        required: true,
+    },
+    reviews: [reviewSchema],
+},
+    {
+        timestamps: true,
+    }
+)
+
+const challengeSchema = mongoose.Schema({
+    creator:{
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User',
@@ -26,15 +40,15 @@ const challengeSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    likes:[{
+    likes: [{
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User',
     }],
-    totalLikes:{
+    totalLikes: {
         type: Number,
         required: true,
-        default:"0"
+        default: "0"
     },
     description: {
         type: String,
@@ -45,8 +59,9 @@ const challengeSchema = mongoose.Schema({
         required: true,
     },
     category: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
+        ref: 'Category',
     },
     rewards: {
         type: String,
@@ -73,17 +88,21 @@ const challengeSchema = mongoose.Schema({
         required: true,
     },
     reviews: [reviewSchema],
-    numReviews: {
-        type: Number,
+    participant: [participantSchema],
+    video: {
+        type: String,
         required: true,
-        default: 0,
     },
-    active:{
+    active: {
         type: String,
         required: true,
         default: true
     }
-}, { timestamps: true })
+},
+    {
+        timestamps: true
+    }
+)
 
 
 const Challenge = mongoose.model('Challenge', challengeSchema)

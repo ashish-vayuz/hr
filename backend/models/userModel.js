@@ -28,13 +28,27 @@ const userSchema = mongoose.Schema({
         type: String,
         unique: true
     },
-    contactNo: {
+    contact: {
         type: Number,
-        unique: true
+        required:false,
+        default:0
     },
     username: {
         tpye: String,
-        unique: true
+    },
+    OTP:{
+        type: Number,
+        required: true,
+        default: 0,
+    },
+    verified:{
+        type:Boolean,
+        default: false
+    },
+    location:{
+        type:String,
+        required:true,
+        default:"None"
     },
     myChallenges: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -47,6 +61,11 @@ const userSchema = mongoose.Schema({
         ref: 'Challenge',
     }],
     bookmarks: [{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Challenge',
+    }],
+    liked: [{
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Challenge',
@@ -89,7 +108,7 @@ const userSchema = mongoose.Schema({
     image: {
         type: String,
         required: false,
-        default: ""
+        default: "/uploads\\ProfileImg\\image-1611683137144.png"
     },
     password: {
         type: String,

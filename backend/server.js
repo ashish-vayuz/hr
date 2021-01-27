@@ -6,6 +6,11 @@ import cors from 'cors'
 import path from 'path'
 import morgan from 'morgan'
 
+//Routes
+import userRoutes from './routes/userRoutes.js'
+import categoryRoutes from './routes/categoryRoutes.js'
+import challengeRoutes from './routes/challengeRoute.js'
+
 dotenv.config()
 
 connectDB()
@@ -33,9 +38,9 @@ if (process.env.NODE_ENV === 'production') {
     })
 }
 
-// app.use('/challenge', productRoutes)
-// app.use('/users', userRoutes)
-// app.use('/cattegory', userRoutes)
+app.use('/users', userRoutes)
+app.use('/category', categoryRoutes)
+app.use('/challenge', challengeRoutes)
 
 //Error Middlewares
 app.use(notFound)
