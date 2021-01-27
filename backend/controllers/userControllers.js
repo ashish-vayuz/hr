@@ -98,6 +98,7 @@ const authUser = asyncHandler(async (req, res) => {
 // access Public
 const otp = asyncHandler(async (req, res) => {
     const { OTP } = req.body
+    console.log(req.user);
     const user = await User.findById(req.user._id)
     if (!user) {
         res.status(400)
@@ -106,13 +107,16 @@ const otp = asyncHandler(async (req, res) => {
 
     if (OTP === req.user.OTP) {
         user.verified = "true"
+        const updatedUser = await user.save()
         res.json({
             message: "User Verified",
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            image: user.image,
-            contactNo: user.contactNo,
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            image: updatedUser.image,
+            email: updatedUser.email,
+            image: updatedUser.image,
+            contactNo: updatedUser.contactNo,
+            location: updatedUser.location,
             token: generateToken(user._id)
         })
     } else {
@@ -150,6 +154,7 @@ const uploadImg = asyncHandler(async (req, res) => {
 // access Public
 const location = asyncHandler(async (req, res) => {
     const { location } = req.body
+    console.log(req.user);
     const user = await User.findById(req.user._id)
     if (user) {
         user.location = location
@@ -203,7 +208,7 @@ const category = asyncHandler(async (req, res) => {
 // access Public
 const getAllUsers = asyncHandler(async (req, res) => {
     const users = await User.find({}).select('name image totalFollowings totalFollowers location')
-   res.send(users)
+    res.send(users)
 })
 
 // @desc fetch single user
@@ -212,19 +217,6 @@ const getAllUsers = asyncHandler(async (req, res) => {
 const getUserById = asyncHandler(async (req, res) => {
     const users = await User.findById(req.params.id).select('-password')
     res.send(users)
-})
-
-// @desc Get User Profile Data
-// route POST users/profile
-// access Public
-const getProfile = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user._id).select('-password -OTP -active -isDeleted -report -verified')
-    if (user) {
-        res.send(user)
-    } else {
-        res.status(404)
-        throw new Error('User not found')
-    }
 })
 
 
@@ -350,4 +342,4 @@ const changePassword = asyncHandler(async (req, res) => {
 
 
 
-export { signup, authUser, otp, uploadImg, location, category, getProfile, changePassword, addToBookmark, removeFromBookmark, addToFollowing,removeFromFollowing,getAllUsers,getUserById }
+export { signup, authUser, otp, uploadImg, location, category, changePassword, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById }
