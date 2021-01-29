@@ -2,11 +2,11 @@ import mongoose from 'mongoose'
 
 const reviewSchema = mongoose.Schema(
     {
-       status:{
-           type:"String",
-           required:true,
-           default:"Pending"
-       }
+        status: {
+            type: "String",
+            required: true,
+            default: "Pending"
+        }
     },
     {
         timestamps: true,
@@ -31,7 +31,7 @@ const participantSchema = mongoose.Schema({
 )
 
 const challengeSchema = mongoose.Schema({
-    creator:{
+    creator: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User',
@@ -64,6 +64,18 @@ const challengeSchema = mongoose.Schema({
         ref: 'Category',
     },
     rewards: {
+        type: String,
+        required: true,
+    },
+    rewardDetails: {
+        type: String,
+        required: true,
+    },
+    rewardContactNo: {
+        type: String,
+        required: true,
+    },
+    rewardEmail: {
         type: String,
         required: true,
     },
