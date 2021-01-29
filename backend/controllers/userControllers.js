@@ -50,7 +50,8 @@ const signup = asyncHandler(async (req, res) => {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
-                token: generateToken(user._id)
+                token: generateToken(user._id),
+                OTP: user.OTP
             })
 
         } else if (user.location === "None") {
@@ -110,6 +111,7 @@ const signup = asyncHandler(async (req, res) => {
 
         if (newUser) {
             res.status(201).json({
+                res: 'done',
                 _id: newUser._id,
                 name: newUser.name,
                 email: newUser.email,
@@ -179,7 +181,52 @@ const otp = asyncHandler(async (req, res) => {
 // route POST users/OTP
 // access Public
 const forgotOtp = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user._id)
+    if (user) {
+        const val = Math.floor(1000 + Math.random() * 9000);
+        //STEP 1
+        let transporter = await nodemailer.createTransport({
 
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL,//
+                pass: process.env.PASSWORD
+            }
+
+        })
+
+        //STEP 2
+        let info = {
+            from: process.env.EMAIL,
+            to: req.user.email,
+            subject: "OTP VERIFICATION",
+            text: `Your OTP is ${val}`
+        }
+        //STEP 3
+        transporter.sendMail(info, function (err, data) {
+            if (err) {
+                console.log(err)
+            }
+
+            else {
+                console.log("Email Sent")
+                res.status(200).json({ val })
+            }
+        })
+        user.OTP = val
+        const updatedUser = await user.save()
+        res.status(201).json({
+            res: 'location',
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            token: generateToken(updatedUser._id),
+            otp:val
+        })
+    } else {
+        res.status(404)
+        throw new Error('User not found')
+    }
 })
 
 // @desc User to update Profile Image
@@ -399,4 +446,4 @@ const changePassword = asyncHandler(async (req, res) => {
 
 
 
-export { signup, authUser, otp, uploadImg, location, category, changePassword, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById }
+export { signup, authUser, otp, uploadImg, location, category, changePassword, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById ,forgotOtp}
