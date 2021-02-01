@@ -37,9 +37,9 @@ const userSchema = mongoose.Schema({
         tpye: String,
     },
     OTP:{
-        type: Number,
+        type: String,
         required: true,
-        default: 0,
+        default: "0",
     },
     verified:{
         type:Boolean,

@@ -157,7 +157,7 @@ const otp = asyncHandler(async (req, res) => {
         throw new Error('User doesn\'t Exist')
     }
 
-    if (OTP === req.user.OTP) {
+    if (req.user.OTP==OTP) {
         user.verified = "true"
         const updatedUser = await user.save()
         res.json({
