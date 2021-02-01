@@ -162,6 +162,7 @@ const otp = asyncHandler(async (req, res) => {
         const updatedUser = await user.save()
         res.json({
             message: "User Verified",
+            flow: 'signup',
             _id: updatedUser._id,
             name: updatedUser.name,
             image: updatedUser.image,
@@ -216,7 +217,7 @@ const forgotOtp = asyncHandler(async (req, res) => {
         user.OTP = val
         const updatedUser = await user.save()
         res.status(201).json({
-            res: 'location',
+            flow: 'forget',
             _id: updatedUser._id,
             name: updatedUser.name,
             email: updatedUser.email,
