@@ -157,7 +157,7 @@ const otp = asyncHandler(async (req, res) => {
         throw new Error('User doesn\'t Exist')
     }
 
-    if (req.user.OTP==OTP) {
+    if (req.user.OTP == OTP) {
         user.verified = "true"
         const updatedUser = await user.save()
         res.json({
@@ -222,7 +222,7 @@ const forgotOtp = asyncHandler(async (req, res) => {
             name: updatedUser.name,
             email: updatedUser.email,
             token: generateToken(updatedUser._id),
-            otp:val
+            otp: val
         })
     } else {
         res.status(404)
@@ -286,10 +286,13 @@ const location = asyncHandler(async (req, res) => {
 // access Public
 const category = asyncHandler(async (req, res) => {
     const { category } = req.body
-    const user = await User.findById(req.user._id)
+    const { email } = req.user
+    const user = await User.findById(req.user.id)
     if (user) {
-        user.categories.push(category)
-        const updatedUser = await user.save()
+        const updatedUser = await User.findOneAndUpdate(
+            { email: email },
+            { $push: { categories: { $each: category } } }
+        )
         res.json({
             message: "Category Updated",
             _id: updatedUser._id,
@@ -320,7 +323,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
 // route POST users/:id
 // access Public
 const getUserById = asyncHandler(async (req, res) => {
-    const users = await User.findById(req.params.id).select('-password -OTP -verified -isDeleted -report ').populate('myChallenges bookmarks participatedChallenges')
+    const users = await User.findById(req.params.id).select('-password -OTP -verified -isDeleted -report').populate('myChallenges bookmarks participatedChallenges')
     res.send(users)
 })
 
@@ -447,4 +450,4 @@ const changePassword = asyncHandler(async (req, res) => {
 
 
 
-export { signup, authUser, otp, uploadImg, location, category, changePassword, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById ,forgotOtp}
+export { signup, authUser, otp, uploadImg, location, category, changePassword, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp }
