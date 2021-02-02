@@ -287,8 +287,7 @@ const location = asyncHandler(async (req, res) => {
 const category = asyncHandler(async (req, res) => {
     const { category } = req.body
     const { email } = req.user
-    const user = await User.findById(req.user.id)
-    if (user) {
+    if (req.user) {
         const updatedUser = await User.findOneAndUpdate(
             { email: email },
             { $push: { categories: { $each: category } } }
