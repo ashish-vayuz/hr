@@ -320,7 +320,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
 // route POST users/:id
 // access Public
 const getUserById = asyncHandler(async (req, res) => {
-    const users = await User.findById(req.params.id).select('-password')
+    const users = await User.findById(req.params.id).select('-password -OTP -verified -isDeleted -report ').populate('myChallenges bookmarks participatedChallenges')
     res.send(users)
 })
 

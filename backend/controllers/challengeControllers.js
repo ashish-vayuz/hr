@@ -8,8 +8,8 @@ import User from '../models/userModel.js'
 const getChallenge = asyncHandler(async (req, res) => {
     const challenge = await Challenge.find({}).populate("creator", 'name image').populate('category', 'name image')
     res.json({
-        res:"chal",
-        chalData:challenge
+        res: "chal",
+        chalData: challenge
     })
 })
 
@@ -17,8 +17,18 @@ const postChallenge = asyncHandler(async (req, res) => {
     const {
         title,
         description,
-        hashtags, 
-        category, rewards, rewardDetails, rewardContactNo, rewardEmail, coinAllocated, coinRequired, visibility, reviewAmount, duration, video } = req.body
+        hashtags,
+        category,
+        rewards,
+        rewardDetails,
+        rewardContactNo,
+        rewardEmail,
+        coinAllocated,
+        coinRequired,
+        visibility,
+        reviewAmount,
+        duration,
+        video } = req.body
     const { id } = req.user
     const challenge = await Challenge.create({
         title, description, hashtags, category, rewards, rewardDetails, rewardContactNo, rewardEmail, coinAllocated, coinRequired, visibility, reviewAmount, duration, video, creator: id
