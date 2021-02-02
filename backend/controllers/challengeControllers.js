@@ -23,6 +23,7 @@ const postChallenge = asyncHandler(async (req, res) => {
     }
     if (challenge) {
         res.status(201).json({
+            res:"challenge",
             _id: challenge._id,
             creator: challenge.creator,
             title: challenge.title,
