@@ -7,11 +7,18 @@ import User from '../models/userModel.js'
 // access Public
 const getChallenge = asyncHandler(async (req, res) => {
     const challenge = await Challenge.find({}).populate("creator", 'name image').populate('category', 'name image')
-    res.send(challenge)
+    res.json({
+        res:"chal",
+        chalData:challenge
+    })
 })
 
 const postChallenge = asyncHandler(async (req, res) => {
-    const { title, description, hashtags, category, rewards, rewardDetails, rewardContactNo, rewardEmail, coinAllocated, coinRequired, visibility, reviewAmount, duration, video } = req.body
+    const {
+        title,
+        description,
+        hashtags, 
+        category, rewards, rewardDetails, rewardContactNo, rewardEmail, coinAllocated, coinRequired, visibility, reviewAmount, duration, video } = req.body
     const { id } = req.user
     const challenge = await Challenge.create({
         title, description, hashtags, category, rewards, rewardDetails, rewardContactNo, rewardEmail, coinAllocated, coinRequired, visibility, reviewAmount, duration, video, creator: id
@@ -23,7 +30,7 @@ const postChallenge = asyncHandler(async (req, res) => {
     }
     if (challenge) {
         res.status(201).json({
-            res:"challenge",
+            res: "challenge",
             _id: challenge._id,
             creator: challenge.creator,
             title: challenge.title,
