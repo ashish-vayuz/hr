@@ -1,9 +1,8 @@
-import ButtonDropdowns from './ButtonDropdowns';
-import ButtonGroups from './ButtonGroups';
-import Buttons from './Buttons';
-import BrandButtons from './BrandButtons';
-import LoadingButtons from './LoadingButtons';
+import ButtonDropdowns from './ButtonDropdowns'
+import ButtonGroups from './ButtonGroups'
+import Buttons from './Buttons'
+import BrandButtons from './BrandButtons'
 
 export {
-  ButtonDropdowns, ButtonGroups, Buttons, BrandButtons, LoadingButtons
+  ButtonDropdowns, ButtonGroups, Buttons, BrandButtons
 }

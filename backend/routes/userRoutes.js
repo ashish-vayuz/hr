@@ -1,5 +1,5 @@
 import express from 'express'
-import { signup, authUser, otp, uploadImg, location, category, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp } from '../controllers/userControllers.js'
+import { signup, authUser, otp, uploadImg, location, category, getProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, updateProfile, reportUser, reviewerRequest } from '../controllers/userControllers.js'
 import { protect } from '../middlewares/authMiddlewares.js'
 import multer from 'multer'
 import path from 'path'
@@ -44,11 +44,15 @@ router.route('/location').post(protect, location)
 router.route('/category').post(protect, category)
 router.route('/forgotOtp').post(protect, forgotOtp)
 router.route('/all').get(protect, getAllUsers)
-router.route('/:id').get(protect, getUserById)
-//router.route('/profile').get(protect, getProfile)
+router.route('/profile')
+    .get(protect, getProfile)
+    .post(protect, updateProfile)
+router.route('/report/:id').post(protect, reportUser)
 router.route('/save/:id').put(protect, addToBookmark)
 router.route('/unsave/:id').put(protect, removeFromBookmark)
 router.route('/follow/:id').put(protect, addToFollowing)
 router.route('/unfollow/:id').put(protect, removeFromFollowing)
+router.route('/reviewer').post(protect, reviewerRequest)
+router.route('/:id').get(protect, getUserById)
 
 export default router;

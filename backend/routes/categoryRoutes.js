@@ -1,7 +1,7 @@
 import express from 'express'
 import multer from 'multer'
 import path from 'path'
-import { uploadCat,getCategory } from '../controllers/categoryController.js'
+import { uploadCat,getCategory, addCategory, deleteCategory, updateCategory } from '../controllers/categoryController.js'
 const router = express.Router()
 
 const storage = multer.diskStorage({
@@ -35,8 +35,9 @@ const upload = multer({
     },
 })
 
-router.route('/').get(getCategory)
+router.route('/').get(getCategory).post(addCategory)
 router.route('/upload').post(upload.single('category'),uploadCat)
+router.route('/:id').delete(deleteCategory).put(updateCategory)
 
 
 export default router;

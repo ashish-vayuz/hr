@@ -13,6 +13,9 @@ const getChallenge = asyncHandler(async (req, res) => {
     })
 })
 
+// @desc Add new challenge
+// route Post /challenge
+// access Public
 const postChallenge = asyncHandler(async (req, res) => {
     const {
         title,
@@ -62,6 +65,37 @@ const postChallenge = asyncHandler(async (req, res) => {
     }
 })
 
+// @desc Update a challenge
+// route GET challenge
+// access Public
+
+// @desc get single challenge data
+// route POST challenge/:id
+// access Public
+const getChallengeById = asyncHandler(async (req, res) => {
+    const challenge = await Challenge.findById(req.params.id)
+    if (challenge) {
+        res.send(challenge)
+    } else {
+        res.status(404)
+        throw new Error("Challenge not found")
+    }
+})
+
+// @desc like a single challenge
+// route POST challenge/like/:id
+// access Public
+const likeChallengeById = asyncHandler(async (req, res) => {
+    const challenge = await Challenge.findById(req.params.id)
+    const user = await User.findById(req.user.id)
+    if (challenge) {
+        res.send(challenge)
+    } else {
+        res.status(404)
+        throw new Error("Challenge not found")
+    }
+})
+
 // @desc upload challenge video
 // route POST challenge/upload
 // access Public
@@ -69,4 +103,4 @@ const uploadChal = asyncHandler(async (req, res) => {
     res.json({ link: `/${req.file.path}` })
 })
 
-export { getChallenge, postChallenge, uploadChal }
+export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById }

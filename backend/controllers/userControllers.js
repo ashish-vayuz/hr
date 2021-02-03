@@ -2,7 +2,6 @@ import asyncHandler from 'express-async-handler'
 import generateToken from '../utils/generateToken.js'
 import User from '../models/userModel.js'
 import nodemailer from 'nodemailer'
-import e from 'express'
 import Challenge from '../models/challengeModel.js'
 
 // @desc Signup User to Platform
@@ -144,6 +143,8 @@ const authUser = asyncHandler(async (req, res) => {
         throw new Error('Invalid email or Password')
     }
 })
+
+
 
 // @desc allow user to verify otp
 // route POST users/OTP
@@ -288,10 +289,12 @@ const category = asyncHandler(async (req, res) => {
     const { category } = req.body
     const { email } = req.user
     if (req.user) {
+
         const updatedUser = await User.findOneAndUpdate(
             { email: email },
             { $push: { categories: { $each: category } } }
         )
+
         res.json({
             message: "Category Updated",
             _id: updatedUser._id,
@@ -310,6 +313,67 @@ const category = asyncHandler(async (req, res) => {
     }
 })
 
+// @desc allow user to get profile data
+// route POST users/profile
+// access Private
+const getProfile = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.id).select('-password -OTP -verified -isDeleted -report').populate('myChallenges bookmarks participatedChallenges')
+    if (user) {
+        res.send(user)
+    } else {
+        res.status(404)
+        throw new Error("User not Found")
+    }
+})
+
+// @desc allow user to update profile data
+// route POST users/profile
+// access Private
+const updateProfile = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.id)
+    if (user) {
+        user.name = req.body.name || user.name
+        user.categories = req.body.categories || user.categories
+        const updatedUser = await user.save()
+        res.send(updatedUser)
+    } else {
+        res.status(404)
+        throw new Error("User not Found")
+    }
+})
+
+// @desc report a user
+// route POST users/report/:id
+// access Private
+const reportUser = asyncHandler(async (req, res) => {
+    const { type } = req.body
+    const target = await User.findById(req.params.id)
+    if (target) {
+        const alreadyReported = target.reports.find(
+            (r) => r.user.toString() === req.user._id.toString()
+        )
+        if (alreadyReported) {
+            res.status(400)
+            throw new Error('User already reported')
+        }
+
+        const report = {
+            type: type,
+            user: req.user._id
+        }
+
+        target.reports.push(report)
+        target.totalReports = target.reports.length
+
+        await target.save()
+        res.status(201).json({ message: 'User Reported' })
+    } else {
+        res.status(404)
+        throw new Error('User not found')
+    }
+
+})
+
 // @desc fetch all users
 // route POST users/all
 // access Public
@@ -322,7 +386,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
 // route POST users/:id
 // access Public
 const getUserById = asyncHandler(async (req, res) => {
-    const users = await User.findById(req.params.id).select('-password -OTP -verified -isDeleted -report').populate('myChallenges bookmarks participatedChallenges')
+    const users = await User.findById(req.params.id).select('-password -OTP -verified -isDeleted -report').populate('myChallenges bookmarks participatedChallenges followings followers')
     res.send(users)
 })
 
@@ -447,6 +511,25 @@ const changePassword = asyncHandler(async (req, res) => {
     }
 })
 
+// @desc Allow user to become Reviewer
+// route POST users/reviewer
+// access Private
+const reviewerRequest = asyncHandler(async (req, res) => {
+    const { DOB, age, bankName, branchName, IFSCcode, UploadID } = req.body
+    const user = await User.findById(req.user.id)
 
+    if(user){
+        user.reviewerData = { DOB, age, bankName, branchName, IFSCcode, UploadID}
+        user.reviewerRequest = "true"
+        await user.save()
+        res.json({
+            message:"Request Submitted",
+            user:user
+        })
+    }else{
+        res.status(404)
+        throw new Error ("User not Found")
+    }
+})
 
-export { signup, authUser, otp, uploadImg, location, category, changePassword, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp }
+export { signup, authUser, otp, uploadImg, location, category, changePassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp ,reviewerRequest}

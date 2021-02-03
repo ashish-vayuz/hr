@@ -10,6 +10,7 @@ import morgan from 'morgan'
 import userRoutes from './routes/userRoutes.js'
 import categoryRoutes from './routes/categoryRoutes.js'
 import challengeRoutes from './routes/challengeRoute.js'
+import adminRoutes from './routes/adminRoutes.js'
 
 dotenv.config()
 
@@ -41,6 +42,7 @@ app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 app.use('/users', userRoutes)
 app.use('/category', categoryRoutes)
 app.use('/challenge', challengeRoutes)
+app.use('/admin', adminRoutes)
 
 //Error Middlewares
 app.use(notFound)

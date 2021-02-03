@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs'
 
 const reportSchema = mongoose.Schema(
     {
-        reason: { type: String, required: true },
+        type: { type: String, required: true },
         user: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
@@ -30,25 +30,25 @@ const userSchema = mongoose.Schema({
     },
     contact: {
         type: Number,
-        required:false,
-        default:0
+        required: false,
+        default: 0
     },
     username: {
         tpye: String,
     },
-    OTP:{
+    OTP: {
         type: String,
         required: true,
         default: "0",
     },
-    verified:{
-        type:Boolean,
+    verified: {
+        type: Boolean,
         default: false
     },
-    location:{
-        type:String,
-        required:true,
-        default:"None"
+    location: {
+        type: String,
+        required: true,
+        default: "None"
     },
     myChallenges: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -116,13 +116,51 @@ const userSchema = mongoose.Schema({
     },
     active: {
         type: Boolean,
-        default: false
+        default: true
     },
     isDeleted: {
         type: Boolean,
         default: false,
     },
-    report: [reportSchema]
+    totalReports: {
+        type: Number,
+        default: 0
+    },
+    reports: [reportSchema],
+    isReviewer: {
+        type: Boolean,
+        default: false
+    },
+    reviewerRequest: {
+        type: Boolean,
+        default: false
+    },
+    reviewerData: {
+        DOB: {
+            type: String,
+            required: true
+        },
+        age: {
+            type: String,
+            required: true
+        },
+        bankName: {
+            type: String,
+            required: true
+        },
+        branchName: {
+            type: String,
+            required: true
+        },
+        IFSCcode: {
+            type: String,
+            required: true
+        },
+        UploadID: {
+            type: String,
+            required: true
+        }
+    }
 }, { timestamps: true })
 
 userSchema.methods.matchPassword = async function (enterPassword) {
