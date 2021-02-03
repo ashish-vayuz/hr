@@ -138,27 +138,27 @@ const userSchema = mongoose.Schema({
     reviewerData: {
         DOB: {
             type: String,
-            required: true
+           
         },
         age: {
             type: String,
-            required: true
+           
         },
         bankName: {
             type: String,
-            required: true
+           
         },
         branchName: {
             type: String,
-            required: true
+           
         },
         IFSCcode: {
             type: String,
-            required: true
+           
         },
         UploadID: {
             type: String,
-            required: true
+           
         }
     }
 }, { timestamps: true })
