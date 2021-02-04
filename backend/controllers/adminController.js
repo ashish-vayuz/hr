@@ -79,4 +79,11 @@ const updateAdmin = asyncHandler(async (req, res) => {
     }
 })
 
-export { authAdmin, addAdmin, deleteAdmin, updateAdmin }
+// @desc fetch all admin
+// @route GET /admin
+// @access Private
+const getAllAdmin = asyncHandler(async(req,res)=>{
+    const admin = Admin.find({})
+    res.send(admin)
+})
+export { authAdmin, addAdmin, deleteAdmin, updateAdmin,getAllAdmin }
