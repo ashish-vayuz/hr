@@ -17,7 +17,7 @@ const _nav =  [
   {
     _tag: 'CSidebarNavItem',
     name: 'Challenge Management',
-    to: '/dashboard',
+    to: '/challenge',
     icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>,
   },
   {
@@ -47,7 +47,7 @@ const _nav =  [
   {
     _tag: 'CSidebarNavItem',
     name: 'Category Management',
-    to: '/dashboard',
+    to: '/category',
     icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>,
   },
 ]

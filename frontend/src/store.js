@@ -1,24 +1,27 @@
-import { createStore,applyMiddleware,combineReducers } from 'redux'
-import {composeWithDevTools} from 'redux-devtools-extension'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
+
+//Reducer
+import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateProfileReducer } from './reducers/userReducers'
+import { categoryListReducer } from './reducers/categoryReducers'
+import { challengeListReducer } from './reducers/challengeReducers'
+import { changeState } from './reducers/responsideReducers'
 
 const initialState = {
   sidebarShow: 'responsive'
 }
 
 const reducer = combineReducers({
-  cstate: changeState
+  challengeList: challengeListReducer,
+  categoryList: categoryListReducer,
+  cstate: changeState,
+  userLogin: userLoginReducer,
+  userRegister: userRegisterReducer,
+  userDetails: userDetailsReducer,
+  userUpdateProfile: userUpdateProfileReducer
 })
 
-const changeState = (state = initialState, { type, ...rest }) => {
-  switch (type) {
-    case 'set':
-      return {...state, ...rest }
-    default:
-      return state
-  }
-}
-
 const middleware = [thunk]
-const store = createStore(changeState,initialState, composeWithDevTools(applyMiddleware(...middleware)))
+const store = createStore(reducer, initialState, composeWithDevTools(applyMiddleware(...middleware)))
 export default store

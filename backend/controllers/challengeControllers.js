@@ -115,7 +115,8 @@ const likeChallengeById = asyncHandler(async (req, res) => {
         await challenge.save()
         res.status(201).json({
             errorcode: 1,
-            errormessage:  'Like added' })
+            errormessage: 'Like added'
+        })
     } else {
         res.status(404)
         throw new Error('Challenge not found')
@@ -143,7 +144,8 @@ const unlikeChallengeById = asyncHandler(async (req, res) => {
 
         res.status(200).json({
             errorcode: 1,
-            errormessage:  'Like removed' })
+            errormessage: 'Like removed'
+        })
     } else {
         res.status(404)
         throw new Error('Challenge not found')
@@ -154,7 +156,11 @@ const unlikeChallengeById = asyncHandler(async (req, res) => {
 // route POST challenge/upload
 // access Public
 const uploadChal = asyncHandler(async (req, res) => {
-    res.json({ link: `/${req.file.path}` })
+    res.json({
+        errorcode: 1,
+        errormessage: 'Video Uploaded',
+        link: `/${req.file.path}`
+    })
 })
 
 export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById }
