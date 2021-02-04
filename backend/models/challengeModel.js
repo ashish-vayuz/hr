@@ -69,15 +69,12 @@ const challengeSchema = mongoose.Schema({
     },
     rewardDetails: {
         type: String,
-        required: true,
     },
     rewardContactNo: {
         type: String,
-        required: true,
     },
     rewardEmail: {
         type: String,
-        required: true,
     },
     coinAllocated: {
         type: Number,
