@@ -45,6 +45,7 @@ const signup = asyncHandler(async (req, res) => {
             user.OTP = val
             await user.save()
             res.status(200).json({
+                errorcode: 1,
                 res: "otp",
                 _id: user._id,
                 name: user.name,
@@ -55,7 +56,17 @@ const signup = asyncHandler(async (req, res) => {
 
         } else if (user.location === "None") {
             res.status(400).json({
+                errorcode: 1,
                 res: "location",
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                token: generateToken(user._id)
+            })
+        } else if (user.categories.length == "0") {
+            res.status(400).json({
+                errorcode: 1,
+                res: "categories",
                 _id: user._id,
                 name: user.name,
                 email: user.email,
@@ -63,6 +74,7 @@ const signup = asyncHandler(async (req, res) => {
             })
         } else {
             res.status(400).json({
+                errorcode: 1,
                 res: "registered",
                 _id: user._id,
                 name: user.name,
@@ -117,7 +129,7 @@ const signup = asyncHandler(async (req, res) => {
                 token: generateToken(newUser._id)
             })
         } else {
-            res.status(400)
+            res.status(400).json()
             throw new Error("Invalid User Data")
         }
     }
@@ -131,6 +143,8 @@ const authUser = asyncHandler(async (req, res) => {
     const user = await User.findOne({ email })
     if (user && (await user.matchPassword(password))) {
         res.json({
+            errorcode: 1,
+            errormessage: "Authorised access",
             _id: user._id,
             name: user.name,
             email: user.email,
@@ -162,7 +176,8 @@ const otp = asyncHandler(async (req, res) => {
         user.verified = "true"
         const updatedUser = await user.save()
         res.json({
-            message: "User Verified",
+            errorcode: 1,
+            errormessage: "User Verified",
             flow: 'signup',
             _id: updatedUser._id,
             name: updatedUser.name,
@@ -218,6 +233,7 @@ const forgotOtp = asyncHandler(async (req, res) => {
         user.OTP = val
         const updatedUser = await user.save()
         res.status(201).json({
+            errorcode: 1,
             flow: 'forget',
             _id: updatedUser._id,
             name: updatedUser.name,
@@ -240,7 +256,8 @@ const uploadImg = asyncHandler(async (req, res) => {
         user.image = `/${req.file.path}`
         const updatedUser = await user.save()
         res.json({
-            message: "Profile Image Updated",
+            errorcode: 1,
+            errormessage: "Profile Image Updated",
             _id: updatedUser._id,
             name: updatedUser.name,
             image: updatedUser.image,
@@ -266,7 +283,8 @@ const location = asyncHandler(async (req, res) => {
         user.location = location
         const updatedUser = await user.save()
         res.json({
-            message: "Location Updated",
+            errorcode: 1,
+            errormessage: "Location Updated",
             _id: updatedUser._id,
             name: updatedUser.name,
             image: updatedUser.image,
@@ -290,13 +308,12 @@ const category = asyncHandler(async (req, res) => {
     const { email } = req.user
     if (req.user) {
 
-        const updatedUser = await User.findOneAndUpdate(
-            { email: email },
-            { $push: { categories: { $each: category } } }
-        )
-
+        const updatedUser = await User.findById(req.user.id)
+        updatedUser.categories = category
+        updatedUser.save()
         res.json({
-            message: "Category Updated",
+            errorcode: 1,
+            errormessage: "Category Updated",
             _id: updatedUser._id,
             name: updatedUser.name,
             image: updatedUser.image,
@@ -518,18 +535,18 @@ const reviewerRequest = asyncHandler(async (req, res) => {
     const { DOB, age, bankName, branchName, IFSCcode, UploadID } = req.body
     const user = await User.findById(req.user.id)
 
-    if(user){
-        user.reviewerData = { DOB, age, bankName, branchName, IFSCcode, UploadID}
+    if (user) {
+        user.reviewerData = { DOB, age, bankName, branchName, IFSCcode, UploadID }
         user.reviewerRequest = "true"
         await user.save()
         res.json({
-            message:"Request Submitted",
-            user:user
+            message: "Request Submitted",
+            user: user
         })
-    }else{
+    } else {
         res.status(404)
-        throw new Error ("User not Found")
+        throw new Error("User not Found")
     }
 })
 
-export { signup, authUser, otp, uploadImg, location, category, changePassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp ,reviewerRequest}
+export { signup, authUser, otp, uploadImg, location, category, changePassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest }
