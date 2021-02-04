@@ -122,6 +122,7 @@ const signup = asyncHandler(async (req, res) => {
 
         if (newUser) {
             res.status(201).json({
+                errorcode: 1,
                 res: 'done',
                 _id: newUser._id,
                 name: newUser.name,
@@ -336,7 +337,11 @@ const category = asyncHandler(async (req, res) => {
 const getProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user.id).select('-password -OTP -verified -isDeleted -report').populate('myChallenges bookmarks participatedChallenges')
     if (user) {
-        res.send(user)
+        res.json({
+            "errorcode": 1,
+            "errormessage": "Records found",
+            "list": user
+        })
     } else {
         res.status(404)
         throw new Error("User not Found")
@@ -383,7 +388,10 @@ const reportUser = asyncHandler(async (req, res) => {
         target.totalReports = target.reports.length
 
         await target.save()
-        res.status(201).json({ message: 'User Reported' })
+        res.status(201).json({
+            errorcode: 1,
+            errormessage: 'User Reported'
+        })
     } else {
         res.status(404)
         throw new Error('User not found')
@@ -396,7 +404,11 @@ const reportUser = asyncHandler(async (req, res) => {
 // access Public
 const getAllUsers = asyncHandler(async (req, res) => {
     const users = await User.find({}).select('name image totalFollowings totalFollowers location')
-    res.send(users)
+    res.json({
+        "errorcode": 1,
+        "errormessage": "Records found",
+        "list": users
+    })
 })
 
 // @desc fetch single user
@@ -418,7 +430,9 @@ const addToBookmark = asyncHandler(async (req, res) => {
         user.bookmarks.push(challenge)
         const updatedUser = await user.save()
         res.json({
-            message: "Added to Bookmark",
+
+            errorcode: 1,
+            errormessage: "Added to Bookmark",
             _id: updatedUser._id,
             name: updatedUser.name,
             bookmarks: updatedUser.bookmarks
@@ -439,7 +453,9 @@ const removeFromBookmark = asyncHandler(async (req, res) => {
         user.bookmarks.pull({ _id: req.params.id })
         const updatedUser = await user.save()
         res.json({
-            message: "Removed from Bookmark",
+
+            errorcode: 1,
+            errormessage: "Removed from Bookmark",
             _id: updatedUser._id,
             name: updatedUser.name,
             bookmarks: updatedUser.bookmarks
@@ -464,7 +480,8 @@ const removeFromFollowing = asyncHandler(async (req, res) => {
         target.totalFollowers = target.followers.length
         await target.save()
         res.json({
-            message: "Removed Following",
+            errorcode: 1,
+            errormessage: "Removed Following",
             _id: updatedUser._id,
             name: updatedUser.name,
             followings: updatedUser.followings
@@ -490,7 +507,8 @@ const addToFollowing = asyncHandler(async (req, res) => {
         target.totalFollowers = target.followers.length
         await target.save()
         res.json({
-            message: "Started Following",
+            errorcode: 1,
+            errormessage: "Started Following",
             _id: updatedUser._id,
             name: updatedUser.name,
             followings: updatedUser.followings
@@ -512,7 +530,8 @@ const changePassword = asyncHandler(async (req, res) => {
         user.password = newpassword
         await user.save()
         res.json({
-            message: "Password Changed",
+            errorcode: 1,
+            errormessage: "Password Changed",
             _id: updatedUser._id,
             name: updatedUser.name,
             image: updatedUser.image,
@@ -540,7 +559,8 @@ const reviewerRequest = asyncHandler(async (req, res) => {
         user.reviewerRequest = "true"
         await user.save()
         res.json({
-            message: "Request Submitted",
+            errorcode: 1,
+            errormessage: "Request Submitted",
             user: user
         })
     } else {

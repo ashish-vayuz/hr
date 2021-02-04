@@ -7,9 +7,13 @@ import User from '../models/userModel.js'
 // access Public
 const getChallenge = asyncHandler(async (req, res) => {
     const challenge = await Challenge.find({}).populate("creator", 'name image').populate('category', 'name image')
+
     res.json({
         res: "chal",
-        chalData: challenge
+        "errorcode": 1,
+        "errormessage": "Records found",
+        "list": challenge
+
     })
 })
 
@@ -43,6 +47,9 @@ const postChallenge = asyncHandler(async (req, res) => {
     }
     if (challenge) {
         res.status(201).json({
+
+            errorcode: 1,
+            errormessage: "Challenge Added",
             res: "challenge",
             _id: challenge._id,
             creator: challenge.creator,
@@ -75,7 +82,11 @@ const postChallenge = asyncHandler(async (req, res) => {
 const getChallengeById = asyncHandler(async (req, res) => {
     const challenge = await Challenge.findById(req.params.id)
     if (challenge) {
-        res.send(challenge)
+        res.json({
+            "errorcode": 1,
+            "errormessage": "Records found",
+            "list": challenge
+        })
     } else {
         res.status(404)
         throw new Error("Challenge not found")
@@ -102,7 +113,9 @@ const likeChallengeById = asyncHandler(async (req, res) => {
         challenge.totalLikes = challenge.likes.length
 
         await challenge.save()
-        res.status(201).json({ message: 'Like added' })
+        res.status(201).json({
+            errorcode: 1,
+            errormessage:  'Like added' })
     } else {
         res.status(404)
         throw new Error('Challenge not found')
@@ -125,10 +138,12 @@ const unlikeChallengeById = asyncHandler(async (req, res) => {
         }
 
         challenge.likes.pull({ _id: req.user.id })
-        challenge.totalLikes=challenge.likes.length
+        challenge.totalLikes = challenge.likes.length
         await challenge.save()
 
-        res.status(200).json({ message: 'Like removed' })
+        res.status(200).json({
+            errorcode: 1,
+            errormessage:  'Like removed' })
     } else {
         res.status(404)
         throw new Error('Challenge not found')
@@ -142,4 +157,4 @@ const uploadChal = asyncHandler(async (req, res) => {
     res.json({ link: `/${req.file.path}` })
 })
 
-export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById,unlikeChallengeById }
+export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById }

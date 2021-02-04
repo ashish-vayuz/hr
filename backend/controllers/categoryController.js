@@ -14,7 +14,12 @@ const uploadCat = asyncHandler(async (req, res) => {
 // access Public
 const getCategory = asyncHandler(async (req, res) => {
     const category = await Category.find({})
-    res.send(category)
+    res.json({
+        "res": "chal",
+        "errorcode": 1,
+        "errormessage": "Records found",
+        "list": category
+    })
 })
 
 // @desc Add category
@@ -60,20 +65,20 @@ const deleteCategory = asyncHandler(async (req, res) => {
 // route put category/:id
 // access Public
 const updateCategory = asyncHandler(async (req, res) => {
-   const category = await Category.findById(req.params.id)
+    const category = await Category.findById(req.params.id)
 
-   if(category){
-       category.name = req.body.name || category.name
-       category.image = req.body.image || category.image
-       category.active = req.body.active || category.active
+    if (category) {
+        category.name = req.body.name || category.name
+        category.image = req.body.image || category.image
+        category.active = req.body.active || category.active
 
-       const updatedCategory = await category.save()
+        const updatedCategory = await category.save()
 
-       res.send(updatedCategory)
-   } else {
-       res.status(404)
-       throw new Error('Category not found')
-   }
+        res.send(updatedCategory)
+    } else {
+        res.status(404)
+        throw new Error('Category not found')
+    }
 })
 
-export { uploadCat, getCategory, addCategory, deleteCategory,updateCategory }
+export { uploadCat, getCategory, addCategory, deleteCategory, updateCategory }
