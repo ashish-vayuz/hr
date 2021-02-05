@@ -86,6 +86,13 @@ const challengeSchema = mongoose.Schema({
     },
     duration: {
         type: Number,
+    },
+    startDate:{
+        type: String,
+        required: true,
+    },
+    endDate:{
+        type: String,
         required: true,
     },
     visibility: {

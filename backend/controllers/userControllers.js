@@ -635,4 +635,10 @@ const reviewerRequest = asyncHandler(async (req, res) => {
     }
 })
 
-export { signup, authUser, otp, uploadImg, location, category, changePassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest }
+const test1= asyncHandler(async (req, res) => {
+    const { challenge } = req.body
+    const user = await User.findById(req.user.id)
+    console.log(req);
+})
+
+export { signup, authUser, otp, uploadImg, location, category, changePassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest,test1 }

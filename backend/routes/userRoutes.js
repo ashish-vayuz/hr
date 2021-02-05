@@ -1,5 +1,5 @@
 import express from 'express'
-import { signup, authUser, otp, uploadImg, location, category, getProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, updateProfile, reportUser, reviewerRequest } from '../controllers/userControllers.js'
+import { signup, authUser, otp, uploadImg, location, category, getProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, updateProfile, reportUser, reviewerRequest, test1 } from '../controllers/userControllers.js'
 import { protect } from '../middlewares/authMiddlewares.js'
 import multer from 'multer'
 import path from 'path'
@@ -53,6 +53,7 @@ router.route('/unsave/:id').put(protect, removeFromBookmark)
 router.route('/follow/:id').put(protect, addToFollowing)
 router.route('/unfollow/:id').put(protect, removeFromFollowing)
 router.route('/reviewer').post(protect, reviewerRequest)
+router.route('/test1').get(protect, test1)
 router.route('/:id').get(protect, getUserById)
 
 export default router;
