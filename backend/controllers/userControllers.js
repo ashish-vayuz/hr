@@ -373,7 +373,7 @@ const category = asyncHandler(async (req, res) => {
 
         const updatedUser = await User.findById(req.user.id)
         updatedUser.categories = category
-        updatedUser.save()
+        await updatedUser.save()
         res.json({
             errorcode: 1,
             errormessage: "Category Updated",
@@ -638,7 +638,9 @@ const reviewerRequest = asyncHandler(async (req, res) => {
 const test1= asyncHandler(async (req, res) => {
     const { challenge } = req.body
     const user = await User.findById(req.user.id)
-    console.log(req);
+    user.participatedChallenges = challenge
+    await user.save()
+    res.send(user)
 })
 
 export { signup, authUser, otp, uploadImg, location, category, changePassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest,test1 }

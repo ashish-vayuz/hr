@@ -34,14 +34,11 @@ const postChallenge = asyncHandler(async (req, res) => {
         coinRequired,
         visibility,
         reviewAmount,
-        startDate,
-        endDate,
         duration,
         video } = req.body
     const { id } = req.user
     const challenge = await Challenge.create({
-        title, description, hashtags, category, rewards, rewardDetails, rewardContactNo, rewardEmail, coinAllocated, coinRequired, visibility, startDate,
-        endDate, reviewAmount, duration, video, creator: id
+        title, description, hashtags, category, rewards, rewardDetails, rewardContactNo, rewardEmail, coinAllocated, coinRequired, visibility, reviewAmount, duration, video, creator: id
     })
     const user = await User.findById(req.user.id)
     if (user) {
@@ -65,8 +62,6 @@ const postChallenge = asyncHandler(async (req, res) => {
             rewardContactNo: challenge.rewardContactNo,
             rewardEmail: challenge.rewardEmail,
             coinAllocated: challenge.coinAllocated,
-            startDate:challenge.startDate,
-            endDate:challenge.endDate,
             coinRequired: challenge.coinRequired,
             visibility: challenge.visibility,
             reviewAmount: challenge.reviewAmount
