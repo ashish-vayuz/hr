@@ -143,16 +143,78 @@ const authUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body
     const user = await User.findOne({ email })
     if (user && (await user.matchPassword(password))) {
-        res.json({
-            errorcode: 1,
-            errormessage: "Authorised access",
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            image: user.image,
-            contactNo: user.contactNo,
-            token: generateToken(user._id)
-        })
+        if (!user.verified) {
+            const val = Math.floor(1000 + Math.random() * 9000);
+            //STEP 1
+            let transporter = await nodemailer.createTransport({
+
+                service: 'gmail',
+                auth: {
+                    user: process.env.EMAIL,//
+                    pass: process.env.PASSWORD
+                }
+
+            })
+
+            //STEP 2
+            let info = {
+                from: process.env.EMAIL,
+                to: email,
+                subject: "OTP VERIFICATION",
+                text: `Your OTP is ${val}`
+            }
+            //STEP 3
+            transporter.sendMail(info, function (err, data) {
+                if (err) {
+                    console.log(err)
+                }
+
+                else {
+                    console.log("Email Sent")
+                }
+            })
+            user.OTP = val
+            await user.save()
+            res.status(200).json({
+                errorcode: 1,
+                errormessage: "otp",
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                token: generateToken(user._id),
+                OTP: user.OTP
+            })
+
+        } else if (user.location === "None") {
+            res.status(400).json({
+                errorcode: 1,
+                errormessage: "location",
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                token: generateToken(user._id)
+            })
+        } else if (user.categories.length == "0") {
+            res.status(400).json({
+                errorcode: 1,
+                errormessage: "categories",
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                token: generateToken(user._id)
+            })
+        } else {
+            res.json({
+                errorcode: 1,
+                errormessage: "Authorised access",
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                image: user.image,
+                contactNo: user.contactNo,
+                token: generateToken(user._id)
+            })
+        }
     } else {
         res.status(401)
         throw new Error('Invalid email or Password')
