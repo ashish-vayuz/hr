@@ -496,8 +496,19 @@ const getUserById = asyncHandler(async (req, res) => {
 // access Private
 const addToBookmark = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id)
+    const challenge = await Challenge.findById(req.params.id)
+    if(challenge){
+        const alreadtBookmarked = await user.bookmarks.find(
+            (r)=>r.toString()===req.params.id.toString()
+        )
+
+        if(alreadtBookmarked){
+            res.status(400)
+            throw new Error('Challenge already Bookmarked')
+        }
+    }
+    
     if (user) {
-        const challenge = await Challenge.findById(req.params.id)
         user.bookmarks.push(challenge)
         const updatedUser = await user.save()
         res.json({
@@ -640,7 +651,41 @@ const reviewerRequest = asyncHandler(async (req, res) => {
     }
 })
 
-const test1= asyncHandler(async (req, res) => {
+const followingList = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.id)
+    if (user) {
+        res.json({
+
+            "errorcode": 1,
+            "errormessage": "Records found",
+            "list": user.followings
+
+        })
+    } else {
+        res.status(404)
+        throw new Error("User not Found")
+    }
+
+})
+
+const followerList = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.id)
+    if (user) {
+        res.json({
+
+            "errorcode": 1,
+            "errormessage": "Records found",
+            "list": user.followers
+
+        })
+    } else {
+        res.status(404)
+        throw new Error("User not Found")
+    }
+
+})
+
+const test1 = asyncHandler(async (req, res) => {
     const { challenge } = req.body
     const user = await User.findById(req.user.id)
     user.participatedChallenges = challenge
@@ -648,4 +693,4 @@ const test1= asyncHandler(async (req, res) => {
     res.send(user)
 })
 
-export { signup, authUser, otp, uploadImg, location, category, changePassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest,test1 }
+export { signup, authUser, otp, uploadImg, location, category, changePassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest, followingList, followerList, test1 }
