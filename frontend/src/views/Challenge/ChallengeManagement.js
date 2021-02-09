@@ -52,7 +52,7 @@ const UserManagement = () => {
 
     return (
         <>
-            {loading ?
+            {loading ? <div>Loading</div> :
                 <div>
                     <CDataTable
                         items={challenges.list}
@@ -99,7 +99,7 @@ const UserManagement = () => {
                                                     {item.username}
                                                 </h4>
                                                 <p className="text-muted">User since: {item.image}</p>
-                                                <CButton size="sm" color="info">
+                                                <CButton size="sm" color="info" to="/dashboard">
                                                     User Settings
                                     </CButton>
                                                 <CButton size="sm" color="danger" className="ml-1">
@@ -111,7 +111,7 @@ const UserManagement = () => {
                                 }
                         }}
                     />
-                </div> : <div>{error}</div>
+                </div>
             }
         </>
     )

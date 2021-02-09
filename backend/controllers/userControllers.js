@@ -47,6 +47,7 @@ const signup = asyncHandler(async (req, res) => {
             res.status(200).json({
                 errorcode: 1,
                 res: "otp",
+                errormessage: "otp",
                 _id: user._id,
                 name: user.name,
                 email: user.email,
@@ -58,6 +59,7 @@ const signup = asyncHandler(async (req, res) => {
             res.status(400).json({
                 errorcode: 1,
                 res: "location",
+                errormessage: "location",
                 _id: user._id,
                 name: user.name,
                 email: user.email,
@@ -67,6 +69,7 @@ const signup = asyncHandler(async (req, res) => {
             res.status(400).json({
                 errorcode: 1,
                 res: "categories",
+                errormessage: "categories",
                 _id: user._id,
                 name: user.name,
                 email: user.email,
@@ -76,6 +79,7 @@ const signup = asyncHandler(async (req, res) => {
             res.status(400).json({
                 errorcode: 1,
                 res: "registered",
+                errormessage: "registered",
                 _id: user._id,
                 name: user.name,
                 email: user.email,
@@ -124,6 +128,7 @@ const signup = asyncHandler(async (req, res) => {
             res.status(201).json({
                 errorcode: 1,
                 res: 'done',
+                errormessage: 'done',
                 _id: newUser._id,
                 name: newUser.name,
                 email: newUser.email,

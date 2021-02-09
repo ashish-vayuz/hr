@@ -1,9 +1,12 @@
 import React from 'react';
 
 const User = React.lazy(() => import('./views/User/UserManagement'));
-const Category = React.lazy(()=>import('./views/Category/CategoryManagment'))
-const Challenge = React.lazy(()=> import('./views/ChallengeManagement/ChallengeManagement'))
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
+//Category Routes
+const Category = React.lazy(()=>import('./views/Category/CategoryManagment'))
+
+//Challenge Routes
+const Challenge = React.lazy(()=> import('./views/Challenge/ChallengeManagement'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
