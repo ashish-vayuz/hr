@@ -497,17 +497,17 @@ const getUserById = asyncHandler(async (req, res) => {
 const addToBookmark = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id)
     const challenge = await Challenge.findById(req.params.id)
-    if(challenge){
+    if (challenge) {
         const alreadtBookmarked = await user.bookmarks.find(
-            (r)=>r.toString()===req.params.id.toString()
+            (r) => r.toString() === req.params.id.toString()
         )
 
-        if(alreadtBookmarked){
+        if (alreadtBookmarked) {
             res.status(400)
             throw new Error('Challenge already Bookmarked')
         }
     }
-    
+
     if (user) {
         user.bookmarks.push(challenge)
         const updatedUser = await user.save()
@@ -556,6 +556,7 @@ const removeFromFollowing = asyncHandler(async (req, res) => {
     if (user) {
         const target = await User.findById(req.params.id)
         user.followings.pull({ _id: req.params.id })
+        console.log(user);
         user.totalFollowings = user.followings.length
         const updatedUser = await user.save()
         user.followers.pull({ _id: req.params.id })
@@ -580,7 +581,17 @@ const removeFromFollowing = asyncHandler(async (req, res) => {
 // access Private
 const addToFollowing = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id)
+
     if (user) {
+
+        const alreadyFollow = await user.followings.find(
+            (r) => r.toString() === req.params.id.toString()
+        )
+
+        if (alreadyFollow){
+            
+        }
+
         const target = await User.findById(req.params.id)
         user.followings.push(target)
         user.totalFollowings = user.followings.length
