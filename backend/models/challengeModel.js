@@ -106,6 +106,14 @@ const challengeSchema = mongoose.Schema({
         type: String,
         required: true,
         default: true
+    },
+    paymentId:{
+        type: String,
+    },
+    isPaymentDone: {
+        type: Boolean,
+        required: true,
+        default: false
     }
 },
     {

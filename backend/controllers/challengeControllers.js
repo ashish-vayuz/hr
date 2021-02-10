@@ -152,6 +152,27 @@ const unlikeChallengeById = asyncHandler(async (req, res) => {
     }
 })
 
+// @desc change the payment status
+// route POST challenge/payment/:id
+// access Public
+const changePayment = asyncHandler(async (req, res) => {
+    const challenge = await Challenge.findById(req.params.id)
+    console.log(challenge);
+    const { paymentId, isPaymentDone } = req.body
+    if (challenge) {
+        challenge.paymentId = paymentId
+        challenge.isPaymentDone = isPaymentDone
+        await challenge.save()
+        res.status(200).json({
+            errorcode: 1,
+            errormessage: 'Payment Status Updated'
+        })
+    } else {
+        res.status(404)
+        throw new Error('Challenge not found')
+    }
+})
+
 // @desc upload challenge video
 // route POST challenge/upload
 // access Public
@@ -163,4 +184,4 @@ const uploadChal = asyncHandler(async (req, res) => {
     })
 })
 
-export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById }
+export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment }

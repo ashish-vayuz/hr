@@ -1,6 +1,6 @@
 import express from 'express'
 const router = express.Router()
-import { getChallenge, getChallengeById, postChallenge, uploadChal,likeChallengeById, unlikeChallengeById } from '../controllers/challengeControllers.js'
+import { getChallenge, getChallengeById, postChallenge, uploadChal, likeChallengeById, unlikeChallengeById, changePayment } from '../controllers/challengeControllers.js'
 import multer from 'multer'
 import path from 'path'
 import { protect } from '../middlewares/authMiddlewares.js'
@@ -40,8 +40,9 @@ router.route('/')
     .get(getChallenge)
     .post(protect, postChallenge)
 router.route('/upload').post(upload.single('challenge'), uploadChal)
-router.route('/like/:id').get(protect,likeChallengeById)
-router.route('/unlike/:id').get(protect,unlikeChallengeById)
+router.route('/like/:id').get(protect, likeChallengeById)
+router.route('/unlike/:id').get(protect, unlikeChallengeById)
+router.route('/payment/:id').post(protect, changePayment)
 router.route('/:id').get(getChallengeById)
 
 export default router;
