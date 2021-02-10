@@ -80,7 +80,7 @@ const postChallenge = asyncHandler(async (req, res) => {
 // route POST challenge/:id
 // access Public
 const getChallengeById = asyncHandler(async (req, res) => {
-    const challenge = await Challenge.findById(req.params.id)
+    const challenge = await Challenge.findById(req.params.id).populate('creator')
     if (challenge) {
         res.json({
             "errorcode": 1,
@@ -168,10 +168,10 @@ const unlikeChallengeById = asyncHandler(async (req, res) => {
 const changePayment = asyncHandler(async (req, res) => {
     const challenge = await Challenge.findById(req.params.id)
     console.log(challenge);
-    const { paymentId, isPaymentDone } = req.body
+    const { PaymentId } = req.body
     if (challenge) {
-        challenge.paymentId = paymentId
-        challenge.isPaymentDone = isPaymentDone
+        challenge.paymentId = PaymentId
+        challenge.isPaymentDone = "true"
         await challenge.save()
         res.status(200).json({
             errorcode: 1,

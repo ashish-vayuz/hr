@@ -482,7 +482,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
 // route POST users/:id
 // access Public
 const getUserById = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.params.id).select('-password -OTP -verified -isDeleted -report').populate('myChallenges bookmarks participatedChallenges followings followers')
+    const user = await User.findById(req.params.id).select('-password -OTP -verified -isDeleted -report').populate('myChallenges bookmarks participatedChallenges followings followers liked')
     res.json({
         "errorcode": 1,
         "errormessage": "Records found",
