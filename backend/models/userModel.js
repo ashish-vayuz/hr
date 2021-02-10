@@ -71,6 +71,10 @@ const userSchema = mongoose.Schema({
         required: true,
         ref: 'Challenge',
     }],
+    totalChallengeLikes:{
+        type: Number,
+        default: 0
+    },
     categories: [{
         type: mongoose.Schema.Types.ObjectId,
         required: true,
