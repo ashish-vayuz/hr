@@ -19,7 +19,7 @@ const importData = async () => {
         await User.insertMany(user)
 
 
-        console.log(`Data Imported!`.green.inverse)
+        console.log(`Data Idported!`.green.inverse)
         process.exit()
     } catch (error) {
         console.error(`${error}`.red.inverse);
