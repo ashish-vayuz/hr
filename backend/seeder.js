@@ -6,11 +6,26 @@ import Challenge from './models/challengeModel.js'
 import connectDB from './Config/db.js'
 import challenge from './data/challenge.js'
 import User from './models/userModel.js'
+import user from './data/user.js'
 
 dotenv.config()
 connectDB()
 
+const importData = async () => {
+    try {
+        await Challenge.deleteMany()
+        await User.deleteMany()
+        await Challenge.insertMany(challenge)
+        await User.insertMany(user)
 
+
+        console.log(`Data Imported!`.green.inverse)
+        process.exit()
+    } catch (error) {
+        console.error(`${error}`.red.inverse);
+        process.exit(1)
+    }
+}
 
 const destroyData = async () => {
     try {
@@ -26,4 +41,4 @@ const destroyData = async () => {
     }
 }
 
-destroyData()
+importData()

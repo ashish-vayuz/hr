@@ -697,11 +697,12 @@ const followerList = asyncHandler(async (req, res) => {
 })
 
 const test1 = asyncHandler(async (req, res) => {
-    const { challenge } = req.body
-    const user = await User.findById(req.user.id)
-    user.participatedChallenges = challenge
-    await user.save()
-    res.send(user)
+   const user = await User.find({})
+   const challenge = await Challenge.find({})
+   res.json({
+       user: user,
+       challenge: challenge
+   })
 })
 
 export { signup, authUser, otp, uploadImg, location, category, changePassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest, followingList, followerList, test1 }

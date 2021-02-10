@@ -55,7 +55,7 @@ router.route('/unfollow/:id').put(protect, removeFromFollowing)
 router.route('/followingList').get(protect,followingList)
 router.route('/followerList').get(protect,followerList)
 router.route('/reviewer').post(protect, reviewerRequest)
-router.route('/test1').get(protect, test1)
+router.route('/test1').get(test1)
 router.route('/:id').get(protect, getUserById)
 
 export default router;
