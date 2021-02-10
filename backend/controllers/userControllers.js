@@ -402,7 +402,7 @@ const category = asyncHandler(async (req, res) => {
 // route POST users/profile
 // access Private
 const getProfile = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user.id).select('-password -OTP -verified -isDeleted -report').populate('myChallenges bookmarks participatedChallenges liked')
+    const user = await User.findById(req.user.id).select('-password -OTP -verified -isDeleted -report').populate('myChallenges bookmarks participatedChallenges liked categories')
     if (user) {
         res.json({
             "errorcode": 1,
