@@ -112,7 +112,7 @@ const likeChallengeById = asyncHandler(async (req, res) => {
 
         challenge.likes.push(req.user._id)
         challenge.totalLikes = challenge.likes.length
-        creator.totalChallengeLikes+=1
+        creator.totalChallengeLikes += 1
         user.liked.push(req.params.id)
         await creator.save()
         await user.save()
@@ -167,8 +167,7 @@ const unlikeChallengeById = asyncHandler(async (req, res) => {
 // access Public
 const changePayment = asyncHandler(async (req, res) => {
     const challenge = await Challenge.findById(req.params.id)
-    console.log(challenge);
-    const { PaymentId } = req.body
+    const { PaymentId } = req.query
     if (challenge) {
         challenge.paymentId = PaymentId
         challenge.isPaymentDone = "true"

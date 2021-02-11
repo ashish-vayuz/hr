@@ -42,7 +42,7 @@ router.route('/')
 router.route('/upload').post(upload.single('challenge'), uploadChal)
 router.route('/like/:id').get(protect, likeChallengeById)
 router.route('/unlike/:id').get(protect, unlikeChallengeById)
-router.route('/payment/:id').post(protect, changePayment)
+router.route('/payment/:id').get(protect, changePayment)
 router.route('/:id').get(getChallengeById)
 
 export default router;
