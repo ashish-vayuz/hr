@@ -426,7 +426,11 @@ const updateProfile = asyncHandler(async (req, res) => {
         user.about = req.body.about || user.about
         user.location = req.body.location || user.location
         const updatedUser = await user.save()
-        res.send(updatedUser)
+        res.json({
+            "errorcode": 1,
+            "errormessage": "Profile Updated",
+            updatedUser
+        })
     } else {
         res.status(404)
         throw new Error("User not Found")
