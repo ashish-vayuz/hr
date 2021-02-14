@@ -10,6 +10,9 @@ const AddButton = (location) => {
     useEffect(() => {
 
         switch (action) {
+            default:
+                setDisplay(true)
+                break
             case "/challenge":
                 setPath('addChallenge')
                 setValue('Add Challenge')
@@ -28,8 +31,6 @@ const AddButton = (location) => {
             case "/dashboard":
                 setDisplay(true)
                 break
-            default:
-                setDisplay(false)
         }
     }, [action, setDisplay, setValue])
     return (

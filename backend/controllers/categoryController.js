@@ -70,7 +70,7 @@ const updateCategory = asyncHandler(async (req, res) => {
     if (category) {
         category.name = req.body.name || category.name
         category.image = req.body.image || category.image
-        category.active = req.body.active || category.active
+        category.active = req.body.active 
 
         const updatedCategory = await category.save()
 

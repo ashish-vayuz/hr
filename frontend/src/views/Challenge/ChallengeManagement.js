@@ -2,6 +2,7 @@ import { CBadge, CButton, CCardBody, CCollapse, CDataTable } from '@coreui/react
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { listChallenges, deleteChallenge } from '../../actions/challengeActions'
+import Loader from '../Loader/Loader'
 
 const UserManagement = (props) => {
     console.log(props.location.pathname);
@@ -32,8 +33,11 @@ const UserManagement = (props) => {
 
     const fields = [
         { key: 'title', _style: { width: '10%' } },
+        { key: 'hashtags', _style: { width: '10%' } },
+        { key: 'category', _style: { width: '10%' } },
         { key: 'coinAllocated', _style: { width: '10%' } },
-        { key: 'coinRequired', _style: { width: '10%' } },
+        { key: 'duration', _style: { width: '10%' } },
+        { key: 'visibility', _style: { width: '10%' } },
         { key: 'reviewAmount', _style: { width: '10%' } },
         { key: 'isPaymentDone', _style: { width: '4%' } },
         { key: 'active', _style: { width: '4%' } },
@@ -60,7 +64,7 @@ const UserManagement = (props) => {
 
     return (
         <>
-            {loading ? <div>Loading</div> :
+            {loading ? <Loader /> :
                 <div>
                     <CDataTable
                         items={challenges.list}

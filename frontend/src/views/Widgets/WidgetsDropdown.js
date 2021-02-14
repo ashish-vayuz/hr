@@ -16,11 +16,11 @@ const WidgetsDropdown = () => {
   // render
   return (
     <CRow>
-      <CCol sm="6" lg="3">
+      <CCol sm="6" lg="4">
         <CWidgetDropdown
           color="gradient-primary"
           header="9.823"
-          text="Members online"
+          text="Total registered user"
           footerSlot={
             <ChartLineSimple
               pointed
@@ -47,11 +47,11 @@ const WidgetsDropdown = () => {
         </CWidgetDropdown>
       </CCol>
 
-      <CCol sm="6" lg="3">
+      <CCol sm="6" lg="4">
         <CWidgetDropdown
           color="gradient-info"
           header="9.823"
-          text="Members online"
+          text="Users registered today"
           footerSlot={
             <ChartLineSimple
               pointed
@@ -79,11 +79,11 @@ const WidgetsDropdown = () => {
         </CWidgetDropdown>
       </CCol>
 
-      <CCol sm="6" lg="3">
+      <CCol sm="6" lg="4">
         <CWidgetDropdown
           color="gradient-warning"
           header="9.823"
-          text="Members online"
+          text="Reviewer request received today"
           footerSlot={
             <ChartLineSimple
               className="mt-3"
@@ -111,11 +111,11 @@ const WidgetsDropdown = () => {
         </CWidgetDropdown>
       </CCol>
 
-      <CCol sm="6" lg="3">
+      <CCol sm="6" lg="4">
         <CWidgetDropdown
           color="gradient-danger"
           header="9.823"
-          text="Members online"
+          text="Total number of challenges"
           footerSlot={
             <ChartBarSimple
               className="mt-3 mx-3"
@@ -129,6 +129,174 @@ const WidgetsDropdown = () => {
           <CDropdown>
             <CDropdownToggle caret className="text-white" color="transparent">
               <CIcon name="cil-settings"/>
+            </CDropdownToggle>
+            <CDropdownMenu className="pt-0" placement="bottom-end">
+              <CDropdownItem>Action</CDropdownItem>
+              <CDropdownItem>Another action</CDropdownItem>
+              <CDropdownItem>Something else here...</CDropdownItem>
+              <CDropdownItem disabled>Disabled action</CDropdownItem>
+            </CDropdownMenu>
+          </CDropdown>
+        </CWidgetDropdown>
+      </CCol>
+      <CCol sm="6" lg="4">
+        <CWidgetDropdown
+          color="gradient-danger"
+          header="9.823"
+          text="Total number of Reviewers"
+          footerSlot={
+            <ChartBarSimple
+              className="mt-3 mx-3"
+              style={{ height: '70px' }}
+              backgroundColor="rgb(250, 152, 152)"
+              label="Members"
+              labels="months"
+            />
+          }
+        >
+          <CDropdown>
+            <CDropdownToggle caret className="text-white" color="transparent">
+              <CIcon name="cil-settings" />
+            </CDropdownToggle>
+            <CDropdownMenu className="pt-0" placement="bottom-end">
+              <CDropdownItem>Action</CDropdownItem>
+              <CDropdownItem>Another action</CDropdownItem>
+              <CDropdownItem>Something else here...</CDropdownItem>
+              <CDropdownItem disabled>Disabled action</CDropdownItem>
+            </CDropdownMenu>
+          </CDropdown>
+        </CWidgetDropdown>
+      </CCol>
+      <CCol sm="6" lg="4">
+        <CWidgetDropdown
+          color="gradient-danger"
+          header="9.823"
+          text="Total number of Categories"
+          footerSlot={
+            <ChartBarSimple
+              className="mt-3 mx-3"
+              style={{ height: '70px' }}
+              backgroundColor="rgb(250, 152, 152)"
+              label="Members"
+              labels="months"
+            />
+          }
+        >
+          <CDropdown>
+            <CDropdownToggle caret className="text-white" color="transparent">
+              <CIcon name="cil-settings" />
+            </CDropdownToggle>
+            <CDropdownMenu className="pt-0" placement="bottom-end">
+              <CDropdownItem>Action</CDropdownItem>
+              <CDropdownItem>Another action</CDropdownItem>
+              <CDropdownItem>Something else here...</CDropdownItem>
+              <CDropdownItem disabled>Disabled action</CDropdownItem>
+            </CDropdownMenu>
+          </CDropdown>
+        </CWidgetDropdown>
+      </CCol>
+      <CCol sm="6" lg="4">
+        <CWidgetDropdown
+          color="gradient-danger"
+          header="9.823"
+          text="Active Challenges"
+          footerSlot={
+            <ChartBarSimple
+              className="mt-3 mx-3"
+              style={{ height: '70px' }}
+              backgroundColor="rgb(250, 152, 152)"
+              label="Members"
+              labels="months"
+            />
+          }
+        >
+          <CDropdown>
+            <CDropdownToggle caret className="text-white" color="transparent">
+              <CIcon name="cil-settings" />
+            </CDropdownToggle>
+            <CDropdownMenu className="pt-0" placement="bottom-end">
+              <CDropdownItem>Action</CDropdownItem>
+              <CDropdownItem>Another action</CDropdownItem>
+              <CDropdownItem>Something else here...</CDropdownItem>
+              <CDropdownItem disabled>Disabled action</CDropdownItem>
+            </CDropdownMenu>
+          </CDropdown>
+        </CWidgetDropdown>
+      </CCol>
+      <CCol sm="6" lg="4">
+        <CWidgetDropdown
+          color="gradient-danger"
+          header="9.823"
+          text="Total number of challenges"
+          footerSlot={
+            <ChartBarSimple
+              className="mt-3 mx-3"
+              style={{ height: '70px' }}
+              backgroundColor="rgb(250, 152, 152)"
+              label="Members"
+              labels="months"
+            />
+          }
+        >
+          <CDropdown>
+            <CDropdownToggle caret className="text-white" color="transparent">
+              <CIcon name="cil-settings" />
+            </CDropdownToggle>
+            <CDropdownMenu className="pt-0" placement="bottom-end">
+              <CDropdownItem>Action</CDropdownItem>
+              <CDropdownItem>Another action</CDropdownItem>
+              <CDropdownItem>Something else here...</CDropdownItem>
+              <CDropdownItem disabled>Disabled action</CDropdownItem>
+            </CDropdownMenu>
+          </CDropdown>
+        </CWidgetDropdown>
+      </CCol>
+      <CCol sm="6" lg="4">
+        <CWidgetDropdown
+          color="gradient-danger"
+          header="9.823"
+          text="Total number of challenges"
+          footerSlot={
+            <ChartBarSimple
+              className="mt-3 mx-3"
+              style={{ height: '70px' }}
+              backgroundColor="rgb(250, 152, 152)"
+              label="Members"
+              labels="months"
+            />
+          }
+        >
+          <CDropdown>
+            <CDropdownToggle caret className="text-white" color="transparent">
+              <CIcon name="cil-settings" />
+            </CDropdownToggle>
+            <CDropdownMenu className="pt-0" placement="bottom-end">
+              <CDropdownItem>Action</CDropdownItem>
+              <CDropdownItem>Another action</CDropdownItem>
+              <CDropdownItem>Something else here...</CDropdownItem>
+              <CDropdownItem disabled>Disabled action</CDropdownItem>
+            </CDropdownMenu>
+          </CDropdown>
+        </CWidgetDropdown>
+      </CCol>
+      <CCol sm="6" lg="4">
+        <CWidgetDropdown
+          color="gradient-danger"
+          header="9.823"
+          text="Total number of challenges"
+          footerSlot={
+            <ChartBarSimple
+              className="mt-3 mx-3"
+              style={{ height: '70px' }}
+              backgroundColor="rgb(250, 152, 152)"
+              label="Members"
+              labels="months"
+            />
+          }
+        >
+          <CDropdown>
+            <CDropdownToggle caret className="text-white" color="transparent">
+              <CIcon name="cil-settings" />
             </CDropdownToggle>
             <CDropdownMenu className="pt-0" placement="bottom-end">
               <CDropdownItem>Action</CDropdownItem>

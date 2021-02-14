@@ -2,16 +2,17 @@ import { CButton, CCol, CContainer, CForm, CFormGroup, CFormText, CInput, CLabel
 import React from 'react'
 
 const ChallengeAdd = () => {
+    
     return (
         <CContainer fluid>
             <CForm action="" method="post" wasValidated={false}>
                 <CFormGroup>
-                    <CLabel htmlFor="nf-email">Email</CLabel>
+                    <CLabel htmlFor="nf-email">Name</CLabel>
                     <CInput
-                        type="email"
+                        type="name"
                         id="nf-email"
                         name="nf-email"
-                        placeholder="Enter Email.."
+                        placeholder="Enter Name"
                         required
                     />
                 </CFormGroup>
