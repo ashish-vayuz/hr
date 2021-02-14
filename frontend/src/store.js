@@ -5,7 +5,7 @@ import thunk from 'redux-thunk'
 //Reducer
 import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateProfileReducer } from './reducers/userReducers'
 import { categoryListReducer } from './reducers/categoryReducers'
-import { challengeListReducer } from './reducers/challengeReducers'
+import { challengeListReducer, deleteChallengeReducer } from './reducers/challengeReducers'
 import { changeState } from './reducers/responsideReducers'
 
 const initialState = {
@@ -14,6 +14,7 @@ const initialState = {
 
 const reducer = combineReducers({
   challengeList: challengeListReducer,
+  deleteChallenge: deleteChallengeReducer,
   categoryList: categoryListReducer,
   cstate: changeState,
   userLogin: userLoginReducer,

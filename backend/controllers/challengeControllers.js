@@ -182,6 +182,21 @@ const changePayment = asyncHandler(async (req, res) => {
     }
 })
 
+// @desc Delete Challenge
+// route delete challenge/:id
+// access Private
+const deleteChallenge = asyncHandler(async (req, res) => {
+    await Challenge.remove({ _id: req.params.id }, function (err) {
+        if (!err) {
+            res.json({ message: "Challenge Removed" })
+        }
+        else {
+            res.status(404)
+            throw new Error("Challenge not Found")
+        }
+    });
+})
+
 // @desc upload challenge video
 // route POST challenge/upload
 // access Public
@@ -193,4 +208,4 @@ const uploadChal = asyncHandler(async (req, res) => {
     })
 })
 
-export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment }
+export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge }

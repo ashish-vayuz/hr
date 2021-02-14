@@ -103,7 +103,7 @@ const challengeSchema = mongoose.Schema({
         required: true,
     },
     active: {
-        type: String,
+        type: Boolean,
         required: true,
         default: true
     },
