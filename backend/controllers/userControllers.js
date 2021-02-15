@@ -624,7 +624,7 @@ const addToFollowing = asyncHandler(async (req, res) => {
 // route POST users/changePassword
 // access Public
 const changePassword = asyncHandler(async (req, res) => {
-    const { password,secret } = req.body
+    const { password, secret } = req.body
     const user = await User.findById(secret)
     if (password) {
         user.password = password
@@ -751,6 +751,7 @@ const frogetPassword = asyncHandler(async (req, res) => {
         await user.save()
         res.status(200).json({
             errorcode: 1,
+            token: generateToken(user._id),
             res: "otp",
             errormessage: "otp",
             OTP: user.OTP
@@ -762,4 +763,4 @@ const frogetPassword = asyncHandler(async (req, res) => {
 })
 
 
-export { signup, authUser, otp, uploadImg, location, category, changePassword,frogetPassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest, followingList, followerList, test1 }
+export { signup, authUser, otp, uploadImg, location, category, changePassword, frogetPassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest, followingList, followerList, test1 }
