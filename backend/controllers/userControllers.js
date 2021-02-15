@@ -248,6 +248,7 @@ const otp = asyncHandler(async (req, res) => {
             errormessage: "User Verified",
             flow: 'signup',
             _id: updatedUser._id,
+            secret: updatedUser._id,
             name: updatedUser.name,
             image: updatedUser.image,
             email: updatedUser.email,
@@ -594,8 +595,8 @@ const addToFollowing = asyncHandler(async (req, res) => {
             (r) => r.toString() === req.params.id.toString()
         )
 
-        if (alreadyFollow){
-            
+        if (alreadyFollow) {
+
         }
 
         const target = await User.findById(req.params.id)
@@ -623,11 +624,11 @@ const addToFollowing = asyncHandler(async (req, res) => {
 // route POST users/changePassword
 // access Public
 const changePassword = asyncHandler(async (req, res) => {
-    const { password, newpassword } = req.body
-    const user = await User.findById(req.user._id)
-    if (user.password === password) {
-        user.password = newpassword
-        await user.save()
+    const { password,secret } = req.body
+    const user = await User.findById(secret)
+    if (password) {
+        user.password = password
+        const updatedUser = await user.save()
         res.json({
             errorcode: 1,
             errormessage: "Password Changed",
@@ -703,12 +704,62 @@ const followerList = asyncHandler(async (req, res) => {
 })
 
 const test1 = asyncHandler(async (req, res) => {
-   const user = await User.find({})
-   const challenge = await Challenge.find({})
-   res.json({
-       user: user,
-       challenge: challenge
-   })
+    const user = await User.find({})
+    const challenge = await Challenge.find({})
+    res.json({
+        user: user,
+        challenge: challenge
+    })
 })
 
-export { signup, authUser, otp, uploadImg, location, category, changePassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest, followingList, followerList, test1 }
+const frogetPassword = asyncHandler(async (req, res) => {
+    const { email } = req.body
+    const user = await User.findOne({ email })
+    console.log(user);
+    if (user) {
+        const val = Math.floor(1000 + Math.random() * 9000);
+        //STEP 1
+        let transporter = await nodemailer.createTransport({
+
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL,//
+                pass: process.env.PASSWORD
+            }
+
+        })
+
+        //STEP 2
+        let info = {
+            from: process.env.EMAIL,
+            to: email,
+            subject: "OTP VERIFICATION",
+            text: `Your OTP is ${val}`
+        }
+        //STEP 3
+        transporter.sendMail(info, function (err, data) {
+            if (err) {
+                console.log(err)
+            }
+
+            else {
+                console.log("Email Sent")
+                res.status(200).json({ val })
+            }
+        })
+        user.OTP = val
+        await user.save()
+        res.status(200).json({
+            errorcode: 1,
+            res: "otp",
+            errormessage: "otp",
+            OTP: user.OTP
+        })
+    } else {
+        res.status(404)
+        throw new Error("User not Found")
+    }
+})
+
+
+export { signup, authUser, otp, uploadImg, location, category, changePassword,frogetPassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest, followingList, followerList, test1 }

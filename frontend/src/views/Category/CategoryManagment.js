@@ -85,7 +85,10 @@ const CategoryManagement = (props) => {
                             'active':
                                 (item) => (
                                     <td className="py-2">
-                                        <CButton size="sm" color={getBadge(item.active)} onClick={() => changeStatusHandler(item._id, item.active)}>
+                                        <CButton size="sm" color={getBadge(item.active)} onClick={() => {
+                                            changeStatusHandler(item._id, item.active)
+                                        
+                                        }}>
                                             {item.active.toString()}
                                         </CButton>
                                     </td>
@@ -127,9 +130,9 @@ const CategoryManagement = (props) => {
                                                     {item.username}
                                                 </h4>
                                                 <p className="text-muted">Created at: {item.createdAt}   Updated on: {item.updatedAt}</p>
-                                                <CButton color="info" to="/viewChallenge">
+                                                {/* <CButton color="info" to="/viewChallenge">
                                                     View
-                                                </CButton>
+                                                </CButton> */}
                                                 <CButton color="secondary" className="ml-1" to="/editChallenge">
                                                     Edit
                                                 </CButton>
