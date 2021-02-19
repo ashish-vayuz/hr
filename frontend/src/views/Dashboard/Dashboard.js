@@ -14,6 +14,13 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
+// Icons mai error hai I think coreui.reaxt mai kuch erorr aa raha <hai className="//"></hai>
+//
+
+
+
+
+
 import MainChartExample from '../charts/MainChartExample.js'
 
 const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.js'))
