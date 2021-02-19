@@ -20,30 +20,30 @@ const _nav =  [
     to: '/challenge',
     icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>,
   },
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'Report Management',
-    to: '/dashboard',
-    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>,
-  },
+  // {
+  //   _tag: 'CSidebarNavItem',
+  //   name: 'Report Management',
+  //   to: '/dashboard',
+  //   icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>,
+  // },
   {
     _tag: 'CSidebarNavItem',
     name: 'CMS',
     to: '/dashboard',
     icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>,
   },
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'Reviewer Management',
-    to: '/dashboard',
-    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>,
-  },
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'Sub Admin/ Staff Management',
-    to: '/dashboard',
-    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>,
-  },
+  // {
+  //   _tag: 'CSidebarNavItem',
+  //   name: 'Reviewer Management',
+  //   to: '/dashboard',
+  //   icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>,
+  // },
+  // {
+  //   _tag: 'CSidebarNavItem',
+  //   name: 'Sub Admin/ Staff Management',
+  //   to: '/dashboard',
+  //   icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>,
+  // },
   {
     _tag: 'CSidebarNavItem',
     name: 'Category Management',

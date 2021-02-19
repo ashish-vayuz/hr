@@ -1,20 +1,20 @@
-import { CBadge, CButton, CCardBody, CCollapse, CDataTable } from '@coreui/react'
+import { CBadge, CButton, CCardBody, CCollapse, CDataTable, CImg } from '@coreui/react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { listChallenges, deleteChallenge } from '../../actions/challengeActions'
+import { listUsers, addUser, deleteUser, updateUser, listUserDetails } from '../../actions/userMAction'
 import Loader from '../Loader/Loader'
 
-const UserManagement = (props) => {
+const CategoryManagement = (props) => {
     console.log(props.location.pathname);
     const dispatch = useDispatch()
-    const challengeList = useSelector(state => state.challengeList)
-    const { loading, error, challenges } = challengeList
+    const userList = useSelector(state => state.userList)
+    const { loading, error, users } = userList
     useEffect(() => {
-        dispatch(listChallenges())
+        dispatch(listUsers())
     }, [dispatch])
 
     const [details, setDetails] = useState([])
-    const [items, setItems] = useState(challenges)
+    const [items, setItems] = useState(users)
 
     const toggleDetails = (index) => {
         const position = details.indexOf(index)
@@ -27,19 +27,26 @@ const UserManagement = (props) => {
         setDetails(newDetails)
     }
     const deleteChallengeHandler = (id) => {
-        dispatch(deleteChallenge(id))
+        dispatch(deleteUser(id))
         console.log(id);
     }
 
+    const changeStatusHandler = (id, active) => {
+        if (active) {
+            dispatch(updateUser(id, false))
+        } else {
+            dispatch(updateUser(id, true));
+        }
+    }
+
     const fields = [
-        { key: 'title', _style: { width: '10%' } },
-        { key: 'hashtags', _style: { width: '10%' } },
-        { key: 'category', _style: { width: '10%' } },
-        { key: 'coinAllocated', _style: { width: '10%' } },
-        { key: 'duration', _style: { width: '10%' } },
-        { key: 'visibility', _style: { width: '10%' } },
-        { key: 'reviewAmount', _style: { width: '10%' } },
-        { key: 'isPaymentDone', _style: { width: '4%' } },
+        { key: 'name', _style: { width: '10%' } },
+        { key: 'email', _style: { width: '10%' } },
+        { key: 'contact', _style: { width: '10%' } },
+        { key: 'location', _style: { width: '10%' } },
+        { key: 'totalReports', _style: { width: '10%' } },
+        { key: 'isReviewer', _style: { width: '10%' } },
+        { key: 'image', _style: { width: '1%' } },
         { key: 'active', _style: { width: '4%' } },
         {
             key: 'show_details',
@@ -67,7 +74,7 @@ const UserManagement = (props) => {
             {loading ? <Loader /> :
                 <div>
                     <CDataTable
-                        items={challenges.list}
+                        items={users.list}
                         fields={fields}
                         columnFilter
                         tableFilter
@@ -83,17 +90,24 @@ const UserManagement = (props) => {
                             'active':
                                 (item) => (
                                     <td className="py-2">
-                                        <CButton size="sm" color={getBadge(item.active)}>
+                                        <CButton size="sm" color={getBadge(item.active)} onClick={() => {
+                                            changeStatusHandler(item._id, item.active)
+
+                                        }}>
                                             {item.active.toString()}
                                         </CButton>
                                     </td>
                                 ),
-                            'isPaymentDone':
+                            'image':
                                 (item) => (
-                                    <td >
-                                        <CBadge color={getBadge(item.isPaymentDone)}>
-                                            {item.isPaymentDone.toString()}
-                                        </CBadge>
+                                    <td className="py-2">
+                                        <CImg
+                                            src={`https://humanrace-1.herokuapp.com${item.image}`}
+                                            fluid
+                                            className="mb-2"
+                                            width="50px"
+                                            height="50px"
+                                        />
                                     </td>
                                 ),
                             'show_details':
@@ -121,9 +135,9 @@ const UserManagement = (props) => {
                                                     {item.username}
                                                 </h4>
                                                 <p className="text-muted">Created at: {item.createdAt}   Updated on: {item.updatedAt}</p>
-                                                <CButton color="info" to="/viewChallenge">
+                                                {/* <CButton color="info" to="/viewChallenge">
                                                     View
-                                                </CButton>
+                                                </CButton> */}
                                                 <CButton color="secondary" className="ml-1" to="/editChallenge">
                                                     Edit
                                                 </CButton>
@@ -142,4 +156,4 @@ const UserManagement = (props) => {
     )
 }
 
-export default UserManagement
+export default CategoryManagement

@@ -3,7 +3,8 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
 
 //Reducer
-import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateProfileReducer } from './reducers/userReducers'
+import { userLoginReducer, userRegisterReducer, userUpdateProfileReducer } from './reducers/userReducers'
+import { userListReducer, userDeleteReducer, userDetailsReducer, userStatusReducer } from './reducers/userMReducers'
 import { categoryListReducer, categoryDeleteReducer, categoryStatusReducer } from './reducers/categoryReducers'
 import { challengeListReducer, deleteChallengeReducer } from './reducers/challengeReducers'
 import { changeState } from './reducers/responsideReducers'
@@ -21,10 +22,14 @@ const reducer = combineReducers({
   updateCategory: categoryStatusReducer,
 
   cstate: changeState,
+  //userManagement
+  userList: userListReducer,
+  deleteUser: userDeleteReducer,
+  updateUser: userStatusReducer,
   //users
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
-  userDetails: userDetailsReducer,
+  //userDetails: userDetailsReducer,
   userUpdateProfile: userUpdateProfileReducer
 })
 
