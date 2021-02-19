@@ -97,6 +97,10 @@ const challengeSchema = mongoose.Schema({
         required: true,
     },
     reviews: [reviewSchema],
+    totalparticipated:{
+        type: Number,
+        default:0
+    },
     participant: [participantSchema],
     video: {
         type: String,

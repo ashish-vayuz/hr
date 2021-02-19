@@ -197,6 +197,40 @@ const deleteChallenge = asyncHandler(async (req, res) => {
     });
 })
 
+// @desc Paticipate in Challenge
+// route post challenge/:id/participate
+// access Private
+const participateChallenge = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.id)
+    const { video } = req.body
+    const challenge = await Challenge.findById(req.params.id)
+    if (challenge) {
+        const alreadyPaticipated = challenge.participant.find(
+            (r) => r.user.toString() === req.user._id.toString()
+        )
+        if (alreadyPaticipated) {
+            res.status(400)
+            throw new Error('Challenge Already Particpated')
+        }
+
+        const submission = {
+            user: req.user.id,
+            video: video
+        }
+        challenge.participant.push(submission)
+        challenge.totalparticipated = challenge.participant.length
+        await challenge.save()
+        res.status(201).json({
+            errorcode: 1,
+            errormessage: 'Challenge Participated'
+        })
+    } else {
+        res.status(404)
+        throw new Error('Challenge not found')
+    }
+
+})
+
 // @desc upload challenge video
 // route POST challenge/upload
 // access Public
@@ -208,4 +242,4 @@ const uploadChal = asyncHandler(async (req, res) => {
     })
 })
 
-export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge }
+export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge,participateChallenge }
