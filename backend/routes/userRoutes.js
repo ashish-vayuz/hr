@@ -1,8 +1,10 @@
 import express from 'express'
 import { signup, authUser, otp, uploadImg, location, category, getProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, updateProfile, reportUser, reviewerRequest, test1, followingList, followerList, changePassword, frogetPassword } from '../controllers/userControllers.js'
+import {getAllUser} from '../controllers/adminController.js'
 import { protect } from '../middlewares/authMiddlewares.js'
 import multer from 'multer'
 import path from 'path'
+import { deleteUser, updateUser } from '../controllers/adminController.js'
 const router = express.Router()
 
 const storage = multer.diskStorage({
@@ -58,6 +60,9 @@ router.route('/reviewer').post(protect, reviewerRequest)
 router.route('/forgetPassword').post(frogetPassword)
 router.route('/changePassword').post(changePassword)
 router.route('/test1').get(test1)
+
+router.route('/').get(getAllUser)
+router.route('/:id').delete(deleteUser).put(updateUser)
 router.route('/:id').get(protect, getUserById)
 
 export default router;

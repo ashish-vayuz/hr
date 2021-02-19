@@ -1,6 +1,7 @@
 import Admin from '../models/AdminModel.js'
 import asyncHandler from 'express-async-handler'
 import generateToken from '../utils/generateToken.js'
+import User from '../models/userModel.js'
 
 // @desc Signin Admin to Platform
 // route POST admin/signin
@@ -82,8 +83,52 @@ const updateAdmin = asyncHandler(async (req, res) => {
 // @desc fetch all admin
 // @route GET /admin
 // @access Private
-const getAllAdmin = asyncHandler(async(req,res)=>{
+const getAllAdmin = asyncHandler(async (req, res) => {
     const admin = Admin.find({})
     res.send(admin)
 })
-export { authAdmin, addAdmin, deleteAdmin, updateAdmin,getAllAdmin }
+
+// @desc fetch all user
+// @route GET /admin
+// @access Private
+const getAllUser = asyncHandler(async (req, res) => {
+    const category = await User.find({})
+    res.json({
+        "res": "chal",
+        "errorcode": 1,
+        "errormessage": "Records found",
+        "list": category
+    })
+})
+
+const deleteUser = asyncHandler(async (req, res) => {
+    await User.remove({ _id: req.params.id }, function (err) {
+        if (!err) {
+            res.json({ message: "Challenge Removed" })
+        }
+        else {
+            res.status(404)
+            throw new Error("Challenge not Found")
+        }
+    });
+})
+
+// @desc Update category
+// route put category/:id
+// access Public
+const updateUser = asyncHandler(async (req, res) => {
+    const category = await User.findById(req.params.id)
+
+    if (category) {
+        category.active = req.body.active
+
+        const updatedCategory = await category.save()
+
+        res.send(updatedCategory)
+    } else {
+        res.status(404)
+        throw new Error('Category not found')
+    }
+})
+
+export { authAdmin, addAdmin, deleteAdmin, updateAdmin, getAllAdmin, getAllUser, updateUser, deleteUser }

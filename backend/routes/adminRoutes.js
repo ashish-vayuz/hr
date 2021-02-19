@@ -10,4 +10,6 @@ router.route('/:id')
     .put(protect, updateAdmin)
     .delete(protect, deleteAdmin)
 
+
+
 export default router;
