@@ -18,7 +18,7 @@ const adminSchema = mongoose.Schema({
         type: String,
     },
     active: {
-        type: String,
+        type: Boolean,
         reuired: true,
     },
     isDeleted: {

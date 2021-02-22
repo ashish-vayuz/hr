@@ -1,11 +1,11 @@
 import { CBadge, CButton, CCardBody, CCollapse, CDataTable, CImg } from '@coreui/react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteAdmin, listAdmins, updateAdmin } from '../../actions/adminAction'
 import Loader from '../Loader/Loader'
 import axios from 'axios'
+import { listAdmins, deleteAdmin, updateAdmin } from '../../actions/adminAction'
 
-const AdminManagement = (props) => {
+const CategoryManagement = (props) => {
     const [data, setData] = useState([]);
     console.log(props.location.pathname);
     const dispatch = useDispatch()
@@ -34,28 +34,27 @@ const AdminManagement = (props) => {
     }
     const deleteChallengeHandler = async (id) => {
         await dispatch(deleteAdmin(id))
-        const { data } = await axios.get('localhost:5000/admin')
+        const { data } = await axios.get('https://humanrace-1.herokuapp.com/admin')
         setData(data)
     }
 
     const changeStatusHandler = async (id, active, index) => {
         if (active) {
             await dispatch(updateAdmin(id, false))
-            const { data } = await axios.get('localhost:5000/admin')
+            const { data } = await axios.get('https://humanrace-1.herokuapp.com/admin')
             setData(data)
         } else {
             await dispatch(updateAdmin(id, true));
-            const { data } = await axios.get('localhost:5000/admin')
+            const { data } = await axios.get('https://humanrace-1.herokuapp.com/admin')
             setData(data)
         }
     }
 
     const fields = [
         { key: 'name', _style: { width: '10%' } },
-        {
-            key: 'image', _style: { width: '1%' }, sorter: false,
-            filter: false
-        },
+        { key: 'email', _style: { width: '10%' } },
+        { key: 'role', label:"Sections accessible", _style: { width: '10%' } },
+        { key: 'createdAt',label:"Added on", _style: { width: '10%' } },
         {
             key: 'active', _style: { width: '4%' }, sorter: false,
             filter: false
@@ -73,10 +72,10 @@ const AdminManagement = (props) => {
         switch (active) {
             case true:
             case 'true':
-                return 'success'
+                return 'danger'
             case false:
             case 'false':
-                return 'danger'
+                return 'success'
             default: return 'primary'
         }
     }
@@ -114,7 +113,7 @@ const AdminManagement = (props) => {
                                 (item) => (
                                     <td className="py-2">
                                         <CImg
-                                            src={`localhost:5000${item.image}`}
+                                            src={`https://humanrace-1.herokuapp.com${item.image}`}
                                             fluid
                                             className="mb-2"
                                             width="50px"
@@ -168,4 +167,4 @@ const AdminManagement = (props) => {
     )
 }
 
-export default AdminManagement
+export default CategoryManagement

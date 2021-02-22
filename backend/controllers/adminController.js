@@ -69,7 +69,7 @@ const updateAdmin = asyncHandler(async (req, res) => {
     if (admin) {
         admin.name = req.body.name || admin.name
         admin.active = req.body.active || admin.active
-        admin.role = rq.body.role || admin.role
+        admin.role = req.body.role || admin.role
 
         const updatedAdmin = await admin.save()
 

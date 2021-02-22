@@ -1,40 +1,88 @@
-import Page from '../models/cmsModel.js'
 import asyncHandler from 'express-async-handler'
+import Page from '../models/cmsModel.js'
 
+
+// @desc Get all page
+// route POST page
+// access Public
 const getPage = asyncHandler(async (req, res) => {
-    Page.find({}, function (err, found) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.json(found);
-        }
+    const page = await Page.find({})
+    res.json({
+        "errorcode": 1,
+        "errormessage": "Records found",
+        "list": page
     })
 })
-const putPage = asyncHandler(async (req, res) => {
-    const post = { pagename: req.body.pagename, status: req.body.status }
-    cmsPage.findByIdAndUpdate(req.params.id, post, function (err, updatedPost) {
-        if (err) {
-            res.status(500).json("something not right");
-        } else {
-            res.redirect("/cms");
-            //            res.json(updatedPost);
+
+// @desc Get pagebyid
+// route GET page/:id
+// access Public
+const getPageById = asyncHandler(async (req, res) => {
+    const page = await Page.findById(req.params.id)
+    res.json({
+        "errorcode": 1,
+        "errormessage": "Records found",
+        "list": page
+    })
+})
+
+// @desc Add page
+// route POST page
+// access Public
+const addPage = asyncHandler(async (req, res) => {
+    const { name, data } = req.body
+    const pageExist = await Page.findOne({ name })
+    if (pageExist) {
+        res.status(400)
+        throw new Error("Page already exists")
+    }
+
+    const page = await Page.create({
+        name, data
+    })
+
+    if (page) {
+        res.status(201)
+        res.send(page)
+    } else {
+        res.status(400)
+        throw new Error("Invalid Page Data")
+    }
+})
+
+// @desc Delete page
+// route delete page/:id
+// access Public
+const deletePage = asyncHandler(async (req, res) => {
+    await Page.remove({ _id: req.params.id }, function (err) {
+        if (!err) {
+            res.json({ message: "Page Removed" })
+        }
+        else {
+            res.status(404)
+            throw new Error("Page not Found")
         }
     });
 })
 
-const postPage = asyncHandler(async (req, res) => {
-    const page = new cmsPage({
-        pagename: req.body.pagename,
-        status: req.body.status
-    });
+// @desc Update page
+// route put page/:id
+// access Public
+const updatePage = asyncHandler(async (req, res) => {
+    const page = await Page.findById(req.params.id)
 
-    page.save((err) => {
-        if (err) {
-            res.status(500).json("not created,something went wrong")
-        } else {
-            res.redirect("/cms");
-        }
-    });
+    if (page) {
+        page.name = req.body.name || page.name
+        page.data = req.body.data || page.data
+        page.active = req.body.active
+
+        const updatedPage = await page.save()
+
+        res.send(updatedPage)
+    } else {
+        res.status(404)
+        throw new Error('Page not found')
+    }
 })
 
-export { getPage, putPage, postPage }
+export { getPage, addPage, deletePage, updatePage,getPageById }

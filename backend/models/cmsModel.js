@@ -2,13 +2,18 @@ import mongoose from 'mongoose'
 
 const pageSchema = mongoose.Schema(
     {
-        pagename: {
+        name: {
             type: String,
             required: true
         },
-        status: {
+        data: {
             type: String,
             required: true
+        },
+        active: {
+            type: Boolean,
+            required: true,
+            default: false
         }
     },
     {

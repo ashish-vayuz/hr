@@ -1,14 +1,8 @@
 import express from 'express'
 const router = express.Router()
-import { getPage, postPage, putPage } from '../controllers/pageController.js'
-router.get("/", getPage);
+import { addPage, deletePage, getPage, getPageById, updatePage } from '../controllers/pageController.js'
 
-//CREATE ROUTE
-
-router.post("/add", postPage);
-
-///UPDATE ROUTE
-
-router.put("/update/:id", putPage)
+router.route('/').get(getPage).post(addPage)
+router.route('/:id').get(getPageById).delete(deletePage).put(updatePage)
 
 export default router;

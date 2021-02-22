@@ -9,12 +9,19 @@ import { categoryListReducer, categoryDeleteReducer, categoryStatusReducer, cate
 import { challengeListReducer, deleteChallengeReducer } from './reducers/challengeReducers'
 import { changeState } from './reducers/responsideReducers'
 import { adminListReducer, adminDeleteReducer, adminDetailsReducer, adminStatusReducer, adminAddReducer } from './reducers/adminReducers'
+import { cmsAddReducer, cmsDeleteReducer, cmsListReducer, cmsStatusReducer, cmsDetailsReducer } from './reducers/cmsReducer'
 
 
 
 const reducer = combineReducers({
   challengeList: challengeListReducer,
   deleteChallenge: deleteChallengeReducer,
+  //CMS
+  cmsList: cmsListReducer,
+  deleteCms: cmsDeleteReducer,
+  updateCms: cmsStatusReducer,
+  addCms: cmsAddReducer,
+  viewCms: cmsDetailsReducer,
   //Category
   categoryList: categoryListReducer,
   deleteCategory: categoryDeleteReducer,

@@ -35,7 +35,7 @@ const routes = [
   { path: '/admin', name: 'Dashboard', component: Admin },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
-  { path: '/cms', exact: true, name: "cms", component: Cms },
+  { path: '/cms', name: "cms", component: Cms },
   { path: '/cms/cmsform/:id', exact: true, name: "cms", component: Cmsform },
   { path: '/cms/cmsgetform/:id', exact: true, name: "cms", component: Cmsgetform },
   { path: '/', exact: true, name: 'Home' },
