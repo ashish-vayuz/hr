@@ -197,6 +197,8 @@ const deleteChallenge = asyncHandler(async (req, res) => {
     });
 })
 
+
+
 // @desc Paticipate in Challenge
 // route post challenge/:id/participate
 // access Private
@@ -242,4 +244,21 @@ const uploadChal = asyncHandler(async (req, res) => {
     })
 })
 
-export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge,participateChallenge }
+const updateChallenge = asyncHandler(async (req, res) => {
+    const category = await Challenge.findById(req.params.id)
+
+    if (category) {
+        category.name = req.body.name || category.name
+        category.image = req.body.image || category.image
+        category.active = req.body.active
+
+        const updatedCategory = await category.save()
+
+        res.send(updatedCategory)
+    } else {
+        res.status(404)
+        throw new Error('Category not found')
+    }
+})
+
+export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge, participateChallenge, updateChallenge }

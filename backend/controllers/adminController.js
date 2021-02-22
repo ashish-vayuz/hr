@@ -84,8 +84,13 @@ const updateAdmin = asyncHandler(async (req, res) => {
 // @route GET /admin
 // @access Private
 const getAllAdmin = asyncHandler(async (req, res) => {
-    const admin = Admin.find({})
-    res.send(admin)
+    const admin = await Admin.find({})
+    res.json({
+        "res": "chal",
+        "errorcode": 1,
+        "errormessage": "Records found",
+        "list": admin
+    })
 })
 
 // @desc fetch all user

@@ -11,6 +11,7 @@ import userRoutes from './routes/userRoutes.js'
 import categoryRoutes from './routes/categoryRoutes.js'
 import challengeRoutes from './routes/challengeRoute.js'
 import adminRoutes from './routes/adminRoutes.js'
+import cmsRoutes from './routes/cmsRoutes.js'
 
 dotenv.config()
 
@@ -43,6 +44,7 @@ app.use('/users', userRoutes)
 app.use('/category', categoryRoutes)
 app.use('/challenge', challengeRoutes)
 app.use('/admin', adminRoutes)
+app.use("/cms", cmsRoutes);
 
 //Error Middlewares
 app.use(notFound)

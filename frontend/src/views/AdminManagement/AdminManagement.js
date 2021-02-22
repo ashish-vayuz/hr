@@ -1,24 +1,25 @@
 import { CBadge, CButton, CCardBody, CCollapse, CDataTable, CImg } from '@coreui/react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { deleteAdmin, listAdmins, updateAdmin } from '../../actions/adminAction'
 import Loader from '../Loader/Loader'
 import axios from 'axios'
-import { listChallenges, listChallengeDetails, deleteChallenge, updateChallenge } from '../../actions/challengeActions'
 
-const ChallengeManagement = (props) => {
+const AdminManagement = (props) => {
     const [data, setData] = useState([]);
+    console.log(props.location.pathname);
     const dispatch = useDispatch()
-    const challengeList = useSelector(state => state.challengeList)
-    const { loading, error, challenges } = challengeList
+    const adminList = useSelector(state => state.adminList)
+    const { loading, error, admins } = adminList
     useEffect(() => {
-        dispatch(listChallenges())
+        dispatch(listAdmins())
         if (!loading) {
-            setData(challenges)
+            setData(admins)
         }
     }, [dispatch])
 
     const [details, setDetails] = useState([])
-    const [items, setItems] = useState(challenges)
+    const [items, setItems] = useState(admins)
     const [status, setStatus] = useState([])
     const toggleDetails = (index) => {
         const position = details.indexOf(index)
@@ -32,33 +33,33 @@ const ChallengeManagement = (props) => {
         setDetails(newDetails)
     }
     const deleteChallengeHandler = async (id) => {
-        await dispatch(deleteChallenge(id))
-        const { data } = await axios.get('https://humanrace-1.herokuapp.com/challenge')
+        await dispatch(deleteAdmin(id))
+        const { data } = await axios.get('localhost:5000/admin')
         setData(data)
     }
 
     const changeStatusHandler = async (id, active, index) => {
         if (active) {
-            await dispatch(updateChallenge(id, false))
-            const { data } = await axios.get('https://humanrace-1.herokuapp.com/challenge')
+            await dispatch(updateAdmin(id, false))
+            const { data } = await axios.get('localhost:5000/admin')
             setData(data)
         } else {
-            await dispatch(updateChallenge(id, true));
-            const { data } = await axios.get('https://humanrace-1.herokuapp.com/challenge')
+            await dispatch(updateAdmin(id, true));
+            const { data } = await axios.get('localhost:5000/admin')
             setData(data)
         }
     }
 
     const fields = [
-        { key: 'title', _style: { width: '10%' } },
-        { key: 'hashtags', _style: { width: '10%' } },
-        { key: 'category', _style: { width: '10%' } },
-        { key: 'coinAllocated', _style: { width: '10%' } },
-        { key: 'duration', _style: { width: '10%' } },
-        { key: 'visibility', _style: { width: '10%' } },
-        { key: 'reviewAmount', _style: { width: '10%' } },
-        { key: 'isPaymentDone', _style: { width: '4%' } },
-        { key: 'active', _style: { width: '4%' } },
+        { key: 'name', _style: { width: '10%' } },
+        {
+            key: 'image', _style: { width: '1%' }, sorter: false,
+            filter: false
+        },
+        {
+            key: 'active', _style: { width: '4%' }, sorter: false,
+            filter: false
+        },
         {
             key: 'show_details',
             label: '',
@@ -85,7 +86,7 @@ const ChallengeManagement = (props) => {
             {loading ? <Loader /> :
                 <div>
                     <CDataTable
-                        items={data.list || challenges.list}
+                        items={data.list || admins.list}
                         fields={fields}
                         columnFilter
                         tableFilter
@@ -113,7 +114,7 @@ const ChallengeManagement = (props) => {
                                 (item) => (
                                     <td className="py-2">
                                         <CImg
-                                            src={`https://humanrace-1.herokuapp.com${item.image}`}
+                                            src={`localhost:5000${item.image}`}
                                             fluid
                                             className="mb-2"
                                             width="50px"
@@ -167,4 +168,4 @@ const ChallengeManagement = (props) => {
     )
 }
 
-export default ChallengeManagement
+export default AdminManagement

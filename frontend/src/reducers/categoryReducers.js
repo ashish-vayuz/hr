@@ -64,3 +64,15 @@ export const categoryStatusReducer = (state = { category: { reviews: [] } }, act
             return state
     }
 }
+export const categoryAddReducer = (state = { categorys: [] }, action) => {
+    switch (action.type) {
+        case CATEGORY_LIST_REQUEST:
+            return { loading: true, categorys: [] }
+        case CATEGORY_LIST_SUCCESS:
+            return { loading: false, categorys: action.payload }
+        case CATEGORY_LIST_FAIL:
+            return { loading: false, error: action.payload }
+        default:
+            return state
+    }
+}

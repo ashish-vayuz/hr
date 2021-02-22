@@ -72,7 +72,7 @@ export const addCategory = (name, image) => async (dispatch) => {
         }
 
         const { data } = await axios.post(
-            'https://humanrace-1.herokuapp.com/category', { name, image }, config
+            'https://humanrace-1.herokuapp.com/category', { "name": name, "image": image }, config
         )
 
         dispatch({

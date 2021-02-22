@@ -57,7 +57,7 @@ const Cms = () => {
   }, [])
 
   function getData() {
-    fetch("https://cors-anywhere.herokuapp.com/http://pacific-escarpment-05547.herokuapp.com/cms", {
+    fetch("https://humanrace-1.herokuapp.com/cms", {
       method: "get",
       headers: {
         "Content-Type": "application/json"
@@ -75,7 +75,7 @@ const Cms = () => {
 
   const updatestatus = (id) => {
 
-    fetch(`https://cors-anywhere.herokuapp.com/http://pacific-escarpment-05547.herokuapp.com/cms/update/${stdata[id]._id}`, {
+    fetch(`https://humanrace-1.herokuapp.com/cms/update/${stdata[id]._id}`, {
       method: "PUT",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

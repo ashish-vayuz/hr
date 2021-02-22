@@ -28,7 +28,7 @@ export const login = (email, password) => async (dispatch) => {
         }
 
         const { data } = await axios.post(
-            '/admin/signin', { email, password }, config
+            'https://humanrace-1.herokuapp.com/admin/signin', { email, password }, config
         )
 
         dispatch({

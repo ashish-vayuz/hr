@@ -1,35 +1,35 @@
 import axios from 'axios'
 import {
-    USER_LIST_REQUEST,
-    USER_LIST_SUCCESS,
-    USER_LIST_FAIL,
-    USER_DETAILS_REQUEST,
-    USER_DETAILS_SUCCESS,
-    USER_DETAILS_FAIL,
-    USER_DELETE_SUCCESS,
-    USER_DELETE_REQUEST,
-    USER_DELETE_FAIL,
-    USER_ADD_REQUEST,
-    USER_ADD_SUCCESS,
-    USER_ADD_FAIL,
-    USER_STATUS_REQUEST,
-    USER_STATUS_SUCCESS,
-    USER_STATUS_FAIL
-} from '../constants/userMConstants'
+    ADMIN_LIST_REQUEST,
+    ADMIN_LIST_SUCCESS,
+    ADMIN_LIST_FAIL,
+    ADMIN_DETAILS_REQUEST,
+    ADMIN_DETAILS_SUCCESS,
+    ADMIN_DETAILS_FAIL,
+    ADMIN_DELETE_SUCCESS,
+    ADMIN_DELETE_REQUEST,
+    ADMIN_DELETE_FAIL,
+    ADMIN_ADD_REQUEST,
+    ADMIN_ADD_SUCCESS,
+    ADMIN_ADD_FAIL,
+    ADMIN_STATUS_REQUEST,
+    ADMIN_STATUS_SUCCESS,
+    ADMIN_STATUS_FAIL
+} from '../constants/adminConstant'
 
-export const listUsers = () => async (dispatch) => {
+export const listAdmins = () => async (dispatch) => {
     try {
-        dispatch({ type: USER_LIST_REQUEST })
-
-        const { data } = await axios.get('https://humanrace-1.herokuapp.com/users')
-
+        dispatch({ type: ADMIN_LIST_REQUEST })
+        
+        const { data } = await axios.get('localhost:5000/admin')
+        console.log(data);
         dispatch({
-            type: USER_LIST_SUCCESS,
+            type: ADMIN_LIST_SUCCESS,
             payload: data,
         })
     } catch (error) {
         dispatch({
-            type: USER_LIST_FAIL,
+            type: ADMIN_LIST_FAIL,
             payload:
                 error.response && error.response.data.errormessage
                     ? error.response.data.errormessage
@@ -38,19 +38,19 @@ export const listUsers = () => async (dispatch) => {
     }
 }
 
-export const listUserDetails = (id) => async (dispatch) => {
+export const listAdminDetails = (id) => async (dispatch) => {
     try {
-        dispatch({ type: USER_DETAILS_REQUEST })
-
+        dispatch({ type: ADMIN_DETAILS_REQUEST })
+        
         const { data } = await axios.get(`/api/products/${id}`)
 
         dispatch({
-            type: USER_DETAILS_SUCCESS,
+            type: ADMIN_DETAILS_SUCCESS,
             payload: data,
         })
     } catch (error) {
         dispatch({
-            type: USER_DETAILS_FAIL,
+            type: ADMIN_DETAILS_FAIL,
             payload:
                 error.response && error.response.data.errormessage
                     ? error.response.data.errormessage
@@ -59,10 +59,10 @@ export const listUserDetails = (id) => async (dispatch) => {
     }
 }
 
-export const addUser = (name, email, password, location) => async (dispatch) => {
+export const addAdmin = (name, image) => async (dispatch) => {
     try {
         dispatch({
-            type: USER_ADD_REQUEST
+            type: ADMIN_ADD_REQUEST
         })
 
         const config = {
@@ -72,18 +72,18 @@ export const addUser = (name, email, password, location) => async (dispatch) => 
         }
 
         const { data } = await axios.post(
-            'https://humanrace-1.herokuapp.com/users/signup', { "name": name, "password": password, "email": email, "location": location }, config
+            'https://humanrace-1.herokuapp.com/admin', { "name": name, "image": image }, config
         )
 
         dispatch({
-            type: USER_ADD_SUCCESS,
+            type: ADMIN_ADD_SUCCESS,
             payload: data
         })
 
     } catch (error) {
 
         dispatch({
-            type: USER_ADD_FAIL,
+            type: ADMIN_ADD_FAIL,
             payload:
                 error.response && error.response.data.message
                     ? error.response.data.message
@@ -92,10 +92,10 @@ export const addUser = (name, email, password, location) => async (dispatch) => 
     }
 }
 
-export const updateUser = (id, active) => async (dispatch) => {
+export const updateAdmin = (id, active) => async (dispatch) => {
     try {
         dispatch({
-            type: USER_STATUS_REQUEST
+            type: ADMIN_STATUS_REQUEST
         })
 
         const config = {
@@ -105,18 +105,17 @@ export const updateUser = (id, active) => async (dispatch) => {
         }
 
         const { data } = await axios.put(
-            `https://humanrace-1.herokuapp.com/users/${id}`, { "active": active }, config
+            `https://humanrace-1.herokuapp.com/admin/${id}`, { "active": active }, config
         )
-        console.log(active);
         dispatch({
-            type: USER_STATUS_SUCCESS,
+            type: ADMIN_STATUS_SUCCESS,
             payload: data
         })
 
     } catch (error) {
 
         dispatch({
-            type: USER_STATUS_FAIL,
+            type: ADMIN_STATUS_FAIL,
             payload:
                 error.response && error.response.data.message
                     ? error.response.data.message
@@ -125,19 +124,19 @@ export const updateUser = (id, active) => async (dispatch) => {
     }
 }
 
-export const deleteUser = (id) => async (dispatch) => {
+export const deleteAdmin = (id) => async (dispatch) => {
     try {
-        dispatch({ type: USER_DELETE_REQUEST })
+        dispatch({ type: ADMIN_DELETE_REQUEST })
 
-        const { data } = await axios.delete(`https://humanrace-1.herokuapp.com/users/${id}`)
+        const { data } = await axios.delete(`https://humanrace-1.herokuapp.com/admin/${id}`)
 
         dispatch({
-            type: USER_DELETE_SUCCESS,
+            type: ADMIN_DELETE_SUCCESS,
             payload: data,
         })
     } catch (error) {
         dispatch({
-            type: USER_DELETE_FAIL,
+            type: ADMIN_DELETE_FAIL,
             payload:
                 error.response && error.response.data.message
                     ? error.response.data.message

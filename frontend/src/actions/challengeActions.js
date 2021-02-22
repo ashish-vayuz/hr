@@ -9,6 +9,9 @@ import {
     CHALLENGE_DELETE_REQUEST,
     CHALLENGE_DELETE_SUCCESS,
     CHALLENGE_DELETE_FAIL,
+    CHALLENGE_STATUS_REQUEST,
+    CHALLENGE_STATUS_SUCCESS,
+    CHALLENGE_STATUS_FAIL,
 } from '../constants/challengeConstant'
 
 export const listChallenges = () => async (dispatch) => {
@@ -67,6 +70,38 @@ export const deleteChallenge = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: CHALLENGE_DELETE_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        })
+    }
+}
+
+export const updateChallenge = (id, active) => async (dispatch) => {
+    try {
+        dispatch({
+            type: CHALLENGE_STATUS_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        const { data } = await axios.put(
+            `https://humanrace-1.herokuapp.com/challenge/${id}`, { "active": active }, config
+        )
+        dispatch({
+            type: CHALLENGE_STATUS_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+
+        dispatch({
+            type: CHALLENGE_STATUS_FAIL,
             payload:
                 error.response && error.response.data.message
                     ? error.response.data.message

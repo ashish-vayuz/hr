@@ -5,7 +5,7 @@ import { protect } from '../middlewares/authMiddlewares.js'
 
 router.route('/signin').post(authAdmin)
 router.route('/signup').post(addAdmin)
-router.route('/').get(protect, getAllAdmin)
+router.route('/').get(getAllAdmin)
 router.route('/:id')
     .put(protect, updateAdmin)
     .delete(protect, deleteAdmin)
