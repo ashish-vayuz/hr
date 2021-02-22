@@ -1,28 +1,23 @@
 import { CBadge, CButton, CCardBody, CCollapse, CDataTable, CImg } from '@coreui/react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Loader from '../Loader/Loader'
-import axios from 'axios'
 import { listUsers, addUser, deleteUser, updateUser, listUserDetails } from '../../actions/userMAction'
+import Loader from '../Loader/Loader'
 
-const UserManagement = (props) => {
-    const [data, setData] = useState([]);
+const CategoryManagement = (props) => {
+    console.log(props.location.pathname);
     const dispatch = useDispatch()
     const userList = useSelector(state => state.userList)
     const { loading, error, users } = userList
     useEffect(() => {
         dispatch(listUsers())
-        if (!loading) {
-            setData(users)
-        }
     }, [dispatch])
 
     const [details, setDetails] = useState([])
     const [items, setItems] = useState(users)
-    const [status, setStatus] = useState([])
+
     const toggleDetails = (index) => {
         const position = details.indexOf(index)
-        console.log(position);
         let newDetails = details.slice()
         if (position !== -1) {
             newDetails.splice(position, 1)
@@ -31,21 +26,16 @@ const UserManagement = (props) => {
         }
         setDetails(newDetails)
     }
-    const deleteChallengeHandler = async (id) => {
-        await dispatch(deleteUser(id))
-        const { data } = await axios.get('https://humanrace-1.herokuapp.com/users')
-        setData(data)
+    const deleteChallengeHandler = (id) => {
+        dispatch(deleteUser(id))
+        console.log(id);
     }
 
-    const changeStatusHandler = async (id, active, index) => {
+    const changeStatusHandler = (id, active) => {
         if (active) {
-            await dispatch(updateUser(id, false))
-            const { data } = await axios.get('https://humanrace-1.herokuapp.com/users')
-            setData(data)
+            dispatch(updateUser(id, false))
         } else {
-            await dispatch(updateUser(id, true));
-            const { data } = await axios.get('https://humanrace-1.herokuapp.com/users')
-            setData(data)
+            dispatch(updateUser(id, true));
         }
     }
 
@@ -57,7 +47,7 @@ const UserManagement = (props) => {
         { key: 'totalReports', _style: { width: '10%' } },
         { key: 'isReviewer', _style: { width: '10%' } },
         { key: 'image', _style: { width: '1%' } },
-        { key: 'active', _style: { width: '8%' } },
+        { key: 'active', _style: { width: '4%' } },
         {
             key: 'show_details',
             label: '',
@@ -78,13 +68,13 @@ const UserManagement = (props) => {
             default: return 'primary'
         }
     }
-    console.log(data);
+
     return (
         <>
             {loading ? <Loader /> :
                 <div>
                     <CDataTable
-                        items={data.list || users.list}
+                        items={users.list}
                         fields={fields}
                         columnFilter
                         tableFilter
@@ -98,13 +88,13 @@ const UserManagement = (props) => {
                         pagination
                         scopedSlots={{
                             'active':
-                                (item, index) => (
+                                (item) => (
                                     <td className="py-2">
                                         <CButton size="sm" color={getBadge(item.active)} onClick={() => {
-                                            changeStatusHandler(item._id, item.active, index)
+                                            changeStatusHandler(item._id, item.active)
 
                                         }}>
-                                            {item.active ? "Active" : "In Active"}
+                                            {item.active.toString()}
                                         </CButton>
                                     </td>
                                 ),
@@ -166,4 +156,4 @@ const UserManagement = (props) => {
     )
 }
 
-export default UserManagement
+export default CategoryManagement

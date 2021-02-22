@@ -107,7 +107,6 @@ export const updateCategory = (id, active) => async (dispatch) => {
         const { data } = await axios.put(
             `https://humanrace-1.herokuapp.com/category/${id}`, { "active": active }, config
         )
-        console.log(active);
         dispatch({
             type: CATEGORY_STATUS_SUCCESS,
             payload: data

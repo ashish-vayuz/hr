@@ -3,21 +3,28 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { listCategorys, deleteCategory, updateCategory } from '../../actions/categoryActions'
 import Loader from '../Loader/Loader'
+import axios from 'axios'
 
 const CategoryManagement = (props) => {
+    const [data, setData] = useState([]);
     console.log(props.location.pathname);
     const dispatch = useDispatch()
+    const updateCategoryData = useSelector(state => state.updateCategory)
     const categoryList = useSelector(state => state.categoryList)
     const { loading, error, categorys } = categoryList
     useEffect(() => {
         dispatch(listCategorys())
+        if (!loading) {
+            setData(categorys)
+        }
     }, [dispatch])
 
     const [details, setDetails] = useState([])
     const [items, setItems] = useState(categorys)
-
+    const [status, setStatus] = useState([])
     const toggleDetails = (index) => {
         const position = details.indexOf(index)
+        console.log(position);
         let newDetails = details.slice()
         if (position !== -1) {
             newDetails.splice(position, 1)
@@ -26,23 +33,34 @@ const CategoryManagement = (props) => {
         }
         setDetails(newDetails)
     }
-    const deleteChallengeHandler = (id) => {
-        dispatch(deleteCategory(id))
-        console.log(id);
+    const deleteChallengeHandler = async (id) => {
+        await dispatch(deleteCategory(id))
+        const { data } = await axios.get('https://humanrace-1.herokuapp.com/category')
+        setData(data)
     }
 
-    const changeStatusHandler = (id, active) => {
+    const changeStatusHandler = async (id, active, index) => {
         if (active) {
-            dispatch(updateCategory(id, false))
+            await dispatch(updateCategory(id, false))
+            const { data } = await axios.get('https://humanrace-1.herokuapp.com/category')
+            setData(data)
         } else {
-            dispatch(updateCategory(id, true));
+            await dispatch(updateCategory(id, true));
+            const { data } = await axios.get('https://humanrace-1.herokuapp.com/category')
+            setData(data)
         }
     }
 
     const fields = [
         { key: 'name', _style: { width: '10%' } },
-        { key: 'image', _style: { width: '1%' } },
-        { key: 'active', _style: { width: '4%' } },
+        {
+            key: 'image', _style: { width: '1%' }, sorter: false,
+            filter: false
+        },
+        {
+            key: 'active', _style: { width: '4%' }, sorter: false,
+            filter: false
+        },
         {
             key: 'show_details',
             label: '',
@@ -63,13 +81,13 @@ const CategoryManagement = (props) => {
             default: return 'primary'
         }
     }
-
+    console.log(data);
     return (
         <>
             {loading ? <Loader /> :
                 <div>
                     <CDataTable
-                        items={categorys.list}
+                        items={data.list || categorys.list}
                         fields={fields}
                         columnFilter
                         tableFilter
@@ -83,13 +101,13 @@ const CategoryManagement = (props) => {
                         pagination
                         scopedSlots={{
                             'active':
-                                (item) => (
+                                (item, index) => (
                                     <td className="py-2">
                                         <CButton size="sm" color={getBadge(item.active)} onClick={() => {
-                                            changeStatusHandler(item._id, item.active)
-                                        
+                                            changeStatusHandler(item._id, item.active, index)
+
                                         }}>
-                                            {item.active.toString()}
+                                            {item.active? "Active":"In Active"}
                                         </CButton>
                                     </td>
                                 ),
