@@ -21,8 +21,8 @@ export const listAdmins = () => async (dispatch) => {
     try {
         dispatch({ type: ADMIN_LIST_REQUEST })
         
-        const { data } = await axios.get('localhost:5000/admin')
-        console.log(data);
+        const { data } = await axios.get('https://humanrace-1.herokuapp.com/admin')
+
         dispatch({
             type: ADMIN_LIST_SUCCESS,
             payload: data,
