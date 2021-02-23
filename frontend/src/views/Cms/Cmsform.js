@@ -1,14 +1,16 @@
 import React, { Component, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import CKEditor from 'ckeditor4-react';
+import { Redirect } from 'react-router-dom'
 import { CButton, CFormGroup, CInput, CLabel } from "@coreui/react";
 import { useDispatch, useSelector } from 'react-redux';
-import { listCmsDetails } from 'src/actions/cmsAction';
+import { listCmsDetails, updateCms } from 'src/actions/cmsAction';
 
-const TwoWayBinding = ({ match,location }) => {
-  console.log(location.state.detail.data)
+const TwoWayBinding = ({ match, location, history }) => {
+  console.log(location.state)
   const [desc, setDesc] = useState(location.state.detail.desc)
   const [name, setName] = useState(location.state.detail.name);
+  const [active, setActive] = useState(location.state.detail.active);
   useEffect(() => {
     dispatch(listCmsDetails(match.params.id))
   }, [dispatch, loading]);
@@ -21,8 +23,9 @@ const TwoWayBinding = ({ match,location }) => {
   const handleChange = (changeEvent) => {
     setDesc(changeEvent.target.value)
   }
-  const submitHandler=()=>{
-    
+  const submitHandler = () => {
+    dispatch(updateCms(match.params.id, active, name, desc))
+    history.push('/cms')
   }
   return (
     <div>

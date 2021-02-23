@@ -92,7 +92,7 @@ export const addCms = (name, data) => async (dispatch) => {
     }
 }
 
-export const updateCms = (id, active) => async (dispatch) => {
+export const updateCms = (id, active, name, desc) => async (dispatch) => {
     try {
         dispatch({
             type: CMS_STATUS_REQUEST
@@ -105,7 +105,11 @@ export const updateCms = (id, active) => async (dispatch) => {
         }
 
         const { data } = await axios.put(
-            `https://humanrace-1.herokuapp.com/cms/${id}`, { "active": active }, config
+            `https://humanrace-1.herokuapp.com/cms/${id}`, {
+            "active": active,
+            "name": name ? name : '',
+            "desc": desc ? desc : ''
+        }, config
         )
         dispatch({
             type: CMS_STATUS_SUCCESS,
