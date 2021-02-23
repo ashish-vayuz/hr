@@ -320,7 +320,8 @@ const forgotOtp = asyncHandler(async (req, res) => {
 // route POST users/upload
 // access Public
 const uploadImg = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user._id)
+    console.log(req.user);
+    const user = await User.findById(req.user.id)
     if (user) {
         user.image = `/${req.file.path}`
         const updatedUser = await user.save()
