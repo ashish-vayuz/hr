@@ -34,18 +34,18 @@ const CmsManagement = ({ history }) => {
   }
   const deleteChallengeHandler = async (id) => {
     await dispatch(deleteCms(id))
-    const { data } = await axios.get('https://humanrace-1.herokuapp.com/cms')
+    const { data } = await axios.get('/cms')
     setData(data)
   }
 
   const changeStatusHandler = async (id, active, index) => {
     if (active) {
       await dispatch(updateCms(id, false))
-      const { data } = await axios.get('https://humanrace-1.herokuapp.com/cms')
+      const { data } = await axios.get('/cms')
       setData(data)
     } else {
       await dispatch(updateCms(id, true));
-      const { data } = await axios.get('https://humanrace-1.herokuapp.com/cms')
+      const { data } = await axios.get('/cms')
       setData(data)
     }
   }
@@ -110,7 +110,7 @@ const CmsManagement = ({ history }) => {
                 (item) => (
                   <td className="py-2">
                     <CImg
-                      src={`https://humanrace-1.herokuapp.com${item.image}`}
+                      src={`${item.image}`}
                       fluid
                       className="mb-2"
                       width="50px"

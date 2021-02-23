@@ -25,7 +25,7 @@ const CategoryAdd = () => {
                 },
             }
 
-            const { data } = await axios.post('https://humanrace-1.herokuapp.com/category/upload', formData, config)
+            const { data } = await axios.post('/category/upload', formData, config)
 
             setImage(data.image)
             console.log(data.image);

@@ -17,14 +17,20 @@ dotenv.config()
 
 connectDB()
 const app = express()
-app.use(cors())
-app.use(express.json())
-
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'))
 }
+app.use(cors())
+app.use(express.json())
 
-//directories
+
+
+app.use('/users', userRoutes)
+app.use('/category', categoryRoutes)
+app.use('/challenge', challengeRoutes)
+app.use('/admin', adminRoutes)
+app.use("/cms", cmsRoutes);
+
 const __dirname = path.resolve()
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
@@ -40,11 +46,7 @@ if (process.env.NODE_ENV === 'production') {
     })
 }
 
-app.use('/users', userRoutes)
-app.use('/category', categoryRoutes)
-app.use('/challenge', challengeRoutes)
-app.use('/admin', adminRoutes)
-app.use("/cms", cmsRoutes);
+
 
 //Error Middlewares
 app.use(notFound)

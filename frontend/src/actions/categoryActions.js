@@ -21,7 +21,7 @@ export const listCategorys = () => async (dispatch) => {
     try {
         dispatch({ type: CATEGORY_LIST_REQUEST })
 
-        const { data } = await axios.get('https://humanrace-1.herokuapp.com/category')
+        const { data } = await axios.get('/category')
 
         dispatch({
             type: CATEGORY_LIST_SUCCESS,
@@ -72,7 +72,7 @@ export const addCategory = (name, image) => async (dispatch) => {
         }
 
         const { data } = await axios.post(
-            'https://humanrace-1.herokuapp.com/category', { "name": name, "image": image }, config
+            '/category', { "name": name, "image": image }, config
         )
 
         dispatch({
@@ -105,7 +105,7 @@ export const updateCategory = (id, active) => async (dispatch) => {
         }
 
         const { data } = await axios.put(
-            `https://humanrace-1.herokuapp.com/category/${id}`, { "active": active }, config
+            `/category/${id}`, { "active": active }, config
         )
         dispatch({
             type: CATEGORY_STATUS_SUCCESS,
@@ -128,7 +128,7 @@ export const deleteCategory = (id) => async (dispatch) => {
     try {
         dispatch({ type: CATEGORY_DELETE_REQUEST })
 
-        const { data } = await axios.delete(`https://humanrace-1.herokuapp.com/category/${id}`)
+        const { data } = await axios.delete(`/category/${id}`)
 
         dispatch({
             type: CATEGORY_DELETE_SUCCESS,

@@ -21,7 +21,7 @@ export const listCmss = () => async (dispatch) => {
     try {
         dispatch({ type: CMS_LIST_REQUEST })
 
-        const { data } = await axios.get('https://humanrace-1.herokuapp.com/cms')
+        const { data } = await axios.get('/cms')
 
         dispatch({
             type: CMS_LIST_SUCCESS,
@@ -42,7 +42,7 @@ export const listCmsDetails = (id) => async (dispatch) => {
     try {
         dispatch({ type: CMS_DETAILS_REQUEST })
 
-        const { data } = await axios.get(`https://humanrace-1.herokuapp.com/cms/${id}`)
+        const { data } = await axios.get(`/cms/${id}`)
 
         dispatch({
             type: CMS_DETAILS_SUCCESS,
@@ -72,7 +72,7 @@ export const addCms = (name, data) => async (dispatch) => {
         }
 
         const { data } = await axios.post(
-            'https://humanrace-1.herokuapp.com/cms', { "name": name, "data": data }, config
+            '/cms', { "name": name, "data": data }, config
         )
 
         dispatch({
@@ -105,7 +105,7 @@ export const updateCms = (id, active, name, desc) => async (dispatch) => {
         }
 
         const { data } = await axios.put(
-            `https://humanrace-1.herokuapp.com/cms/${id}`, {
+            `/cms/${id}`, {
             "active": active,
             "name": name ? name : '',
             "desc": desc ? desc : ''
@@ -132,7 +132,7 @@ export const deleteCms = (id) => async (dispatch) => {
     try {
         dispatch({ type: CMS_DELETE_REQUEST })
 
-        const { data } = await axios.delete(`https://humanrace-1.herokuapp.com/cms/${id}`)
+        const { data } = await axios.delete(`/cms/${id}`)
 
         dispatch({
             type: CMS_DELETE_SUCCESS,

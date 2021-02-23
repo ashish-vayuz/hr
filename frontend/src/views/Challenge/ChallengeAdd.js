@@ -37,7 +37,7 @@ const ChallengeAdd = () => {
                 },
             }
 
-            const { data } = await axios.post('https://humanrace-1.herokuapp.com/challenge/upload', formData, config)
+            const { data } = await axios.post('/challenge/upload', formData, config)
 
             setVideo(data.link)
             console.log(data.link);

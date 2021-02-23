@@ -21,7 +21,7 @@ export const listUsers = () => async (dispatch) => {
     try {
         dispatch({ type: USER_LIST_REQUEST })
 
-        const { data } = await axios.get('https://humanrace-1.herokuapp.com/users')
+        const { data } = await axios.get('/users')
 
         dispatch({
             type: USER_LIST_SUCCESS,
@@ -72,7 +72,7 @@ export const addUser = (name, email, password, location) => async (dispatch) => 
         }
 
         const { data } = await axios.post(
-            'https://humanrace-1.herokuapp.com/users/signup', { "name": name, "password": password, "email": email, "location": location }, config
+            '/users/signup', { "name": name, "password": password, "email": email, "location": location }, config
         )
 
         dispatch({
@@ -105,7 +105,7 @@ export const updateUser = (id, active) => async (dispatch) => {
         }
 
         const { data } = await axios.put(
-            `https://humanrace-1.herokuapp.com/users/${id}`, { "active": active }, config
+            `/users/${id}`, { "active": active }, config
         )
         console.log(active);
         dispatch({
@@ -129,7 +129,7 @@ export const deleteUser = (id) => async (dispatch) => {
     try {
         dispatch({ type: USER_DELETE_REQUEST })
 
-        const { data } = await axios.delete(`https://humanrace-1.herokuapp.com/users/${id}`)
+        const { data } = await axios.delete(`/users/${id}`)
 
         dispatch({
             type: USER_DELETE_SUCCESS,

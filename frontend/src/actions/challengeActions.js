@@ -18,7 +18,7 @@ export const listChallenges = () => async (dispatch) => {
     try {
         dispatch({ type: CHALLENGE_LIST_REQUEST })
 
-        const { data } = await axios.get('https://humanrace-1.herokuapp.com/challenge')
+        const { data } = await axios.get('/challenge')
 
         dispatch({
             type: CHALLENGE_LIST_SUCCESS,
@@ -61,7 +61,7 @@ export const deleteChallenge = (id) => async (dispatch) => {
     try {
         dispatch({ type: CHALLENGE_DELETE_REQUEST })
 
-        const { data } = await axios.delete(`https://humanrace-1.herokuapp.com/challenge/${id}`)
+        const { data } = await axios.delete(`/challenge/${id}`)
 
         dispatch({
             type: CHALLENGE_DELETE_SUCCESS,
@@ -91,7 +91,7 @@ export const updateChallenge = (id, active) => async (dispatch) => {
         }
 
         const { data } = await axios.put(
-            `https://humanrace-1.herokuapp.com/challenge/${id}`, { "active": active }, config
+            `/challenge/${id}`, { "active": active }, config
         )
         dispatch({
             type: CHALLENGE_STATUS_SUCCESS,

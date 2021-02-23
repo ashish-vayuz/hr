@@ -21,7 +21,7 @@ export const listAdmins = () => async (dispatch) => {
     try {
         dispatch({ type: ADMIN_LIST_REQUEST })
 
-        const { data } = await axios.get('https://humanrace-1.herokuapp.com/admin')
+        const { data } = await axios.get('/admin')
 
         dispatch({
             type: ADMIN_LIST_SUCCESS,
@@ -72,7 +72,7 @@ export const addAdmin = (name, email, password, role) => async (dispatch) => {
         }
 
         const { data } = await axios.post(
-            'https://humanrace-1.herokuapp.com/admin/signup', { "name": name, "email": email, "password": password, "role": role }, config
+            '/admin/signup', { "name": name, "email": email, "password": password, "role": role }, config
         )
 
         dispatch({
@@ -105,7 +105,7 @@ export const updateAdmin = (id, active) => async (dispatch) => {
         }
 
         const { data } = await axios.put(
-            `https://humanrace-1.herokuapp.com/admin/${id}`, { "active": active }, config
+            `/admin/${id}`, { "active": active }, config
         )
         dispatch({
             type: ADMIN_STATUS_SUCCESS,
@@ -128,7 +128,7 @@ export const deleteAdmin = (id) => async (dispatch) => {
     try {
         dispatch({ type: ADMIN_DELETE_REQUEST })
 
-        const { data } = await axios.delete(`https://humanrace-1.herokuapp.com/admin/${id}`)
+        const { data } = await axios.delete(`/admin/${id}`)
 
         dispatch({
             type: ADMIN_DELETE_SUCCESS,

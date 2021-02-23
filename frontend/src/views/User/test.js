@@ -102,7 +102,7 @@ const CategoryManagement = (props) => {
                                 (item) => (
                                     <td className="py-2">
                                         <CImg
-                                            src={`https://humanrace-1.herokuapp.com${item.image}`}
+                                            src={`${item.image}`}
                                             fluid
                                             className="mb-2"
                                             width="50px"

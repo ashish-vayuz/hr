@@ -35,18 +35,18 @@ const CategoryManagement = (props) => {
     }
     const deleteChallengeHandler = async (id) => {
         await dispatch(deleteCategory(id))
-        const { data } = await axios.get('https://humanrace-1.herokuapp.com/category')
+        const { data } = await axios.get('/category')
         setData(data)
     }
 
     const changeStatusHandler = async (id, active, index) => {
         if (active) {
             await dispatch(updateCategory(id, false))
-            const { data } = await axios.get('https://humanrace-1.herokuapp.com/category')
+            const { data } = await axios.get('/category')
             setData(data)
         } else {
             await dispatch(updateCategory(id, true));
-            const { data } = await axios.get('https://humanrace-1.herokuapp.com/category')
+            const { data } = await axios.get('/category')
             setData(data)
         }
     }
@@ -115,7 +115,7 @@ const CategoryManagement = (props) => {
                                 (item) => (
                                     <td className="py-2">
                                         <CImg
-                                            src={`https://humanrace-1.herokuapp.com${item.image}`}
+                                            src={`${item.image}`}
                                             fluid
                                             className="mb-2"
                                             width="50px"

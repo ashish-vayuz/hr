@@ -33,18 +33,18 @@ const UserManagement = (props) => {
     }
     const deleteChallengeHandler = async (id) => {
         await dispatch(deleteUser(id))
-        const { data } = await axios.get('https://humanrace-1.herokuapp.com/users')
+        const { data } = await axios.get('/users')
         setData(data)
     }
 
     const changeStatusHandler = async (id, active, index) => {
         if (active) {
             await dispatch(updateUser(id, false))
-            const { data } = await axios.get('https://humanrace-1.herokuapp.com/users')
+            const { data } = await axios.get('/users')
             setData(data)
         } else {
             await dispatch(updateUser(id, true));
-            const { data } = await axios.get('https://humanrace-1.herokuapp.com/users')
+            const { data } = await axios.get('/users')
             setData(data)
         }
     }
@@ -112,7 +112,7 @@ const UserManagement = (props) => {
                                 (item) => (
                                     <td className="py-2">
                                         <CImg
-                                            src={`https://humanrace-1.herokuapp.com${item.image}`}
+                                            src={`${item.image}`}
                                             fluid
                                             className="mb-2"
                                             width="50px"
