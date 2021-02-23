@@ -6,7 +6,7 @@ const pageSchema = mongoose.Schema(
             type: String,
             required: true
         },
-        data: {
+        desc: {
             type: String,
             required: true
         },

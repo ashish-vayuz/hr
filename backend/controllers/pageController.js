@@ -30,7 +30,7 @@ const getPageById = asyncHandler(async (req, res) => {
 // route POST page
 // access Public
 const addPage = asyncHandler(async (req, res) => {
-    const { name, data } = req.body
+    const { name, desc } = req.body
     const pageExist = await Page.findOne({ name })
     if (pageExist) {
         res.status(400)
@@ -38,7 +38,7 @@ const addPage = asyncHandler(async (req, res) => {
     }
 
     const page = await Page.create({
-        name, data
+        name, desc
     })
 
     if (page) {
@@ -73,7 +73,7 @@ const updatePage = asyncHandler(async (req, res) => {
 
     if (page) {
         page.name = req.body.name || page.name
-        page.data = req.body.data || page.data
+        page.desc = req.body.desc || page.desc
         page.active = req.body.active
 
         const updatedPage = await page.save()

@@ -17,8 +17,7 @@ const AddAdmin = React.lazy(()=>import('./views/AdminManagement/AddAdmin'))
 
 //CMs
 const Cms = React.lazy(() => import("./views/Cms/Cms"));
-const Cmsform = React.lazy(() => import('./views/cmsform/Cmsform'));
-const Cmsgetform = React.lazy(() => import('./views/cmsform/Cmsgetform'));
+const Cmsform = React.lazy(() => import('./views/Cms/Cmsform'));
 
 const routes = [
   { path: '/login', exact: true, name: 'Home' },
@@ -36,8 +35,7 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/cms', name: "cms", component: Cms },
-  { path: '/cms/cmsform/:id', exact: true, name: "cms", component: Cmsform },
-  { path: '/cms/cmsgetform/:id', exact: true, name: "cms", component: Cmsgetform },
+  { path: '/cmsform/:id', name: "cms", component: Cmsform },
   { path: '/', exact: true, name: 'Home' },
 ];
 

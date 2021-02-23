@@ -4,21 +4,22 @@ import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../Loader/Loader'
 import axios from 'axios'
 import { listUsers, addUser, deleteUser, updateUser, listUserDetails } from '../../actions/userMAction'
+import { deleteCms, listCmss, updateCms } from 'src/actions/cmsAction'
 
-const UserManagement = (props) => {
+const CmsManagement = ({ history }) => {
   const [data, setData] = useState([]);
   const dispatch = useDispatch()
-  const userList = useSelector(state => state.userList)
-  const { loading, error, users } = userList
+  const cmsList = useSelector(state => state.cmsList)
+  const { loading, error, cmss } = cmsList
   useEffect(() => {
-    dispatch(listUsers())
+    dispatch(listCmss())
     if (!loading) {
-      setData(users)
+      setData(cmss)
     }
   }, [dispatch])
 
   const [details, setDetails] = useState([])
-  const [items, setItems] = useState(users)
+  const [items, setItems] = useState(cmss)
   const [status, setStatus] = useState([])
   const toggleDetails = (index) => {
     const position = details.indexOf(index)
@@ -32,32 +33,27 @@ const UserManagement = (props) => {
     setDetails(newDetails)
   }
   const deleteChallengeHandler = async (id) => {
-    await dispatch(deleteUser(id))
-    const { data } = await axios.get('https://humanrace-1.herokuapp.com/users')
+    await dispatch(deleteCms(id))
+    const { data } = await axios.get('https://humanrace-1.herokuapp.com/cms')
     setData(data)
   }
 
   const changeStatusHandler = async (id, active, index) => {
     if (active) {
-      await dispatch(updateUser(id, false))
-      const { data } = await axios.get('https://humanrace-1.herokuapp.com/users')
+      await dispatch(updateCms(id, false))
+      const { data } = await axios.get('https://humanrace-1.herokuapp.com/cms')
       setData(data)
     } else {
-      await dispatch(updateUser(id, true));
-      const { data } = await axios.get('https://humanrace-1.herokuapp.com/users')
+      await dispatch(updateCms(id, true));
+      const { data } = await axios.get('https://humanrace-1.herokuapp.com/cms')
       setData(data)
     }
   }
 
   const fields = [
-    { key: 'name', _style: { width: '10%' } },
-    { key: 'email', _style: { width: '10%' } },
-    { key: 'contact', _style: { width: '10%' } },
-    { key: 'location', _style: { width: '10%' } },
-    { key: 'totalReports', _style: { width: '10%' } },
-    { key: 'isReviewer', _style: { width: '10%' } },
-    { key: 'image', _style: { width: '1%' } },
-    { key: 'active', _style: { width: '8%' } },
+    { key: 'name', label: "Page Name", _style: { width: '10%' } },
+    { key: 'createdAt', label: "Created On", _style: { width: '10%' } },
+    { key: 'active', _style: { width: '10%' } },
     {
       key: 'show_details',
       label: '',
@@ -66,7 +62,9 @@ const UserManagement = (props) => {
       filter: false
     }
   ]
-
+  const editHandler = (item) => {
+    history.push({ pathname: `/cmsform/${item._id}`, state: { detail: item } })
+  }
   const getBadge = (active) => {
     switch (active) {
       case true:
@@ -84,7 +82,7 @@ const UserManagement = (props) => {
       {loading ? <Loader /> :
         <div>
           <CDataTable
-            items={data.list || users.list}
+            items={data.list || cmss.list}
             fields={fields}
             columnFilter
             tableFilter
@@ -148,7 +146,7 @@ const UserManagement = (props) => {
                         {/* <CButton color="info" to="/viewChallenge">
                                                     View
                                                 </CButton> */}
-                        <CButton color="secondary" className="ml-1" to="/editChallenge">
+                        <CButton color="secondary" className="ml-1" onClick={() => editHandler(item)}>
                           Edit
                                                 </CButton>
                         <CButton color="danger" className="ml-1" onClick={() => { deleteChallengeHandler(item._id) }}>
@@ -166,4 +164,4 @@ const UserManagement = (props) => {
   )
 }
 
-export default UserManagement
+export default CmsManagement
