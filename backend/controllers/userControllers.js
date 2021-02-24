@@ -424,7 +424,7 @@ const updateProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user.id)
     if (user) {
         user.name = req.body.name || user.name
-        user.categories = req.body.categories || user.categories
+        user.categories = req.body.category || user.category
         user.about = req.body.about || user.about
         user.location = req.body.location || user.location
         const updatedUser = await user.save()
