@@ -648,6 +648,38 @@ const changePassword = asyncHandler(async (req, res) => {
     }
 })
 
+// @desc Allow user to update password
+// route PUT users/changePassword
+// access Public
+const updatePassword = asyncHandler(async (req, res) => {
+    const { oldPassword, password } = req.body
+    const user = await User.findById(req.user.id)
+    if (user) {
+        if (await user.matchPassword(oldPassword)) {
+            user.password = password
+            const updatedUser = await user.save()
+            res.json({
+                errorcode: 1,
+                errormessage: "Password Changed",
+                _id: updatedUser._id,
+                name: updatedUser.name,
+                image: updatedUser.image,
+                categories: updatedUser.categories,
+                email: updatedUser.email,
+                image: updatedUser.image,
+                contactNo: updatedUser.contactNo,
+                location: updatedUser.location
+            })
+        } else {
+            res.status(400)
+            throw new Error("Incorrect Password")
+        }
+    } else {
+        res.status(404)
+        throw new Error("User not Found")
+    }
+})
+
 // @desc Allow user to become Reviewer
 // route POST users/reviewer
 // access Private
@@ -764,4 +796,4 @@ const frogetPassword = asyncHandler(async (req, res) => {
 })
 
 
-export { signup, authUser, otp, uploadImg, location, category, changePassword, frogetPassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest, followingList, followerList, test1 }
+export { signup, authUser, otp, uploadImg, location, category, changePassword,updatePassword, frogetPassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest, followingList, followerList, test1 }
