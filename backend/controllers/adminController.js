@@ -89,7 +89,7 @@ const getAllAdmin = asyncHandler(async (req, res) => {
         "res": "chal",
         "errorcode": 1,
         "errormessage": "Records found",
-        "list": admin
+        "list": admin.reverse()
     })
 })
 
@@ -102,7 +102,7 @@ const getAllUser = asyncHandler(async (req, res) => {
         "res": "chal",
         "errorcode": 1,
         "errormessage": "Records found",
-        "list": category
+        "list": category.reverse()
     })
 })
 

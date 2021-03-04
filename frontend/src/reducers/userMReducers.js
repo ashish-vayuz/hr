@@ -11,6 +11,7 @@ import {
   USER_STATUS_REQUEST,
   USER_STATUS_SUCCESS,
   USER_STATUS_FAIL,
+  USER_ADD_FAIL, USER_ADD_REQUEST, USER_ADD_SUCCESS
 } from '../constants/userMConstants'
 
 export const userListReducer = (state = { users: [] }, action) => {
@@ -59,6 +60,19 @@ export const userStatusReducer = (state = { user: { reviews: [] } }, action) => 
     case USER_STATUS_SUCCESS:
       return { loading: false, user: action.payload }
     case USER_STATUS_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const userAddReducer = (state = { users: [] }, action) => {
+  switch (action.type) {
+    case USER_ADD_REQUEST:
+      return { loading: true, users: [] }
+    case USER_ADD_SUCCESS:
+      return { loading: false, users: action.payload }
+    case USER_ADD_FAIL:
       return { loading: false, error: action.payload }
     default:
       return state

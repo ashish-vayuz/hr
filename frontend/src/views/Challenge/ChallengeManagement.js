@@ -1,6 +1,7 @@
 import { CBadge, CButton, CCardBody, CCollapse, CDataTable, CImg } from '@coreui/react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import moment from 'moment'
 import Loader from '../Loader/Loader'
 import axios from 'axios'
 import { listChallenges, listChallengeDetails, deleteChallenge, updateChallenge } from '../../actions/challengeActions'
@@ -57,7 +58,7 @@ const ChallengeManagement = (props) => {
         { key: 'duration', _style: { width: '10%' } },
         { key: 'visibility', _style: { width: '10%' } },
         { key: 'reviewAmount', _style: { width: '10%' } },
-        { key: 'isPaymentDone', _style: { width: '4%' } },
+        { key: 'isPaymentDone', label: 'Payment Status', _style: { width: '4%' } },
         { key: 'active', _style: { width: '4%' } },
         {
             key: 'show_details',
@@ -79,7 +80,9 @@ const ChallengeManagement = (props) => {
             default: return 'primary'
         }
     }
-    console.log(data);
+    const createMarkup = () => {
+        return { __html: '&#x20B9' };
+    }
     return (
         <>
             {loading ? <Loader /> :
@@ -109,6 +112,18 @@ const ChallengeManagement = (props) => {
                                         </CButton>
                                     </td>
                                 ),
+                            'category': (item) => (
+                                <td className="py-2">{item.category.name}</td>
+                            ),
+                            'duration': (item) => (
+                                <td className="py-2">{item.duration} Days</td>
+                            ),
+                            'isPaymentDone': (item) => (
+                                <td className="py-2">{item.active ? "Success" : "Failure"}</td>
+                            ),
+                            'reviewAmount': (item) => (
+                                <td className="py-2"><span dangerouslySetInnerHTML={createMarkup()} />{item.reviewAmount}</td>
+                            ),
                             'image':
                                 (item) => (
                                     <td className="py-2">
@@ -132,7 +147,7 @@ const ChallengeManagement = (props) => {
                                                 size="sm"
                                                 onClick={() => { toggleDetails(index) }}
                                             >
-                                                {details.includes(index) ? 'Hide' : 'Show'}
+                                                Action
                                             </CButton>
                                         </td>
                                     )
@@ -145,7 +160,7 @@ const ChallengeManagement = (props) => {
                                                 <h4>
                                                     {item.username}
                                                 </h4>
-                                                <p className="text-muted">Created at: {item.createdAt}   Updated on: {item.updatedAt}</p>
+                                                <p className="text-muted">Created at: {moment(item.createdAt).format("DD/MM/YYYY LT")}/Updated on: {moment(item.updatedAt).format("DD/MM/YYYY LT")}</p>
                                                 {/* <CButton color="info" to="/viewChallenge">
                                                     View
                                                 </CButton> */}

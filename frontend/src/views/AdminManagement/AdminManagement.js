@@ -2,6 +2,7 @@ import { CBadge, CButton, CCardBody, CCollapse, CDataTable, CImg } from '@coreui
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../Loader/Loader'
+import moment from 'moment'
 import axios from 'axios'
 import { listAdmins, deleteAdmin, updateAdmin } from '../../actions/adminAction'
 
@@ -132,7 +133,7 @@ const CategoryManagement = (props) => {
                                                 size="sm"
                                                 onClick={() => { toggleDetails(index) }}
                                             >
-                                                {details.includes(index) ? 'Hide' : 'Show'}
+                                                Action
                                             </CButton>
                                         </td>
                                     )
@@ -145,7 +146,7 @@ const CategoryManagement = (props) => {
                                                 <h4>
                                                     {item.username}
                                                 </h4>
-                                                <p className="text-muted">Created at: {item.createdAt}   Updated on: {item.updatedAt}</p>
+                                                <p className="text-muted">Created at: {moment(item.createdAt).format("DD/MM/YYYY LT")}/Updated on: {moment(item.updatedAt).format("DD/MM/YYYY LT")}</p>
                                                 {/* <CButton color="info" to="/viewChallenge">
                                                     View
                                                 </CButton> */}

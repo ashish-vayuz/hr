@@ -1,17 +1,19 @@
 import { CButton, CCol, CContainer, CForm, CFormGroup, CFormText, CInput, CLabel, CRow, CSpinner } from '@coreui/react'
 import axios from 'axios';
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addUser } from '../../actions/userMAction'
 import Loader from '../Loader/Loader';
 
 
-const AddUser = () => {
+const AddUser = ({ history }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('')
     const [location, setLocation] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch()
+    const userAdd = useSelector(state => state.userAdd)
+    const { loading, error, users } = userAdd
     const submitHandler = (e) => {
         e.preventDefault()
         var length = 8,
@@ -22,6 +24,11 @@ const AddUser = () => {
         }
         setPassword(retVal)
         dispatch(addUser(email, name, location, password))
+        if (users) {
+            history.push('/user')
+        } else {
+            console.log(error);
+        }
     }
     return (
         <CContainer fluid>
@@ -58,12 +65,13 @@ const AddUser = () => {
                         value={location}
                         onChange={(e) => setLocation(e.target.value)}
                         name="nf-email"
-                        placeholder="Enter Name.."
+                        placeholder="Enter Location.."
                         required
                     />
                 </CFormGroup>
                 <CButton type="submit" to="/user" color="secondary" className="mr-2">Back</CButton>
-                <CButton type="submit" disabled={name == "" || email == "" || location == ""} color="success">Create</CButton>
+                <CButton type="submit" disabled={name == "" || email == "" || location == ""} color="success">{loading ? <CSpinner color="success" /> : 'Create'}</CButton>
+
             </CForm>
 
         </CContainer >

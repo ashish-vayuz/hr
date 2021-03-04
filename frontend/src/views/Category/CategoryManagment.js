@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { listCategorys, deleteCategory, updateCategory } from '../../actions/categoryActions'
 import Loader from '../Loader/Loader'
 import axios from 'axios'
+import moment from 'moment'
 
 const CategoryManagement = (props) => {
     const [data, setData] = useState([]);
@@ -107,7 +108,7 @@ const CategoryManagement = (props) => {
                                             changeStatusHandler(item._id, item.active, index)
 
                                         }}>
-                                            {item.active? "Active":"In Active"}
+                                            {item.active ? "Active" : "In Active"}
                                         </CButton>
                                     </td>
                                 ),
@@ -134,7 +135,7 @@ const CategoryManagement = (props) => {
                                                 size="sm"
                                                 onClick={() => { toggleDetails(index) }}
                                             >
-                                                {details.includes(index) ? 'Hide' : 'Show'}
+                                                Action
                                             </CButton>
                                         </td>
                                     )
@@ -147,7 +148,7 @@ const CategoryManagement = (props) => {
                                                 <h4>
                                                     {item.username}
                                                 </h4>
-                                                <p className="text-muted">Created at: {item.createdAt}   Updated on: {item.updatedAt}</p>
+                                                <p className="text-muted">Created at: {moment(item.createdAt).format("DD/MM/YYYY LT")}/Updated on: {moment(item.updatedAt).format("DD/MM/YYYY LT")}</p>
                                                 {/* <CButton color="info" to="/viewChallenge">
                                                     View
                                                 </CButton> */}

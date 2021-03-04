@@ -12,7 +12,7 @@ const getChallenge = asyncHandler(async (req, res) => {
         res: "chal",
         "errorcode": 1,
         "errormessage": "Records found",
-        "list": challenge
+        "list": challenge.reverse()
 
     })
 })

@@ -129,7 +129,7 @@ const CmsManagement = ({ history }) => {
                         size="sm"
                         onClick={() => { toggleDetails(index) }}
                       >
-                        {details.includes(index) ? 'Hide' : 'Show'}
+                        Action
                       </CButton>
                     </td>
                   )

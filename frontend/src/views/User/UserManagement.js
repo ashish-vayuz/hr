@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../Loader/Loader'
 import axios from 'axios'
 import { listUsers, addUser, deleteUser, updateUser, listUserDetails } from '../../actions/userMAction'
+import moment from 'moment'
+import Modal from 'src/reusable/Modal'
 
 const UserManagement = (props) => {
     const [data, setData] = useState([]);
@@ -108,10 +110,17 @@ const UserManagement = (props) => {
                                         </CButton>
                                     </td>
                                 ),
+                            'isReviewer':
+                                (item, index) => (
+                                    <td className="py-2">
+                                        {item.isReviewer ? "Yes" : "No"}
+                                    </td>
+                                ),
                             'image':
                                 (item) => (
                                     <td className="py-2">
                                         <CImg
+                                            style={{ borderRadius: "50%" }}
                                             src={`${item.image}`}
                                             fluid
                                             className="mb-2"
@@ -131,7 +140,7 @@ const UserManagement = (props) => {
                                                 size="sm"
                                                 onClick={() => { toggleDetails(index) }}
                                             >
-                                                {details.includes(index) ? 'Hide' : 'Show'}
+                                                Action
                                             </CButton>
                                         </td>
                                     )
@@ -144,15 +153,15 @@ const UserManagement = (props) => {
                                                 <h4>
                                                     {item.username}
                                                 </h4>
-                                                <p className="text-muted">Created at: {item.createdAt}   Updated on: {item.updatedAt}</p>
+                                                <p className="text-muted">Created at: {moment(item.createdAt).format("DD/MM/YYYY LT")}/Updated on: {moment(item.updatedAt).format("DD/MM/YYYY LT")}</p>
                                                 {/* <CButton color="info" to="/viewChallenge">
                                                     View
                                                 </CButton> */}
                                                 <CButton color="secondary" className="ml-1" to="/editChallenge">
                                                     Edit
                                                 </CButton>
-                                                <CButton color="danger" className="ml-1" onClick={() => { deleteChallengeHandler(item._id) }}>
-                                                    Delete
+                                                <CButton color="danger" className="ml-1">
+                                                    <Modal message={"Are you sure want to delete?"} title={"Delete"} color={"danger"} onClickFunction={() => { deleteChallengeHandler(item._id) }} />
                                                 </CButton>
                                             </CCardBody>
                                         </CCollapse>
