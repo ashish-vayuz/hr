@@ -795,5 +795,23 @@ const frogetPassword = asyncHandler(async (req, res) => {
     }
 })
 
+const deleteUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.id)
+    const { password } = req.body
+    if (user && await user.matchPassword(password)) {
+        await user.remove(function (err) {
+            if (!err) {
+                res.json({ message: "Account Deleted" })
+            }
+            else {
+                res.status(404)
+                throw new Error("Account not Found")
+            }
+        })
+    } else {
+        res.status(404)
+        throw new Error("Incorrect Password")
+    }
+})
 
-export { signup, authUser, otp, uploadImg, location, category, changePassword,updatePassword, frogetPassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest, followingList, followerList, test1 }
+export { signup, authUser, otp, uploadImg, location, category, changePassword, updatePassword, frogetPassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest, followingList, followerList, test1, deleteUser }

@@ -106,7 +106,7 @@ const getAllUser = asyncHandler(async (req, res) => {
     })
 })
 
-const deleteUser = asyncHandler(async (req, res) => {
+const deleteUserById = asyncHandler(async (req, res) => {
     await User.remove({ _id: req.params.id }, function (err) {
         if (!err) {
             res.json({ message: "Challenge Removed" })
@@ -136,4 +136,4 @@ const updateUser = asyncHandler(async (req, res) => {
     }
 })
 
-export { authAdmin, addAdmin, deleteAdmin, updateAdmin, getAllAdmin, getAllUser, updateUser, deleteUser }
+export { authAdmin, addAdmin, deleteAdmin, updateAdmin, getAllAdmin, getAllUser, updateUser, deleteUserById }
