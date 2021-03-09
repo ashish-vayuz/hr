@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler'
 import Challenge from '../models/challengeModel.js'
 import User from '../models/userModel.js'
+import PartChal from '../models/participatedChallengeModel.js'
 
 // @desc Get all challenge
 // route GET challenge
@@ -207,25 +208,27 @@ const participateChallenge = asyncHandler(async (req, res) => {
     const { video } = req.body
     const challenge = await Challenge.findById(req.params.id)
     if (challenge) {
-        const alreadyPaticipated = challenge.participant.find(
-            (r) => r.user.toString() === req.user._id.toString()
-        )
-        if (alreadyPaticipated) {
-            res.status(400)
-            throw new Error('Challenge Already Particpated')
+
+        const newParticipation = await PartChal.create({
+            user: req.user.id,
+            video: video,
+            challenge: challenge
+        })
+        challenge.participant.push(newParticipation.id)
+        await challenge.save()
+        user.participatedChallenges.push(newParticipation.id)
+        await user.save()
+
+        if (newParticipation) {
+            res.status(201).json({
+                errorcode: 1,
+                errormessage: 'Challenge Participated'
+            })
+        } else {
+            res.status(400).json()
+            throw new Error("Invalid Data")
         }
 
-        const submission = {
-            user: req.user.id,
-            video: video
-        }
-        challenge.participant.push(submission)
-        challenge.totalparticipated = challenge.participant.length
-        await challenge.save()
-        res.status(201).json({
-            errorcode: 1,
-            errormessage: 'Challenge Participated'
-        })
     } else {
         res.status(404)
         throw new Error('Challenge not found')

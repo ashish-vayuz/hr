@@ -59,7 +59,7 @@ const userSchema = mongoose.Schema({
     participatedChallenges: [{
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'Challenge',
+        ref: 'Participate',
     }],
     bookmarks: [{
         type: mongoose.Schema.Types.ObjectId,

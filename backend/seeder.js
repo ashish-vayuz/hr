@@ -7,6 +7,7 @@ import connectDB from './Config/db.js'
 import challenge from './data/challenge.js'
 import User from './models/userModel.js'
 import user from './data/user.js'
+import PartChal from './models/participatedChallengeModel.js'
 
 dotenv.config()
 connectDB()
@@ -17,6 +18,8 @@ const importData = async () => {
         await User.deleteMany()
         await Challenge.insertMany(challenge)
         await User.insertMany(user)
+        await PartChal.insertMany()
+        
 
 
         console.log(`Data Idported!`.green.inverse)
@@ -31,6 +34,7 @@ const destroyData = async () => {
     try {
         await Challenge.deleteMany()
         await User.deleteMany()
+        await PartChal.deleteMany()
 
 
         console.log(`Data Destroyed!`.red.inverse)

@@ -13,23 +13,6 @@ const reviewSchema = mongoose.Schema(
     }
 )
 
-const participantSchema = mongoose.Schema({
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'User',
-    },
-    video: {
-        type: String,
-        required: true,
-    },
-    reviews: [reviewSchema],
-},
-    {
-        timestamps: true,
-    }
-)
-
 const challengeSchema = mongoose.Schema({
     creator: {
         type: mongoose.Schema.Types.ObjectId,
@@ -101,7 +84,11 @@ const challengeSchema = mongoose.Schema({
         type: Number,
         default:0
     },
-    participant: [participantSchema],
+    participant: [{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Participate',
+    }],
     video: {
         type: String,
         required: true,
