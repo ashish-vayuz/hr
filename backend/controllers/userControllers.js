@@ -494,7 +494,7 @@ const getUserById = asyncHandler(async (req, res) => {
     res.json({
         "errorcode": 1,
         "errormessage": "Records found",
-        user
+        user: user
     })
 })
 
