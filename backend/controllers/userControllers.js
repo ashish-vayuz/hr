@@ -684,11 +684,12 @@ const updatePassword = asyncHandler(async (req, res) => {
 // route POST users/reviewer
 // access Private
 const reviewerRequest = asyncHandler(async (req, res) => {
+    const data = req.files.map(x => x.path)
     const { DOB, age, bankName, branchName, IFSCcode, UploadID } = req.body
     const user = await User.findById(req.user.id)
 
     if (user) {
-        user.reviewerData = { DOB, age, bankName, branchName, IFSCcode, UploadID }
+        user.reviewerData = { DOB, age, bankName, branchName, IFSCcode, UploadID: data }
         user.reviewerRequest = "true"
         await user.save()
         res.json({

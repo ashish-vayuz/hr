@@ -23,7 +23,7 @@ const userSchema = mongoose.Schema({
     about: {
         type: String,
         required: false,
-        default:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi sapiente expedita perferendis"
+        default: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi sapiente expedita perferendis"
     },
     email: {
         type: String,
@@ -71,7 +71,7 @@ const userSchema = mongoose.Schema({
         required: true,
         ref: 'Challenge',
     }],
-    totalChallengeLikes:{
+    totalChallengeLikes: {
         type: Number,
         default: 0
     },
@@ -143,28 +143,25 @@ const userSchema = mongoose.Schema({
     reviewerData: {
         DOB: {
             type: String,
-           
+
         },
         age: {
             type: String,
-           
+
         },
         bankName: {
             type: String,
-           
+
         },
         branchName: {
             type: String,
-           
+
         },
         IFSCcode: {
             type: String,
-           
+
         },
-        UploadID: {
-            type: String,
-           
-        }
+        UploadID: []
     }
 }, { timestamps: true })
 
