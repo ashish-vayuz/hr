@@ -40,7 +40,7 @@ const upload = multer({
 
 router.route('/signup').post(signup)
 router.route('/signin').post(authUser)
-router.route('/googleAuth').post(upload.single('image'), googleAuth)
+router.route('/googleAuth').post(googleAuth)
 router.route('/OTP').post(protect, otp)
 router.route('/upload').post(protect, upload.single('image'), uploadImg)
 router.route('/location').post(protect, location)

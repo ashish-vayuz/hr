@@ -816,8 +816,7 @@ const deleteUser = asyncHandler(async (req, res) => {
 })
 
 const googleAuth = asyncHandler(async (req, res) => {
-    const { email, name, googleId, googleToken } = req.body;
-    const image = req.file.path
+    const { email, name, googleId, googleToken, image } = req.body;
     const verified = "true"
     const user = await User.findOne({ email })
     if (!user) {
