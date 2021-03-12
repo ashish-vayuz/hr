@@ -117,7 +117,6 @@ const userSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
     },
     active: {
         type: Boolean,
@@ -160,6 +159,12 @@ const userSchema = mongoose.Schema({
         IFSCcode: {
             type: String,
 
+        },
+        googleId: {
+            tpye: String,
+        },
+        googleToken:{
+            type:String,
         },
         UploadID: []
     }
