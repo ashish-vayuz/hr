@@ -18,16 +18,20 @@ const getChallenge = asyncHandler(async (req, res) => {
             },
         }
         : {}
+
     const count = await Challenge.countDocuments({ ...keyword })
     const challenge = await Challenge.find({ ...keyword })
         .populate("creator", 'name image')
         .populate('category', 'name image')
         .limit(pageSize)
         .skip(pageSize * (page - 1))
+
     challenge.forEach(c => {
-       console.log(c.creator._id);
-       console.log(req.user.id);
+        if (c.creator.id === req.user.id) {
+            c.isliked = true
+        }
     });
+
     res.json({
         res: "chal",
         "errorcode": 1,

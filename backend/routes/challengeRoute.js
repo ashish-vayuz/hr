@@ -37,7 +37,7 @@ const upload = multer({
 })
 
 router.route('/')
-    .get(getChallenge)
+    .get(protect, getChallenge)
     .post(protect, postChallenge)
 router.route('/upload').post(upload.single('challenge'), uploadChal)
 router.route('/like/:id').get(protect, likeChallengeById)
