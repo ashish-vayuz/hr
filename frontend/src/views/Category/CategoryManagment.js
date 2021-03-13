@@ -6,9 +6,9 @@ import Loader from '../Loader/Loader'
 import axios from 'axios'
 import moment from 'moment'
 
-const CategoryManagement = (props) => {
+const CategoryManagement = ({location,history}) => {
     const [data, setData] = useState([]);
-    console.log(props.location.pathname);
+    console.log(location.pathname);
     const dispatch = useDispatch()
     const updateCategoryData = useSelector(state => state.updateCategory)
     const categoryList = useSelector(state => state.categoryList)
@@ -82,7 +82,9 @@ const CategoryManagement = (props) => {
             default: return 'primary'
         }
     }
-    console.log(data);
+    const editHandler = (item) => {
+        history.push({ pathname: `/editCategory/${item._id}`, state: { detail: item } })
+    }
     return (
         <>
             {loading ? <Loader /> :
@@ -152,7 +154,7 @@ const CategoryManagement = (props) => {
                                                 {/* <CButton color="info" to="/viewChallenge">
                                                     View
                                                 </CButton> */}
-                                                <CButton color="secondary" className="ml-1" to="/editChallenge">
+                                                <CButton color="secondary" className="ml-1" onClick={() => editHandler(item)}>
                                                     Edit
                                                 </CButton>
                                                 <CButton color="danger" className="ml-1" onClick={() => { deleteChallengeHandler(item._id) }}>

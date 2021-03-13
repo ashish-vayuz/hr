@@ -1,5 +1,5 @@
 import express from 'express'
-import { signup, authUser, otp, uploadImg, location, category, getProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, updateProfile, reportUser, reviewerRequest, test1, followingList, followerList, changePassword, frogetPassword, updatePassword, deleteUser, googleAuth } from '../controllers/userControllers.js'
+import { signup, authUser, otp, uploadImg, location, category, getProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, updateProfile, reportUser, reviewerRequest, test1, followingList, followerList, changePassword, frogetPassword, updatePassword, deleteUser, googleAuth, facebookAuth } from '../controllers/userControllers.js'
 import { getAllUser } from '../controllers/adminController.js'
 import { protect } from '../middlewares/authMiddlewares.js'
 import multer from 'multer'
@@ -41,6 +41,7 @@ const upload = multer({
 router.route('/signup').post(signup)
 router.route('/signin').post(authUser)
 router.route('/googleAuth').post(googleAuth)
+router.route('/facebookAuth').post(facebookAuth)
 router.route('/OTP').post(protect, otp)
 router.route('/upload').post(protect, upload.single('image'), uploadImg)
 router.route('/location').post(protect, location)

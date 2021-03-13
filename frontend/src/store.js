@@ -5,7 +5,7 @@ import thunk from 'redux-thunk'
 //Reducer
 import { userLoginReducer, userRegisterReducer, userUpdateProfileReducer } from './reducers/userReducers'
 import { userListReducer, userDeleteReducer, userDetailsReducer, userStatusReducer, userAddReducer } from './reducers/userMReducers'
-import { categoryListReducer, categoryDeleteReducer, categoryStatusReducer, categoryAddReducer } from './reducers/categoryReducers'
+import { categoryListReducer, categoryDeleteReducer, categoryStatusReducer, categoryAddReducer ,categoryDetailsReducer} from './reducers/categoryReducers'
 import { challengeListReducer, deleteChallengeReducer } from './reducers/challengeReducers'
 import { changeState } from './reducers/responsideReducers'
 import { adminListReducer, adminDeleteReducer, adminDetailsReducer, adminStatusReducer, adminAddReducer } from './reducers/adminReducers'
@@ -24,6 +24,7 @@ const reducer = combineReducers({
   viewCms: cmsDetailsReducer,
   //Category
   categoryList: categoryListReducer,
+  getCategory:categoryDetailsReducer,
   deleteCategory: categoryDeleteReducer,
   updateCategory: categoryStatusReducer,
   addCategory: categoryAddReducer,

@@ -837,7 +837,7 @@ const googleAuth = asyncHandler(async (req, res) => {
                 name: newUser.name,
                 email: newUser.email,
                 googleId: newUser.googleId,
-                googleAuth: newUser.googleAuth,
+                googleToken:googleToken,
                 token: generateToken(newUser._id)
             })
         }
@@ -851,5 +851,39 @@ const googleAuth = asyncHandler(async (req, res) => {
     }
 })
 
+const facebookAuth = asyncHandler(async (req, res) => {
+    const { email, name, facebookId, facebookToken } = req.body;
+    const verified = "true"
+    const user = await User.findOne({ email })
+    if (!user) {
+        const newUser = await User.create({
+            name,
+            email,
+            facebookId,
+            facebookToken,
+            verified
+        })
+        if (newUser) {
+            res.status(201).json({
+                errorcode: 1,
+                res: 'google',
+                errormessage: 'done',
+                _id: newUser._id,
+                name: newUser.name,
+                email: newUser.email,
+                facebookId: newUser.facebookId,
+                facebookToken: newUser.facebookToken,
+                token: generateToken(newUser._id)
+            })
+        }
+        else {
+            res.status(400)
+            throw new Error('Invalid Data')
+        }
+    } else {
+        res.status(401)
+        throw new Error('User already Exist')
+    }
+})
 
-export { signup, authUser, otp, uploadImg, location, category, changePassword, updatePassword, frogetPassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest, followingList, followerList, test1, deleteUser, googleAuth }
+export { signup, authUser, otp, uploadImg, location, category, changePassword, updatePassword, frogetPassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest, followingList, followerList, test1, deleteUser, googleAuth,facebookAuth }

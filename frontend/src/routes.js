@@ -6,6 +6,7 @@ const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
 //Category Routes
 const Category = React.lazy(() => import('./views/Category/CategoryManagment'))
 const CategoryAdd = React.lazy(() => import('./views/Category/CategoryAdd'))
+const CategoryEdit = React.lazy(() => import('./views/Category/CategoryEdit'))
 const CategoryView = React.lazy(() => import('./views/Category/CategroyView'))
 //Challenge Routes
 const Challenge = React.lazy(() => import('./views/Challenge/ChallengeManagement'))
@@ -25,6 +26,7 @@ const routes = [
   { path: '/user', name: 'User Management', component: User },
   { path: '/adduser', name: 'Add User', component: AddUser },
   { path: '/category', name: 'Category Management', component: Category },
+  { path: '/editCategory/:id', name: 'Category Management', component: CategoryEdit },
   { path: '/addcat', name: 'Category Management', component: CategoryAdd },
   { path: '/viewCategory', name: 'Category Management', component: CategoryView },
   { path: '/challenge', name: 'Challenge Management', component: Challenge },

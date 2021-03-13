@@ -42,7 +42,7 @@ export const listCategoryDetails = (id) => async (dispatch) => {
     try {
         dispatch({ type: CATEGORY_DETAILS_REQUEST })
 
-        const { data } = await axios.get(`/api/products/${id}`)
+        const { data } = await axios.get(`/category/${id}`)
 
         dispatch({
             type: CATEGORY_DETAILS_SUCCESS,
