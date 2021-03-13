@@ -404,7 +404,11 @@ const category = asyncHandler(async (req, res) => {
 // route POST users/profile
 // access Private
 const getProfile = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user.id).select('-password -OTP -verified -isDeleted -report').populate('myChallenges bookmarks participatedChallenges liked categories')
+    const user = await User.findById(req.user.id)
+        .select('-password -OTP -verified -isDeleted -report')
+        .populate('myChallenges bookmarks participatedChallenges liked categories')
+        .populate("followings", 'name')
+        .populate("followers", 'name')
     if (user) {
         res.json({
             "errorcode": 1,
@@ -507,7 +511,11 @@ const getAllUsers = asyncHandler(async (req, res) => {
 // route POST users/:id
 // access Public
 const getUserById = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.params.id).select('-password -OTP -verified -isDeleted -report').populate('myChallenges bookmarks participatedChallenges followings followers liked')
+    const user = await User.findById(req.params.id)
+        .select('-password -OTP -verified -isDeleted -report')
+        .populate('myChallenges bookmarks participatedChallenges liked')
+        .populate("followings", 'name')
+        .populate("followers", 'name')
     res.json({
         "errorcode": 1,
         "errormessage": "Records found",

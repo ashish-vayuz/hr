@@ -163,8 +163,14 @@ const userSchema = mongoose.Schema({
         googleId: {
             tpye: String,
         },
-        googleToken:{
-            type:String,
+        googleToken: {
+            type: String,
+        },
+        facebookId: {
+            type: String
+        },
+        facebookToken: {
+            type: String
         },
         UploadID: []
     }

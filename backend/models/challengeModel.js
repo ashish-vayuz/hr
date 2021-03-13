@@ -80,9 +80,9 @@ const challengeSchema = mongoose.Schema({
         required: true,
     },
     reviews: [reviewSchema],
-    totalparticipated:{
+    totalparticipated: {
         type: Number,
-        default:0
+        default: 0
     },
     participant: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -98,12 +98,16 @@ const challengeSchema = mongoose.Schema({
         required: true,
         default: true
     },
-    paymentId:{
+    paymentId: {
         type: String,
     },
     isPaymentDone: {
         type: Boolean,
         required: true,
+        default: false
+    },
+    isliked: {
+        type: Boolean,
         default: false
     }
 },

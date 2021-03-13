@@ -24,7 +24,10 @@ const getChallenge = asyncHandler(async (req, res) => {
         .populate('category', 'name image')
         .limit(pageSize)
         .skip(pageSize * (page - 1))
-
+    challenge.forEach(c => {
+       console.log(c.creator._id);
+       console.log(req.user.id);
+    });
     res.json({
         res: "chal",
         "errorcode": 1,
