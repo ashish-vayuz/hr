@@ -7,12 +7,30 @@ import PartChal from '../models/participatedChallengeModel.js'
 // route GET challenge
 // access Public
 const getChallenge = asyncHandler(async (req, res) => {
-    const challenge = await Challenge.find({}).populate("creator", 'name image').populate('category', 'name image')
+    const pageSize = 10
+    const page = Number(req.query.pageNumber) || 1
+
+    const keyword = req.query.keyword
+        ? {
+            description: {
+                $regex: req.query.keyword,
+                $options: 'i',
+            },
+        }
+        : {}
+    const count = await Challenge.countDocuments({ ...keyword })
+    const challenge = await Challenge.find({ ...keyword })
+        .populate("creator", 'name image')
+        .populate('category', 'name image')
+        .limit(pageSize)
+        .skip(pageSize * (page - 1))
 
     res.json({
         res: "chal",
         "errorcode": 1,
         "errormessage": "Records found",
+        page,
+        pages: Math.ceil(count / pageSize),
         "list": challenge.reverse()
 
     })

@@ -478,11 +478,28 @@ const reportUser = asyncHandler(async (req, res) => {
 // route POST users/all
 // access Public
 const getAllUsers = asyncHandler(async (req, res) => {
-    const users = await User.find({}).select('name image totalFollowings totalFollowers location')
+    const pageSize = 10
+    const page = Number(req.query.pageNumber) || 1
+
+    const keyword = req.query.keyword
+        ? {
+            name: {
+                $regex: req.query.keyword,
+                $options: 'i',
+            },
+        }
+        : {}
+    const count = await User.countDocuments({ ...keyword })
+    const users = await User.find({ ...keyword })
+        .select('name image totalFollowings totalFollowers location')
+        .limit(pageSize)
+        .skip(pageSize * (page - 1))
     res.json({
         "errorcode": 1,
         "errormessage": "Records found",
-        "list": users
+        "list": users,
+        page,
+        pages: Math.ceil(count / pageSize),
     })
 })
 
@@ -837,7 +854,7 @@ const googleAuth = asyncHandler(async (req, res) => {
                 name: newUser.name,
                 email: newUser.email,
                 googleId: newUser.googleId,
-                googleToken:googleToken,
+                googleToken: googleToken,
                 token: generateToken(newUser._id)
             })
         }
@@ -886,4 +903,4 @@ const facebookAuth = asyncHandler(async (req, res) => {
     }
 })
 
-export { signup, authUser, otp, uploadImg, location, category, changePassword, updatePassword, frogetPassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest, followingList, followerList, test1, deleteUser, googleAuth,facebookAuth }
+export { signup, authUser, otp, uploadImg, location, category, changePassword, updatePassword, frogetPassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest, followingList, followerList, test1, deleteUser, googleAuth, facebookAuth }
