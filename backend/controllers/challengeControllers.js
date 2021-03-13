@@ -27,9 +27,16 @@ const getChallenge = asyncHandler(async (req, res) => {
         .skip(pageSize * (page - 1))
 
     challenge.forEach(c => {
-        if (c.creator.id === req.user.id) {
-            c.isliked = true
-        }
+        c.likes.forEach(l => {
+            console.log(l);
+            console.log(req.user.id);
+           if(l==req.user.id){
+               c.isliked=true
+           }else{
+               console.log("flase");
+           };
+        });
+
     });
 
     res.json({
