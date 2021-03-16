@@ -283,7 +283,11 @@ const getPaticipation = asyncHandler(async (req, res) => {
         : {}
 
     const count = await PartChal.countDocuments({ ...keyword })
-    const challenge = await PartChal.find({ ...keyword })
+    const challenge = await PartChal.find({ review_status: "Pending" })
+        .populate('user',)
+        .populate('challenge')
+        .populate({ path: 'challenge', populate: { path: 'category' } })
+        .populate({ path: 'challenge', populate: { path: 'creator'} })
         .limit(pageSize)
         .skip(pageSize * (page - 1))
     res.json({
@@ -305,7 +309,7 @@ const updateParticipation = asyncHandler(async (req, res) => {
 
     if (category) {
         category.review_status = req.body.review_status
-        category.reviewer.push(req.user.id)
+        category.reviewer = req.user.id;
         const updatedCategory = await category.save()
 
         res.status(200).json({
