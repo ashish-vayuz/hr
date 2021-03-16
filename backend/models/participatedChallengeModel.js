@@ -15,6 +15,10 @@ const participateChal = mongoose.Schema({
         type: String,
         required: true
     },
+    reviewer:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    },
     review_status: {
         type: String,
         default: 'Pending',

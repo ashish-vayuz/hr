@@ -308,7 +308,7 @@ const updateParticipation = asyncHandler(async (req, res) => {
 
     if (category) {
         category.review_status = req.body.review_status
-
+        category.reviewer.push(req.user.id)
         const updatedCategory = await category.save()
 
         res.status(200).json({
@@ -318,6 +318,24 @@ const updateParticipation = asyncHandler(async (req, res) => {
     } else {
         res.status(404)
         throw new Error('Category not found')
+    }
+})
+
+
+// @desc get single challenge data
+// route POST challenge/:id
+// access Public
+const getParticipationById = asyncHandler(async (req, res) => {
+    const challenge = await PartChal.findById(req.params.id).populate('challenge user')
+    if (challenge) {
+        res.json({
+            "errorcode": 1,
+            "errormessage": "Records found",
+            "list": challenge
+        })
+    } else {
+        res.status(404)
+        throw new Error("Challenge not found")
     }
 })
 
@@ -349,4 +367,4 @@ const updateChallenge = asyncHandler(async (req, res) => {
     }
 })
 
-export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge, participateChallenge, updateChallenge, getPaticipation, updateParticipation }
+export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge, participateChallenge, updateChallenge, getPaticipation, updateParticipation,getParticipationById }

@@ -23,7 +23,7 @@ const userSchema = mongoose.Schema({
     about: {
         type: String,
         required: false,
-        default: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi sapiente expedita perferendis"
+        default: "Add Your Bio From Setting"
     },
     email: {
         type: String,
