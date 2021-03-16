@@ -15,11 +15,11 @@ const participateChal = mongoose.Schema({
         type: String,
         required: true
     },
-     review_status: {
-    type: String,
-    default: 'Pending',
-    enum: ['Pending', 'Approved', 'Reject']
-  },
+    review_status: {
+        type: String,
+        default: 'Pending',
+        enum: ['Pending', 'Approved', 'Reject']
+    },
 })
 
 const PartChal = mongoose.model('Participate', participateChal)

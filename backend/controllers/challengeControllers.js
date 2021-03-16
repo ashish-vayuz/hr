@@ -27,16 +27,16 @@ const getChallenge = asyncHandler(async (req, res) => {
         .skip(pageSize * (page - 1))
 
     challenge.forEach(c => {
+        c.bookmarks.forEach(b => {
+            if (b == req.user.id) {
+                b.isBookmarked = true
+            }
+        })
         c.likes.forEach(l => {
-            console.log(l);
-            console.log(req.user.id);
-           if(l==req.user.id){
-               c.isliked=true
-           }else{
-               console.log("flase");
-           };
+            if (l == req.user.id) {
+                c.isliked = true
+            }
         });
-
     });
 
     res.json({
@@ -113,7 +113,8 @@ const postChallenge = asyncHandler(async (req, res) => {
 // route POST challenge/:id
 // access Public
 const getChallengeById = asyncHandler(async (req, res) => {
-    const challenge = await Challenge.findById(req.params.id).populate('creator')
+    const challenge = await Challenge.findById(req.params.id)
+        .populate('creator', 'name image')
     if (challenge) {
         res.json({
             "errorcode": 1,
@@ -268,6 +269,58 @@ const participateChallenge = asyncHandler(async (req, res) => {
 
 })
 
+// @desc Get all participation
+// route GET participation
+// access Public
+const getPaticipation = asyncHandler(async (req, res) => {
+    const pageSize = 10
+    const page = Number(req.query.pageNumber) || 1
+
+    const keyword = req.query.keyword
+        ? {
+            description: {
+                $regex: req.query.keyword,
+                $options: 'i',
+            },
+        }
+        : {}
+
+    const count = await PartChal.countDocuments({ ...keyword })
+    const challenge = await PartChal.find({ ...keyword })
+        .limit(pageSize)
+        .skip(pageSize * (page - 1))
+    res.json({
+        res: "chal",
+        "errorcode": 1,
+        "errormessage": "Records found",
+        page,
+        pages: Math.ceil(count / pageSize),
+        "list": challenge.reverse()
+
+    })
+})
+
+// @desc Gupdate participation
+// route GET participation
+// access Private
+const updateParticipation = asyncHandler(async (req, res) => {
+    const category = await PartChal.findById(req.params.id)
+
+    if (category) {
+        category.review_status = req.body.review_status
+
+        const updatedCategory = await category.save()
+
+        res.status(200).json({
+            "errorcode": 1,
+            "errormessage": `Status Changed to ${updatedCategory.review_status}`,
+        })
+    } else {
+        res.status(404)
+        throw new Error('Category not found')
+    }
+})
+
 // @desc upload challenge video
 // route POST challenge/upload
 // access Public
@@ -296,4 +349,4 @@ const updateChallenge = asyncHandler(async (req, res) => {
     }
 })
 
-export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge, participateChallenge, updateChallenge }
+export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge, participateChallenge, updateChallenge, getPaticipation, updateParticipation }

@@ -10,6 +10,7 @@ import morgan from 'morgan'
 import userRoutes from './routes/userRoutes.js'
 import categoryRoutes from './routes/categoryRoutes.js'
 import challengeRoutes from './routes/challengeRoute.js'
+import participate from './routes/participateRoute.js'
 import adminRoutes from './routes/adminRoutes.js'
 import cmsRoutes from './routes/cmsRoutes.js'
 
@@ -28,6 +29,7 @@ app.use(express.json())
 app.use('/users', userRoutes)
 app.use('/category', categoryRoutes)
 app.use('/challenge', challengeRoutes)
+app.use('/participation', participate)
 app.use('/admin', adminRoutes)
 app.use("/cms", cmsRoutes);
 

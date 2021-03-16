@@ -28,6 +28,11 @@ const challengeSchema = mongoose.Schema({
         required: true,
         ref: 'User',
     }],
+    bookmarks: [{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User',
+    }],
     totalLikes: {
         type: Number,
         required: true,
@@ -107,6 +112,10 @@ const challengeSchema = mongoose.Schema({
         default: false
     },
     isliked: {
+        type: Boolean,
+        default: false
+    },
+    isBookmarked: {
         type: Boolean,
         default: false
     }

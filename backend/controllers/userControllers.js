@@ -406,9 +406,10 @@ const category = asyncHandler(async (req, res) => {
 const getProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user.id)
         .select('-password -OTP -verified -isDeleted -report')
-        .populate('myChallenges bookmarks participatedChallenges liked categories')
-        .populate("followings", 'name')
-        .populate("followers", 'name')
+        .populate('myChallenges bookmarks participatedChallenges liked')
+        .populate("followings", 'name image')
+        .populate("followers", 'name image')
+        .populate("categories", "name image")
     if (user) {
         res.json({
             "errorcode": 1,
@@ -543,6 +544,8 @@ const addToBookmark = asyncHandler(async (req, res) => {
 
     if (user) {
         user.bookmarks.push(challenge)
+        challenge.bookmarks.push(user)
+        await challenge.save()
         const updatedUser = await user.save()
         res.json({
 
@@ -564,8 +567,11 @@ const addToBookmark = asyncHandler(async (req, res) => {
 // access Private
 const removeFromBookmark = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id)
+    const challenge = await Challenge.findById(req.params.id)
     if (user) {
         user.bookmarks.pull({ _id: req.params.id })
+        challenge.bookmarks.pull({ _id: req.user.id })
+        await challenge.save()
         const updatedUser = await user.save()
         res.json({
 
