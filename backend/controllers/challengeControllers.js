@@ -105,16 +105,13 @@ const postChallenge = asyncHandler(async (req, res) => {
     }
 })
 
-// @desc Update a challenge
-// route GET challenge
-// access Public
-
 // @desc get single challenge data
 // route POST challenge/:id
 // access Public
 const getChallengeById = asyncHandler(async (req, res) => {
     const challenge = await Challenge.findById(req.params.id)
         .populate('creator', 'name image')
+        .populate('category', 'name image')
     if (challenge) {
         res.json({
             "errorcode": 1,
@@ -367,4 +364,4 @@ const updateChallenge = asyncHandler(async (req, res) => {
     }
 })
 
-export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge, participateChallenge, updateChallenge, getPaticipation, updateParticipation,getParticipationById }
+export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge, participateChallenge, updateChallenge, getPaticipation, updateParticipation, getParticipationById }
