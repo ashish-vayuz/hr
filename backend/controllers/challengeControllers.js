@@ -284,10 +284,10 @@ const getPaticipation = asyncHandler(async (req, res) => {
 
     const count = await PartChal.countDocuments({ ...keyword })
     const challenge = await PartChal.find({ review_status: "Pending" })
-        .populate('user','name image')
+        .populate('user', 'name image')
         .populate('challenge')
-        .populate({ path: 'challenge', populate: { path: 'category' } })
-        .populate({ path: 'challenge', populate: { path: 'creator'} })
+        .populate({ path: 'challenge', populate: { path: 'category', select: 'name image' } })
+        .populate({ path: 'challenge', populate: { path: 'creator', select: 'name image' } })
         .limit(pageSize)
         .skip(pageSize * (page - 1))
     res.json({
