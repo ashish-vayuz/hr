@@ -1,6 +1,8 @@
 import express from 'express'
 const router = express.Router()
 import { protect } from '../middlewares/authMiddlewares.js'
+import multer from 'multer'
+import path from 'path'
 import { getParticipationById, getPaticipation, likeChallengeById, unlikeChallengeById, updateParticipation, uploadChal } from '../controllers/challengeControllers.js'
 
 const storage = multer.diskStorage({
