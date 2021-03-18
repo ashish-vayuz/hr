@@ -290,15 +290,33 @@ const getPaticipation = asyncHandler(async (req, res) => {
         .populate({ path: 'challenge', populate: { path: 'creator', select: 'name image' } })
         .limit(pageSize)
         .skip(pageSize * (page - 1))
-    res.json({
-        res: "chal",
-        "errorcode": 1,
-        "errormessage": "Records found",
-        page,
-        pages: Math.ceil(count / pageSize),
-        "list": challenge.reverse()
+    if (challenge) {
 
-    })
+        challenge.forEach(c => {
+            c.bookmarks.forEach(b => {
+                if (b == req.user.id) {
+                    b.isBookmarked = true
+                }
+            })
+            c.likes.forEach(l => {
+                if (l == req.user.id) {
+                    c.isliked = true
+                }
+            });
+        });
+
+        res.json({
+            res: "chal",
+            "errorcode": 1,
+            "errormessage": "Records found",
+            page,
+            pages: Math.ceil(count / pageSize),
+            "list": challenge.reverse()
+        })
+    } else {
+        res.status(404)
+        throw new Error('Challenge not found')
+    }
 })
 
 // @desc Gupdate participation

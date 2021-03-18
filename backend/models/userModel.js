@@ -64,12 +64,12 @@ const userSchema = mongoose.Schema({
     bookmarks: [{
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'Challenge',
+        ref: 'Participate',
     }],
     liked: [{
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'Challenge',
+        ref: 'Participate',
     }],
     totalChallengeLikes: {
         type: Number,
