@@ -1,6 +1,6 @@
 import express from 'express'
 const router = express.Router()
-import { getChallenge, getChallengeById, postChallenge, uploadChal, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge, participateChallenge, updateChallenge } from '../controllers/challengeControllers.js'
+import { getChallenge, getChallengeById, postChallenge, uploadChal, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge, participateChallenge, updateChallenge, uploadBan } from '../controllers/challengeControllers.js'
 import multer from 'multer'
 import path from 'path'
 import { protect } from '../middlewares/authMiddlewares.js'
@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 })
 
 function checkFileType(file, cb) {
-    const filetypes = /mp4/
+    const filetypes = /jpeg|jpg|png/
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase())
     const mimetype = filetypes.test(file.mimetype)
 
@@ -39,7 +39,7 @@ const upload = multer({
 router.route('/')
     .get(protect, getChallenge)
     .post(protect, postChallenge)
-router.route('/upload').post(upload.single('challenge'), uploadChal)
+router.route('/upload').post(upload.single('banner'), uploadBan)
 router.route('/like/:id').get(protect, likeChallengeById)
 router.route('/unlike/:id').get(protect, unlikeChallengeById)
 router.route('/payment/successful/:id').get(changePayment)

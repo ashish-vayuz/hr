@@ -3,6 +3,7 @@ import generateToken from '../utils/generateToken.js'
 import User from '../models/userModel.js'
 import nodemailer from 'nodemailer'
 import Challenge from '../models/challengeModel.js'
+import PartChal from '../models/participatedChallengeModel.js'
 
 // @desc Signup User to Platform
 // route POST user/signup
@@ -530,9 +531,9 @@ const getUserById = asyncHandler(async (req, res) => {
 // access Private
 const addToBookmark = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id)
-    const challenge = await Challenge.findById(req.params.id)
+    const challenge = await PartChal.findById(req.params.id)
     if (challenge) {
-        const alreadtBookmarked = await user.bookmarks.find(
+        const alreadtBookmarked = await challenge.bookmarks.find(
             (r) => r.toString() === req.params.id.toString()
         )
 
@@ -567,7 +568,7 @@ const addToBookmark = asyncHandler(async (req, res) => {
 // access Private
 const removeFromBookmark = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id)
-    const challenge = await Challenge.findById(req.params.id)
+    const challenge = await PartChal.findById(req.params.id)
     if (user) {
         user.bookmarks.pull({ _id: req.params.id })
         challenge.bookmarks.pull({ _id: req.user.id })

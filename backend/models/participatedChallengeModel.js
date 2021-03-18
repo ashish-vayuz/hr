@@ -24,6 +24,29 @@ const participateChal = mongoose.Schema({
         default: 'Pending',
         enum: ['Pending', 'Approved', 'Reject']
     },
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User',
+    }],
+    bookmarks: [{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User',
+    }],
+    totalLikes: {
+        type: Number,
+        required: true,
+        default: "0"
+    },
+    isliked: {
+        type: Boolean,
+        default: false
+    },
+    isBookmarked: {
+        type: Boolean,
+        default: false
+    }
 })
 
 const PartChal = mongoose.model('Participate', participateChal)

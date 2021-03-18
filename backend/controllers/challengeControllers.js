@@ -128,7 +128,7 @@ const getChallengeById = asyncHandler(async (req, res) => {
 // route POST challenge/like/:id
 // access Public
 const likeChallengeById = asyncHandler(async (req, res) => {
-    const challenge = await Challenge.findById(req.params.id)
+    const challenge = await PartChal.findById(req.params.id)
     const user = await User.findById(req.user.id)
     const creator = await User.findById(challenge.creator)
     if (challenge) {
@@ -162,7 +162,7 @@ const likeChallengeById = asyncHandler(async (req, res) => {
 // route POST challenge/unlike/:id
 // access Public
 const unlikeChallengeById = asyncHandler(async (req, res) => {
-    const challenge = await Challenge.findById(req.params.id)
+    const challenge = await PartChal.findById(req.params.id)
     const user = await User.findById(req.user.id)
     const creator = await User.findById(challenge.creator)
     if (challenge) {
@@ -283,7 +283,7 @@ const getPaticipation = asyncHandler(async (req, res) => {
         : {}
 
     const count = await PartChal.countDocuments({ ...keyword })
-    const challenge = await PartChal.find({ review_status: "Pending" })
+    const challenge = await PartChal.find({})
         .populate('user', 'name image')
         .populate('challenge')
         .populate({ path: 'challenge', populate: { path: 'category', select: 'name image' } })
@@ -351,6 +351,17 @@ const uploadChal = asyncHandler(async (req, res) => {
     })
 })
 
+// @desc upload challenge video
+// route POST challenge/upload
+// access Public
+const uploadBan = asyncHandler(async (req, res) => {
+    res.json({
+        errorcode: 1,
+        errormessage: 'Banner Uploaded',
+        link: `/${req.file.path}`
+    })
+})
+
 const updateChallenge = asyncHandler(async (req, res) => {
     const category = await Challenge.findById(req.params.id)
 
@@ -368,4 +379,4 @@ const updateChallenge = asyncHandler(async (req, res) => {
     }
 })
 
-export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge, participateChallenge, updateChallenge, getPaticipation, updateParticipation, getParticipationById }
+export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge, participateChallenge, updateChallenge, getPaticipation, updateParticipation, getParticipationById, uploadBan }
