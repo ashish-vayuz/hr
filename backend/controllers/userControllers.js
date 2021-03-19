@@ -912,13 +912,13 @@ const googleAuth = asyncHandler(async (req, res) => {
 })
 
 const facebookAuth = asyncHandler(async (req, res) => {
-    const { email, name, facebookId, facebookToken } = req.body;
+    const { name, facebookId, facebookToken,image } = req.body;
     const verified = "true"
     const user = await User.findOne({ email })
     if (!user) {
         const newUser = await User.create({
             name,
-            email,
+            image,
             facebookId,
             facebookToken,
             verified
