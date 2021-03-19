@@ -914,7 +914,7 @@ const googleAuth = asyncHandler(async (req, res) => {
 const facebookAuth = asyncHandler(async (req, res) => {
     const { name, facebookId, facebookToken,image } = req.body;
     const verified = "true"
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ facebookId })
     if (!user) {
         const newUser = await User.create({
             name,
@@ -930,7 +930,6 @@ const facebookAuth = asyncHandler(async (req, res) => {
                 errormessage: 'done',
                 _id: newUser._id,
                 name: newUser.name,
-                email: newUser.email,
                 facebookId: newUser.facebookId,
                 facebookToken: newUser.facebookToken,
                 token: generateToken(newUser._id)
