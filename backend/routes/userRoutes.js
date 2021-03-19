@@ -1,5 +1,5 @@
 import express from 'express'
-import { signup, authUser, otp, uploadImg, location, category, getProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, updateProfile, reportUser, reviewerRequest, test1, followingList, followerList, changePassword, frogetPassword, updatePassword, deleteUser, googleAuth, facebookAuth } from '../controllers/userControllers.js'
+import { signup, authUser, otp, uploadImg, location, category, getProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, updateProfile, reportUser, reviewerRequest, test1, followingList, followerList, changePassword, frogetPassword, updatePassword, deleteUser, googleAuth, facebookAuth, reviewerUpdateProfile } from '../controllers/userControllers.js'
 import { getAllUser } from '../controllers/adminController.js'
 import { protect } from '../middlewares/authMiddlewares.js'
 import multer from 'multer'
@@ -58,7 +58,9 @@ router.route('/follow/:id').put(protect, addToFollowing)
 router.route('/unfollow/:id').put(protect, removeFromFollowing)
 router.route('/followingList').get(protect, followingList)
 router.route('/followerList').get(protect, followerList)
-router.route('/reviewer').post(protect, upload.array('image'), reviewerRequest)
+router.route('/reviewer')
+    .post(protect, upload.array('image'), reviewerRequest)
+    .put(protect, upload.array('image'), reviewerUpdateProfile)
 router.route('/forgetPassword').post(frogetPassword)
 router.route('/changePassword').post(changePassword).put(protect, updatePassword)
 router.route('/test1').get(test1)

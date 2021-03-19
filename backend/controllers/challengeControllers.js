@@ -130,7 +130,7 @@ const getChallengeById = asyncHandler(async (req, res) => {
 const likeChallengeById = asyncHandler(async (req, res) => {
     const challenge = await PartChal.findById(req.params.id)
     const user = await User.findById(req.user.id)
-    const creator = await User.findById(challenge.creator)
+    // const creator = await User.findById(challenge.creator)
     if (challenge) {
         const alreadyLiked = await challenge.likes.find(
             (r) => r.toString() === req.user._id.toString()
@@ -143,9 +143,9 @@ const likeChallengeById = asyncHandler(async (req, res) => {
 
         challenge.likes.push(req.user._id)
         challenge.totalLikes = challenge.likes.length
-        creator.totalChallengeLikes += 1
+        //creator.totalChallengeLikes += 1
         user.liked.push(req.params.id)
-        await creator.save()
+        // await creator.save()
         await user.save()
         await challenge.save()
         res.status(201).json({
@@ -164,7 +164,7 @@ const likeChallengeById = asyncHandler(async (req, res) => {
 const unlikeChallengeById = asyncHandler(async (req, res) => {
     const challenge = await PartChal.findById(req.params.id)
     const user = await User.findById(req.user.id)
-    const creator = await User.findById(challenge.creator)
+    // const creator = await User.findById(challenge.creator)
     if (challenge) {
         const alreadyLiked = await challenge.likes.find(
             (r) => r.toString() === req.user._id.toString()
@@ -177,9 +177,9 @@ const unlikeChallengeById = asyncHandler(async (req, res) => {
 
         challenge.likes.pull({ _id: req.user.id })
         challenge.totalLikes = challenge.likes.length
-        creator.totalChallengeLikes -= 1
+        //   creator.totalChallengeLikes -= 1
         user.liked.pull({ _id: req.params.id })
-        await creator.save()
+        // await creator.save()
         await user.save()
         await challenge.save()
 

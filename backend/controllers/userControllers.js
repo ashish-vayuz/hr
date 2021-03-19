@@ -735,6 +735,34 @@ const reviewerRequest = asyncHandler(async (req, res) => {
     }
 })
 
+// @desc Allow user to become Reviewer
+// route POST users/reviewer
+// access Private
+const reviewerUpdateProfile = asyncHandler(async (req, res) => {
+    const data = req.files.map(x => x.path)
+    const { DOB, age, bankName, branchName, IFSCcode, UploadID } = req.body
+    const user = await User.findById(req.user.id)
+    
+    if (user) {
+        user.DOB = req.body.DOB || user.DOB
+        user.age = req.body.age || user.age
+        user.bankName = req.body.bankName || user.bankName
+        user.branchName = req.body.branchName || user.branchName
+        user.IFSCcode = req.body.IFSCcode || user.IFSCcode
+        user.data = req.body.data || user.data
+        user.isReviewer = "true"
+        await user.save()
+        res.json({
+            errorcode: 1,
+            errormessage: "Reviewer Profile Updated",
+            user: user
+        })
+    } else {
+        res.status(404)
+        throw new Error("User not Found")
+    }
+})
+
 const followingList = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user.id)
     if (user) {
@@ -918,4 +946,4 @@ const facebookAuth = asyncHandler(async (req, res) => {
     }
 })
 
-export { signup, authUser, otp, uploadImg, location, category, changePassword, updatePassword, frogetPassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest, followingList, followerList, test1, deleteUser, googleAuth, facebookAuth }
+export { signup, authUser, otp, uploadImg, location, category, changePassword, updatePassword, frogetPassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest, followingList, followerList, test1, deleteUser, googleAuth, facebookAuth,reviewerUpdateProfile }
