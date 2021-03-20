@@ -15,7 +15,7 @@ const participateChal = mongoose.Schema({
         type: String,
         required: true
     },
-    reviewer:{
+    reviewer: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     },
@@ -34,6 +34,11 @@ const participateChal = mongoose.Schema({
         required: true,
         ref: 'User',
     }],
+    participates: [{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User',
+    }],
     totalLikes: {
         type: Number,
         required: true,
@@ -46,8 +51,16 @@ const participateChal = mongoose.Schema({
     isBookmarked: {
         type: Boolean,
         default: false
+    },
+    isParticipated: {
+        type: Boolean,
+        default: false
     }
-})
+},
+ {
+    timestamps: true
+}
+)
 
 const PartChal = mongoose.model('Participate', participateChal)
 

@@ -242,7 +242,7 @@ const participateChallenge = asyncHandler(async (req, res) => {
         const newParticipation = await PartChal.create({
             user: req.user.id,
             video: video,
-            challenge: challenge
+            challenge: challenge,
         })
         challenge.participant.push(newParticipation.id)
         await challenge.save()
@@ -293,9 +293,12 @@ const getPaticipation = asyncHandler(async (req, res) => {
     if (challenge) {
 
         challenge.forEach(c => {
+            if (c.user.id == req.user.id) {
+                c.isParticipated = true
+            }
             c.bookmarks.forEach(b => {
                 if (b == req.user.id) {
-                    b.isBookmarked = true
+                    c.isBookmarked = true
                 }
             })
             c.likes.forEach(l => {

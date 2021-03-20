@@ -411,6 +411,8 @@ const getProfile = asyncHandler(async (req, res) => {
         .populate("followings", 'name image')
         .populate("followers", 'name image')
         .populate("categories", "name image")
+        .populate({ path: 'myChallenges', populate: { path: 'category', select: 'name image' } })
+        .populate({ path: 'myChallenges', populate: { path: 'creator', select: 'name image' } })
     if (user) {
         res.json({
             "errorcode": 1,
@@ -534,27 +536,23 @@ const addToBookmark = asyncHandler(async (req, res) => {
     const challenge = await PartChal.findById(req.params.id)
     if (challenge) {
         const alreadtBookmarked = await challenge.bookmarks.find(
-            (r) => r.toString() === req.params.id.toString()
+            (r) => r.toString() === req.user.id.toString()
         )
 
         if (alreadtBookmarked) {
             res.status(400)
             throw new Error('Challenge already Bookmarked')
         }
-    }
 
-    if (user) {
+
         user.bookmarks.push(challenge)
         challenge.bookmarks.push(user)
+        await user.save()
         await challenge.save()
-        const updatedUser = await user.save()
         res.json({
 
             errorcode: 1,
             errormessage: "Added to Bookmark",
-            _id: updatedUser._id,
-            name: updatedUser.name,
-            bookmarks: updatedUser.bookmarks
         })
 
     } else {
@@ -569,22 +567,31 @@ const addToBookmark = asyncHandler(async (req, res) => {
 const removeFromBookmark = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id)
     const challenge = await PartChal.findById(req.params.id)
-    if (user) {
-        user.bookmarks.pull({ _id: req.params.id })
-        challenge.bookmarks.pull({ _id: req.user.id })
-        await challenge.save()
-        const updatedUser = await user.save()
-        res.json({
+    if (challenge) {
+        const alreadyBookmarked = await challenge.bookmarks.find(
+            (r) => r.toString() === req.user._id.toString()
+        )
 
+        if (!alreadyBookmarked) {
+            res.status(400)
+            throw new Error('Challenge never bookmarked')
+        }
+
+        challenge.bookmarks.pull({ _id: req.user.id })
+        //challenge.totalLikes = challenge.likes.length
+        //   creator.totalChallengeLikes -= 1
+        user.bookmarks.pull({ _id: req.params.id })
+        // await creator.save()
+        await user.save()
+        await challenge.save()
+
+        res.status(200).json({
             errorcode: 1,
-            errormessage: "Removed from Bookmark",
-            _id: updatedUser._id,
-            name: updatedUser.name,
-            bookmarks: updatedUser.bookmarks
+            errormessage: 'Bookmark removed'
         })
     } else {
         res.status(404)
-        throw new Error('User not found')
+        throw new Error('Challenge not found')
     }
 })
 

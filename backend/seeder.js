@@ -45,4 +45,4 @@ const destroyData = async () => {
     }
 }
 
-importData()
+destroyData()
