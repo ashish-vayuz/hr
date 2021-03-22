@@ -82,7 +82,6 @@ const challengeSchema = mongoose.Schema({
     },
     reviewAmount: {
         type: String,
-        required: true,
     },
     reviews: [reviewSchema],
     totalparticipated: {
