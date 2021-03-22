@@ -413,6 +413,17 @@ const getProfile = asyncHandler(async (req, res) => {
         .populate("categories", "name image")
         .populate({ path: 'myChallenges', populate: { path: 'category', select: 'name image' } })
         .populate({ path: 'myChallenges', populate: { path: 'creator', select: 'name image' } })
+        .populate({ path: 'participatedChallenges', populate: { path: 'user', select: 'name image' } })
+        .populate({
+            path: 'participatedChallenges',
+            populate: {
+                path: 'challenge',
+                populate: {
+                    path: 'creator category',
+                    select: 'name image'
+                }
+            }
+        })
     if (user) {
         res.json({
             "errorcode": 1,
@@ -749,7 +760,7 @@ const reviewerUpdateProfile = asyncHandler(async (req, res) => {
     const data = req.files.map(x => x.path)
     const { DOB, age, bankName, branchName, IFSCcode, UploadID } = req.body
     const user = await User.findById(req.user.id)
-    
+
     if (user) {
         user.DOB = req.body.DOB || user.DOB
         user.age = req.body.age || user.age
@@ -919,7 +930,7 @@ const googleAuth = asyncHandler(async (req, res) => {
 })
 
 const facebookAuth = asyncHandler(async (req, res) => {
-    const { name, facebookId, facebookToken,image } = req.body;
+    const { name, facebookId, facebookToken, image } = req.body;
     const verified = "true"
     const user = await User.findOne({ facebookId })
     if (!user) {
@@ -952,4 +963,4 @@ const facebookAuth = asyncHandler(async (req, res) => {
     }
 })
 
-export { signup, authUser, otp, uploadImg, location, category, changePassword, updatePassword, frogetPassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest, followingList, followerList, test1, deleteUser, googleAuth, facebookAuth,reviewerUpdateProfile }
+export { signup, authUser, otp, uploadImg, location, category, changePassword, updatePassword, frogetPassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest, followingList, followerList, test1, deleteUser, googleAuth, facebookAuth, reviewerUpdateProfile }
