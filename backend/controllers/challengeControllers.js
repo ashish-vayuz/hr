@@ -282,9 +282,12 @@ const getPaticipation = asyncHandler(async (req, res) => {
         }
         : {}
 
+    const filter = req.query.following
+        ? { user: { $elemMatch: { followers: req.user.id } } }
+        : ""
     const count = await PartChal.countDocuments({ ...keyword })
-    const challenge = await PartChal.find({})
-        .populate('user', 'name image')
+    const challenge = await PartChal.find({ ...keyword })
+        .populate('user', 'name image followers')
         .populate('challenge')
         .populate({ path: 'challenge', populate: { path: 'category', select: 'name image' } })
         .populate({ path: 'challenge', populate: { path: 'creator', select: 'name image' } })
@@ -349,6 +352,24 @@ const updateParticipation = asyncHandler(async (req, res) => {
 // access Public
 const getParticipationById = asyncHandler(async (req, res) => {
     const challenge = await PartChal.findById(req.params.id).populate('challenge user')
+        .populate('user', 'name image followers')
+        .populate('challenge')
+        .populate({ path: 'challenge', populate: { path: 'category', select: 'name image' } })
+        .populate({ path: 'challenge', populate: { path: 'creator', select: 'name image' } })
+    if (challenge.user.id == req.user.id) {
+        c.isParticipated = true
+    }
+    challenge.bookmarks.forEach(b => {
+        if (b == req.user.id) {
+            c.isBookmarked = true
+        }
+    })
+    challenge.likes.forEach(l => {
+        if (l == req.user.id) {
+            c.isliked = true
+        }
+    });
+    
     if (challenge) {
         res.json({
             "errorcode": 1,
