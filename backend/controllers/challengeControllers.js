@@ -222,7 +222,7 @@ const deleteChallenge = asyncHandler(async (req, res) => {
 const participateChallenge = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user.id)
     const { video } = req.body
-    const challenge = await Challenge.findById(req.params.id)
+    const challenge = await Challenge.findById(req.params.id).populate('category')
     if (challenge) {
 
         const newParticipation = await PartChal.create({
@@ -231,6 +231,7 @@ const participateChallenge = asyncHandler(async (req, res) => {
             challenge: challenge,
         })
         challenge.participant.push(newParticipation.id)
+        challenge.category.coins+=challenge.coinAllocated
         await challenge.save()
         user.participatedChallenges.push(newParticipation.id)
         await user.save()
@@ -238,7 +239,7 @@ const participateChallenge = asyncHandler(async (req, res) => {
         if (newParticipation) {
             res.status(201).json({
                 errorcode: 1,
-                errormessage: 'Challenge Participated'
+                errormessage: 'Challenge Participated',
             })
         } else {
             res.status(400).json()

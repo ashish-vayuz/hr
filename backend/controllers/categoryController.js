@@ -81,4 +81,6 @@ const updateCategory = asyncHandler(async (req, res) => {
     }
 })
 
+
+
 export { uploadCat, getCategory, addCategory, deleteCategory, updateCategory }
