@@ -83,22 +83,7 @@ const postChallenge = asyncHandler(async (req, res) => {
 
             errorcode: 1,
             errormessage: "Challenge Added",
-            res: "challenge",
-            _id: challenge._id,
-            creator: challenge.creator,
-            title: challenge.title,
-            description: challenge.description,
-            hashtags: challenge.hashtags,
-            category: challenge.category,
-            rewards: challenge.rewards,
-            rewardDetails: challenge.rewardDetails,
-            rewardContactNo: challenge.rewardContactNo,
-            rewardEmail: challenge.rewardEmail,
-            coinAllocated: challenge.coinAllocated,
-            coinRequired: challenge.coinRequired,
-            visibility: challenge.visibility,
-            reviewAmount: challenge.reviewAmount,
-            video:challenge.video
+            list:challenge
         })
     } else {
         res.status(400)
