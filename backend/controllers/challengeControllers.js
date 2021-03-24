@@ -78,12 +78,15 @@ const postChallenge = asyncHandler(async (req, res) => {
         user.myChallenges.push(challenge._id)
         await user.save()
     }
+    const data = await Challenge.findById(challenge._id)
+        .populate("creator", 'name image')
+        .populate('category', 'name image')
     if (challenge) {
         res.status(201).json({
 
             errorcode: 1,
             errormessage: "Challenge Added",
-            list:challenge
+            list: data
         })
     } else {
         res.status(400)
@@ -231,7 +234,7 @@ const participateChallenge = asyncHandler(async (req, res) => {
             challenge: challenge,
         })
         challenge.participant.push(newParticipation.id)
-        challenge.category.coins+=challenge.coinAllocated
+        challenge.category.coins += challenge.coinAllocated
         await challenge.save()
         user.participatedChallenges.push(newParticipation.id)
         await user.save()
