@@ -97,7 +97,8 @@ const postChallenge = asyncHandler(async (req, res) => {
             coinAllocated: challenge.coinAllocated,
             coinRequired: challenge.coinRequired,
             visibility: challenge.visibility,
-            reviewAmount: challenge.reviewAmount
+            reviewAmount: challenge.reviewAmount,
+            video:challenge.video
         })
     } else {
         res.status(400)

@@ -529,8 +529,22 @@ const getUserById = asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id)
         .select('-password -OTP -verified -isDeleted -report')
         .populate('myChallenges bookmarks participatedChallenges liked')
-        .populate("followings", 'name')
-        .populate("followers", 'name')
+        .populate("followings", 'name image')
+        .populate("followers", 'name image')
+        .populate("categories", "name image")
+        .populate({ path: 'myChallenges', populate: { path: 'category', select: 'name image' } })
+        .populate({ path: 'myChallenges', populate: { path: 'creator', select: 'name image' } })
+        .populate({ path: 'participatedChallenges', populate: { path: 'user', select: 'name image' } })
+        .populate({
+            path: 'participatedChallenges',
+            populate: {
+                path: 'challenge',
+                populate: {
+                    path: 'creator category',
+                    select: 'name image'
+                }
+            }
+        })
     res.json({
         "errorcode": 1,
         "errormessage": "Records found",
