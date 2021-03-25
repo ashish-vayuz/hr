@@ -11,6 +11,11 @@ const participateChal = mongoose.Schema({
         required: true,
         ref: 'Challenge',
     },
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'category',
+    },
     video: {
         type: String,
         required: true

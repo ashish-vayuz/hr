@@ -80,6 +80,17 @@ const userSchema = mongoose.Schema({
         required: true,
         ref: 'Category',
     }],
+    cateogryCoin:[{
+        coins:{
+            type:Number,
+            default:0
+        },
+        category:{
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'Category',
+        }
+    }],
     followings: [{
         type: mongoose.Schema.Types.ObjectId,
         required: true,

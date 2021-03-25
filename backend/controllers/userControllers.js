@@ -381,8 +381,16 @@ const category = asyncHandler(async (req, res) => {
 
         const updatedUser = await User.findById(req.user.id)
         updatedUser.categories = category
+        updatedUser.cateogryCoin = category.map(c => {
+            const x = {
+                "category": c,
+                "coin": 0
+            }
+            return x
+        })
         await updatedUser.save()
         res.json({
+            cateogryCoin: updatedUser.cateogryCoin,
             errorcode: 1,
             errormessage: "Category Updated",
             _id: updatedUser._id,
@@ -411,6 +419,7 @@ const getProfile = asyncHandler(async (req, res) => {
         .populate("followings", 'name image')
         .populate("followers", 'name image')
         .populate("categories", "name image")
+        .populate({ path: 'cateogryCoin', populate: { path: 'category', select: 'name image' } })
         .populate({ path: 'myChallenges', populate: { path: 'category', select: 'name image' } })
         .populate({ path: 'myChallenges', populate: { path: 'creator', select: 'name image' } })
         .populate({ path: 'participatedChallenges', populate: { path: 'user', select: 'name image' } })

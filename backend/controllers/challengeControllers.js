@@ -223,7 +223,7 @@ const deleteChallenge = asyncHandler(async (req, res) => {
 // route post challenge/:id/participate
 // access Private
 const participateChallenge = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user.id)
+    const user = await User.findById(req.user.id).populate('categories')
     const { video } = req.body
     const challenge = await Challenge.findById(req.params.id).populate('category')
     if (challenge) {
@@ -232,10 +232,17 @@ const participateChallenge = asyncHandler(async (req, res) => {
             user: req.user.id,
             video: video,
             challenge: challenge,
+            category: challenge.category
         })
         challenge.participant.push(newParticipation.id)
-        challenge.category.coins += challenge.coinAllocated
         await challenge.save()
+
+        user.cateogryCoin.forEach(c => {
+            if (c.category.toString() === challenge.category.toString()) {
+                console.log("hello");
+                c.coins += challenge.coinAllocated
+            }
+        })
         user.participatedChallenges.push(newParticipation.id)
         await user.save()
 
@@ -243,6 +250,7 @@ const participateChallenge = asyncHandler(async (req, res) => {
             res.status(201).json({
                 errorcode: 1,
                 errormessage: 'Challenge Participated',
+                list: newParticipation
             })
         } else {
             res.status(400).json()
@@ -260,7 +268,8 @@ const participateChallenge = asyncHandler(async (req, res) => {
 // route GET participation
 // access Public
 const getPaticipation = asyncHandler(async (req, res) => {
-    const pageSize = 10
+    const user = await User.findById(req.user.id)
+    const pageSize = 100
     const page = Number(req.query.pageNumber) || 1
 
     const keyword = req.query.keyword
@@ -275,8 +284,8 @@ const getPaticipation = asyncHandler(async (req, res) => {
     const filter = req.query.following
         ? { user: { $elemMatch: { followers: req.user.id } } }
         : ""
-    const count = await PartChal.countDocuments({ ...keyword })
-    const challenge = await PartChal.find({ ...keyword })
+    const count = await PartChal.countDocuments({ category: user.category })
+    const challenge = await PartChal.find({ category: { $all: user.category } })
         .populate('user', 'name image followers')
         .populate('challenge')
         .populate({ path: 'challenge', populate: { path: 'category', select: 'name image' } })
