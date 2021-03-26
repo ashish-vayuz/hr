@@ -236,13 +236,6 @@ const participateChallenge = asyncHandler(async (req, res) => {
         })
         challenge.participant.push(newParticipation.id)
         await challenge.save()
-
-        user.cateogryCoin.forEach(c => {
-            if (c.category.toString() === challenge.category.toString()) {
-                console.log("hello");
-                c.coins += challenge.coinAllocated
-            }
-        })
         user.participatedChallenges.push(newParticipation.id)
         await user.save()
 
@@ -329,15 +322,25 @@ const getPaticipation = asyncHandler(async (req, res) => {
 // access Private
 const updateParticipation = asyncHandler(async (req, res) => {
     const category = await PartChal.findById(req.params.id)
-
+    const user = await User.findById(category.user).populate('categories')
+    const challenge = await Challenge.findById(category.challenge)
     if (category) {
         category.review_status = req.body.review_status
         category.reviewer = req.user.id;
+
+        if (category.review_status == 'Approved') {
+            user.cateogryCoin.forEach(c => {
+                if (c.category.toString() === challenge.category.toString()) {
+                    c.coins += challenge.coinAllocated
+                }
+            })
+        }
         const updatedCategory = await category.save()
 
         res.status(200).json({
             "errorcode": 1,
             "errormessage": `Status Changed to ${updatedCategory.review_status}`,
+            data: user.cateogryCoin
         })
     } else {
         res.status(404)

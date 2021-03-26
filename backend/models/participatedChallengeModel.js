@@ -13,7 +13,6 @@ const participateChal = mongoose.Schema({
     },
     category: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
         ref: 'category',
     },
     video: {
