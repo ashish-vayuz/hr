@@ -262,7 +262,7 @@ const participateChallenge = asyncHandler(async (req, res) => {
 // access Public
 const getPaticipation = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user.id)
-    const pageSize = 100
+    const pageSize = 10
     const page = Number(req.query.pageNumber) || 1
 
     const keyword = req.query.keyword
