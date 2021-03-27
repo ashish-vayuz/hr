@@ -333,7 +333,7 @@ const updateParticipation = asyncHandler(async (req, res) => {
         category.reviewer = req.user.id;
 
         if (category.review_status == 'Approved') {
-            user.cateogryCoin.forEach(c => {
+            user.categoryCoin.forEach(c => {
                 if (c.category.toString() === challenge.category.toString()) {
                     c.coins += challenge.coinAllocated
                 }
