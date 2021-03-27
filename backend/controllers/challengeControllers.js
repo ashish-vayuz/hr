@@ -28,8 +28,8 @@ const getChallenge = asyncHandler(async (req, res) => {
         .skip(pageSize * (page - 1))
 
     challenge.forEach(c => {
-        if (c.participation.indexOf(req.user.id) > -1){
-            isParticipated=true
+        if (c.participation.indexOf(req.user.id) > -1) {
+            isParticipated = true
         }
         c.bookmarks.forEach(b => {
             if (b == req.user.id) {
@@ -327,6 +327,7 @@ const getPaticipation = asyncHandler(async (req, res) => {
 const updateParticipation = asyncHandler(async (req, res) => {
     const category = await PartChal.findById(req.params.id)
     const user = await User.findById(category.user).populate('categories')
+    const reviewer = await User.findById(req.user.id)
     const challenge = await Challenge.findById(category.challenge)
     if (category) {
         category.review_status = req.body.review_status
@@ -339,12 +340,12 @@ const updateParticipation = asyncHandler(async (req, res) => {
                 }
             })
         }
+        reviewer.coinsEarned+=1
+        await reviewer.save()
         const updatedCategory = await category.save()
-
         res.status(200).json({
             "errorcode": 1,
             "errormessage": `Status Changed to ${updatedCategory.review_status}`,
-            data: user.cateogryCoin
         })
     } else {
         res.status(404)
@@ -362,13 +363,13 @@ const getParticipationById = asyncHandler(async (req, res) => {
         .populate('challenge')
         .populate({ path: 'challenge', populate: { path: 'category', select: 'name image' } })
         .populate({ path: 'challenge', populate: { path: 'creator', select: 'name image' } })
-        
+
     if (challenge.user.id == req.user.id) {
         challenge.isParticipated = true
     }
-    
-    challenge.user.forEach(u=>{
-        if(u=req.user.id){
+
+    challenge.user.forEach(u => {
+        if (u = req.user.id) {
             challenge.isFollowing = true
         }
     })
@@ -454,4 +455,4 @@ const sendAdminParticipation = asyncHandler(async (req, res) => {
     }
 })
 
-export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge, participateChallenge, updateChallenge, getPaticipation, updateParticipation, getParticipationById, uploadBan,sendAdminParticipation }
+export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge, participateChallenge, updateChallenge, getPaticipation, updateParticipation, getParticipationById, uploadBan, sendAdminParticipation }
