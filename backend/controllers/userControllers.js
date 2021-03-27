@@ -1031,30 +1031,37 @@ const facebookAuth = asyncHandler(async (req, res) => {
     if (!user) {
         const newUser = await User.create({
             name,
-            image,
             facebookId,
+            image,
             facebookToken,
             verified
         })
         if (newUser) {
             res.status(201).json({
                 errorcode: 1,
-                res: 'google',
+                res: 'facebook',
                 errormessage: 'done',
                 _id: newUser._id,
                 name: newUser.name,
                 facebookId: newUser.facebookId,
-                facebookToken: newUser.facebookToken,
+                facebookToken: facebookToken,
                 token: generateToken(newUser._id)
             })
         }
-        else {
-            res.status(400)
-            throw new Error('Invalid Data')
-        }
+    } else if (user) {
+        res.status(201).json({
+            errorcode: 1,
+            res: 'google',
+            errormessage: 'done',
+            _id: user._id,
+            name: user.name,
+            facebookId: user.facebookId,
+            facebookToken: facebookToken,
+            token: generateToken(user._id)
+        })
     } else {
-        res.status(401)
-        throw new Error('User already Exist')
+        res.status(400)
+        throw new Error('Invalid Data')
     }
 })
 
