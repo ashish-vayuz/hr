@@ -3,6 +3,7 @@ import generateToken from '../utils/generateToken.js'
 import User from '../models/userModel.js'
 import nodemailer from 'nodemailer'
 import Challenge from '../models/challengeModel.js'
+import Category from '../models/categoryModel.js'
 import PartChal from '../models/participatedChallengeModel.js'
 
 // @desc Signup User to Platform
@@ -381,7 +382,7 @@ const category = asyncHandler(async (req, res) => {
 
         const updatedUser = await User.findById(req.user.id)
         updatedUser.categories = category
-        updatedUser.cateogryCoin = category.map(c => {
+        updatedUser.categoryCoin = category.map(c => {
             const x = {
                 "category": c,
                 "coin": 0
@@ -390,7 +391,7 @@ const category = asyncHandler(async (req, res) => {
         })
         await updatedUser.save()
         res.json({
-            cateogryCoin: updatedUser.cateogryCoin,
+            categoryCoin: updatedUser.categoryCoin,
             errorcode: 1,
             errormessage: "Category Updated",
             _id: updatedUser._id,
@@ -419,7 +420,7 @@ const getProfile = asyncHandler(async (req, res) => {
         .populate("followings", 'name image')
         .populate("followers", 'name image')
         .populate("categories", "name image")
-        .populate({ path: 'cateogryCoin', populate: { path: 'category', select: 'name image' } })
+        .populate({ path: 'categoryCoin', populate: { path: 'category', select: 'name image' } })
         .populate({ path: 'myChallenges', populate: { path: 'category', select: 'name image' } })
         .populate({ path: 'myChallenges', populate: { path: 'creator', select: 'name image' } })
         .populate({ path: 'participatedChallenges', populate: { path: 'user', select: 'name image' } })
@@ -863,12 +864,34 @@ const followerList = asyncHandler(async (req, res) => {
 })
 
 const test1 = asyncHandler(async (req, res) => {
-    const user = await User.find({})
-    const challenge = await Challenge.find({})
-    res.json({
-        user: user,
-        challenge: challenge
+    //await User.updateMany()
+    const category = await Category.find({})
+    const cat = category.map(c => {
+        const x = {
+            "category": c.id,
+            "coin": 0
+        }
+        return x
     })
+    await User.updateMany({ $set: { categoryCoin: cat } })
+    res.json({
+        cat
+    })
+})
+
+const userCoin = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.id)
+        .populate({ path: 'categoryCoin', populate: { path: 'category', select: 'name image' } })
+    if (user) {
+        res.json({
+            "errorcode": 1,
+            "errormessage": "Records found",
+            "list": user.categoryCoin
+        })
+    } else {
+        res.status(404)
+        throw new Error("Coin not Found")
+    }
 })
 
 const frogetPassword = asyncHandler(async (req, res) => {
@@ -1010,4 +1033,4 @@ const facebookAuth = asyncHandler(async (req, res) => {
     }
 })
 
-export { signup, authUser, otp, uploadImg, location, category, changePassword, updatePassword, frogetPassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest, followingList, followerList, test1, deleteUser, googleAuth, facebookAuth, reviewerUpdateProfile }
+export { signup, authUser, otp, uploadImg, location, category, changePassword, updatePassword, frogetPassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest, followingList, followerList, test1, deleteUser, googleAuth, facebookAuth, reviewerUpdateProfile,userCoin }

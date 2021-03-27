@@ -80,7 +80,7 @@ const userSchema = mongoose.Schema({
         required: true,
         ref: 'Category',
     }],
-    cateogryCoin:[{
+    categoryCoin:[{
         coins:{
             type:Number,
             default:0
