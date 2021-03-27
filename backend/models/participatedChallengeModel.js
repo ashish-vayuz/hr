@@ -59,6 +59,10 @@ const participateChal = mongoose.Schema({
     isParticipated: {
         type: Boolean,
         default: false
+    },
+    isFollowing:{
+        type: Boolean,
+        default: false
     }
 },
  {

@@ -362,14 +362,23 @@ const getParticipationById = asyncHandler(async (req, res) => {
         .populate('challenge')
         .populate({ path: 'challenge', populate: { path: 'category', select: 'name image' } })
         .populate({ path: 'challenge', populate: { path: 'creator', select: 'name image' } })
+        
     if (challenge.user.id == req.user.id) {
         challenge.isParticipated = true
     }
+    
+    challenge.user.forEach(u=>{
+        if(u=req.user.id){
+            challenge.isFollowing = true
+        }
+    })
+
     challenge.bookmarks.forEach(b => {
         if (b == req.user.id) {
             challenge.isBookmarked = true
         }
     })
+
     challenge.likes.forEach(l => {
         if (l == req.user.id) {
             challenge.isliked = true
