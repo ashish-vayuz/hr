@@ -518,15 +518,32 @@ const getAllUsers = asyncHandler(async (req, res) => {
             },
         }
         : {}
+
     const count = await User.countDocuments({ ...keyword })
+    const user = await User.findById(req.user.id).populate("followers", 'name image')
     const users = await User.find({ ...keyword })
-        .select('name image totalFollowings totalFollowers location')
+        .select('name image totalFollowings totalFollowers followers location')
         .limit(pageSize)
         .skip(pageSize * (page - 1))
+    const data = users.map(f => {
+        let x = {
+            "location": f.location,
+            "_id": f.id,
+            "name": f.name,
+            "image": f.image,
+            "totalFollowers": f.totalFollowers,
+            "totalFollowings": f.totalFollowings,
+            "return": 0
+        }
+        if (f.followers.indexOf(req.user.id) > -1) {
+            x.return = 1
+        };
+        return x
+    })
     res.json({
         "errorcode": 1,
         "errormessage": "Records found",
-        "list": users,
+        "list": data,
         page,
         pages: Math.ceil(count / pageSize),
     })
