@@ -23,10 +23,14 @@ const getChallenge = asyncHandler(async (req, res) => {
     const challenge = await Challenge.find({ ...keyword })
         .populate("creator", 'name image')
         .populate('category', 'name image')
+        .populate('participant')
         .limit(pageSize)
         .skip(pageSize * (page - 1))
 
     challenge.forEach(c => {
+        if (c.participation.indexOf(req.user.id) > -1){
+            isParticipated=true
+        }
         c.bookmarks.forEach(b => {
             if (b == req.user.id) {
                 b.isBookmarked = true

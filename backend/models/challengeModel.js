@@ -93,6 +93,11 @@ const challengeSchema = mongoose.Schema({
         required: true,
         ref: 'Participate',
     }],
+    participation:[{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User',
+    }],
     video: {
         type: String,
         required: true,
@@ -115,6 +120,10 @@ const challengeSchema = mongoose.Schema({
         default: false
     },
     isBookmarked: {
+        type: Boolean,
+        default: false
+    },
+    isParticipated: {
         type: Boolean,
         default: false
     }

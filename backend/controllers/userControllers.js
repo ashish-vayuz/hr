@@ -806,13 +806,16 @@ const reviewerUpdateProfile = asyncHandler(async (req, res) => {
 
 const followingList = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user.id)
+        .populate("followings", 'name image')
     if (user) {
         const data = user.followings.map(f => {
             let x = {
-                "id": f,
+                "id": f.id,
+                "name": f.name,
+                "image": f.image,
                 "return": 0
             }
-            if ((user.followers.indexOf(f) > -1)) {
+            if (user.followers.indexOf(f.id) > -1) {
                 x.return = 1
             };
             return x
@@ -832,13 +835,16 @@ const followingList = asyncHandler(async (req, res) => {
 
 const followerList = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user.id)
+        .populate("followers", 'name image')
     if (user) {
         const data = user.followers.map(f => {
             let x = {
-                "id": f,
+                "id": f.id,
+                "name": f.name,
+                "image": f.image,
                 "return": 0
             }
-            if ((user.followings.indexOf(f) > -1)) {
+            if (user.followings.indexOf(f.id) > -1) {
                 x.return = 1
             };
             return x
