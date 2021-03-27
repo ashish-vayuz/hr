@@ -807,11 +807,20 @@ const reviewerUpdateProfile = asyncHandler(async (req, res) => {
 const followingList = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user.id)
     if (user) {
+        const data = user.followings.map(f => {
+            let x = {
+                "id": f,
+                "return": 0
+            }
+            if ((user.followers.indexOf(f) > -1)) {
+                x.return = 1
+            };
+            return x
+        })
         res.json({
-
             "errorcode": 1,
             "errormessage": "Records found",
-            "list": user.followings
+            "list": data
 
         })
     } else {
@@ -824,11 +833,20 @@ const followingList = asyncHandler(async (req, res) => {
 const followerList = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user.id)
     if (user) {
+        const data = user.followers.map(f => {
+            let x = {
+                "id": f,
+                "return": 0
+            }
+            if ((user.followings.indexOf(f) > -1)) {
+                x.return = 1
+            };
+            return x
+        })
         res.json({
-
             "errorcode": 1,
             "errormessage": "Records found",
-            "list": user.followers
+            "list": data
 
         })
     } else {
