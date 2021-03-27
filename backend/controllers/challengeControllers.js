@@ -436,4 +436,22 @@ const updateChallenge = asyncHandler(async (req, res) => {
     }
 })
 
-export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge, participateChallenge, updateChallenge, getPaticipation, updateParticipation, getParticipationById, uploadBan }
+// @desc Gupdate participation
+// route GET participation
+// access Private
+const sendAdminParticipation = asyncHandler(async (req, res) => {
+    const category = await PartChal.findById(req.params.id)
+    if (category) {
+        category.adminReview = true
+        await category.save()
+        res.status(200).json({
+            "errorcode": 1,
+            "errormessage": `Request Sent to admin`,
+        })
+    } else {
+        res.status(404)
+        throw new Error('Participation not found')
+    }
+})
+
+export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge, participateChallenge, updateChallenge, getPaticipation, updateParticipation, getParticipationById, uploadBan,sendAdminParticipation }
