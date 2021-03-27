@@ -13,3 +13,22 @@ const createConnection = () => {
         googleConfig.redirect
     );
 }
+
+const defaultScope = [
+    'https://www.googleapis.com/auth/plus.me',
+    'https://www.googleapis.com/auth/userinfo.email',
+];
+
+function getConnectionUrl(auth) {
+    return auth.generateAuthUrl({
+        access_type: 'offline',
+        prompt: 'consent', // access type and approval prompt will force a new refresh token to be made each time signs in
+        scope: defaultScope
+    });
+}
+
+function urlGoogle() {
+    const auth = createConnection(); // this is from previous step
+    const url = getConnectionUrl(auth);
+    return url;
+}

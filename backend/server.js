@@ -13,6 +13,7 @@ import challengeRoutes from './routes/challengeRoute.js'
 import participate from './routes/participateRoute.js'
 import adminRoutes from './routes/adminRoutes.js'
 import cmsRoutes from './routes/cmsRoutes.js'
+import googleRoutes from './config/google.js'
 
 dotenv.config()
 
@@ -31,6 +32,7 @@ app.use('/category', categoryRoutes)
 app.use('/challenge', challengeRoutes)
 app.use('/participation', participate)
 app.use('/admin', adminRoutes)
+app.use('/google', googleRoutes)
 app.use("/cms", cmsRoutes);
 
 const __dirname = path.resolve()
