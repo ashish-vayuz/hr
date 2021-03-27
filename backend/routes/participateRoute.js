@@ -39,6 +39,7 @@ const upload = multer({
 router.route('/upload').post(upload.single('video'), uploadChal)
 router.route('/like/:id').get(protect, likeChallengeById)
 router.route('/unlike/:id').get(protect, unlikeChallengeById)
+router.route('/admin/:id').put(protect, sendAdminParticipation)
 router.route('/')
     .get(protect, getPaticipation)
 router.route('/:id').put(protect, updateParticipation).get(protect, getParticipationById)
