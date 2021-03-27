@@ -335,17 +335,22 @@ const updateParticipation = asyncHandler(async (req, res) => {
 
         if (category.review_status == 'Approved') {
             user.categoryCoin.forEach(c => {
+                console.log(c.category, challenge.category);
+                console.log(challenge.coinAllocated);
                 if (c.category.toString() === challenge.category.toString()) {
                     c.coins += challenge.coinAllocated
                 }
             })
         }
-        reviewer.coinsEarned+=1
+        reviewer.coinsEarned += 1
         await reviewer.save()
+        await user.save()
         const updatedCategory = await category.save()
+
         res.status(200).json({
             "errorcode": 1,
             "errormessage": `Status Changed to ${updatedCategory.review_status}`,
+            data: user.categoryCoin
         })
     } else {
         res.status(404)
