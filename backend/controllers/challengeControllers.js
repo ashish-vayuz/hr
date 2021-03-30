@@ -268,7 +268,7 @@ const getPaticipation = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user.id)
     const pageSize = 10
     const page = Number(req.query.pageNumber) || 1
-    const approved = req.query.approved;
+    const approved = req.query.approved ? { review_status: "Approved" } : {};
     const keyword = req.query.keyword
         ? {
             description: {
@@ -282,7 +282,7 @@ const getPaticipation = asyncHandler(async (req, res) => {
         ? { user: { $elemMatch: { followers: req.user.id } } }
         : ""
     const count = await PartChal.countDocuments({})
-    const challenge = await PartChal.find({ review_status: approved } )
+    const challenge = await PartChal.find({ ...approved })
         .populate('user', 'name image followers')
         .populate('challenge')
         .populate({ path: 'challenge', populate: { path: 'category', select: 'name image' } })
