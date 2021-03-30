@@ -8,6 +8,8 @@ import {
 } from "@coreui/react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Loader from "../Loader/Loader";
+import axios from "axios";
 import {
   listUsers,
   addUser,
@@ -15,22 +17,27 @@ import {
   updateUser,
   listUserDetails,
 } from "../../actions/userMAction";
-import Loader from "../Loader/Loader";
+import moment from "moment";
+import Modal from "src/reusable/Modal";
 
-const CategoryManagement = (props) => {
-  console.log(props.location.pathname);
+const ReviewerManagement = (props) => {
+  const [data, setData] = useState([]);
   const dispatch = useDispatch();
   const userList = useSelector((state) => state.userList);
   const { loading, error, users } = userList;
   useEffect(() => {
     dispatch(listUsers());
+    if (!loading) {
+      setData(users);
+    }
   }, [dispatch]);
 
   const [details, setDetails] = useState([]);
   const [items, setItems] = useState(users);
-
+  const [status, setStatus] = useState([]);
   const toggleDetails = (index) => {
     const position = details.indexOf(index);
+    console.log(position);
     let newDetails = details.slice();
     if (position !== -1) {
       newDetails.splice(position, 1);
@@ -39,16 +46,21 @@ const CategoryManagement = (props) => {
     }
     setDetails(newDetails);
   };
-  const deleteChallengeHandler = (id) => {
-    dispatch(deleteUser(id));
-    console.log(id);
+  const deleteChallengeHandler = async (id) => {
+    await dispatch(deleteUser(id));
+    const { data } = await axios.get("/users");
+    setData(data);
   };
 
-  const changeStatusHandler = (id, active) => {
+  const changeStatusHandler = async (id, active, index) => {
     if (active) {
-      dispatch(updateUser(id, false));
+      await dispatch(updateUser(id, false));
+      const { data } = await axios.get("/users");
+      setData(data);
     } else {
-      dispatch(updateUser(id, true));
+      await dispatch(updateUser(id, true));
+      const { data } = await axios.get("/users");
+      setData(data);
     }
   };
 
@@ -60,7 +72,7 @@ const CategoryManagement = (props) => {
     { key: "totalReports", _style: { width: "10%" } },
     { key: "isReviewer", _style: { width: "10%" } },
     { key: "image", _style: { width: "1%" } },
-    { key: "active", _style: { width: "4%" } },
+    { key: "active", _style: { width: "8%" } },
     {
       key: "show_details",
       label: "",
@@ -82,7 +94,7 @@ const CategoryManagement = (props) => {
         return "primary";
     }
   };
-
+  console.log(data);
   return (
     <>
       {loading ? (
@@ -90,7 +102,7 @@ const CategoryManagement = (props) => {
       ) : (
         <div>
           <CDataTable
-            items={users.list}
+            items={data.list || users.list}
             fields={fields}
             columnFilter
             tableFilter
@@ -103,22 +115,26 @@ const CategoryManagement = (props) => {
             sorter
             pagination
             scopedSlots={{
-              active: (item) => (
+              active: (item, index) => (
                 <td className="py-2">
                   <CButton
                     size="sm"
                     color={getBadge(item.active)}
                     onClick={() => {
-                      changeStatusHandler(item._id, item.active);
+                      changeStatusHandler(item._id, item.active, index);
                     }}
                   >
-                    {item.active.toString()}
+                    {item.active ? "Active" : "In Active"}
                   </CButton>
                 </td>
+              ),
+              isReviewer: (item, index) => (
+                <td className="py-2">{item.isReviewer ? "Yes" : "No"}</td>
               ),
               image: (item) => (
                 <td className="py-2">
                   <CImg
+                    style={{ borderRadius: "50%" }}
                     src={`${item.image}`}
                     fluid
                     className="mb-2"
@@ -150,12 +166,13 @@ const CategoryManagement = (props) => {
                     <CCardBody>
                       <h4>{item.username}</h4>
                       <p className="text-muted">
-                        Created at: {item.createdAt} Updated on:{" "}
-                        {item.updatedAt}
+                        Created at:{" "}
+                        {moment(item.createdAt).format("DD/MM/YYYY LT")}/Updated
+                        on: {moment(item.updatedAt).format("DD/MM/YYYY LT")}
                       </p>
-                      {/* <CButton color="info" to="/viewChallenge">
-                                                    View
-                                                </CButton> */}
+                      <CButton color="info" to="/viewChallenge">
+                        View
+                      </CButton>
                       <CButton
                         color="secondary"
                         className="ml-1"
@@ -163,14 +180,15 @@ const CategoryManagement = (props) => {
                       >
                         Edit
                       </CButton>
-                      <CButton
-                        color="danger"
-                        className="ml-1"
-                        onClick={() => {
-                          deleteChallengeHandler(item._id);
-                        }}
-                      >
-                        Delete
+                      <CButton color="danger" className="ml-1">
+                        <Modal
+                          message={"Are you sure want to delete?"}
+                          title={"Delete"}
+                          color={"danger"}
+                          onClickFunction={() => {
+                            deleteChallengeHandler(item._id);
+                          }}
+                        />
                       </CButton>
                     </CCardBody>
                   </CCollapse>
@@ -184,4 +202,4 @@ const CategoryManagement = (props) => {
   );
 };
 
-export default CategoryManagement;
+export default ReviewerManagement;
