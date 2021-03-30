@@ -1,6 +1,7 @@
 import Category from '../models/categoryModel.js'
 import asyncHandler from 'express-async-handler'
 import category from '../data/category.js'
+import User from '../models/userModel.js'
 
 // @desc update category image
 // route POST category/upload
@@ -36,7 +37,6 @@ const addCategory = asyncHandler(async (req, res) => {
     const category = await Category.create({
         name, image
     })
-
     if (category) {
         res.status(201)
         res.send(category)
