@@ -282,7 +282,7 @@ const getPaticipation = asyncHandler(async (req, res) => {
         ? { user: { $elemMatch: { followers: req.user.id } } }
         : ""
     const count = await PartChal.countDocuments({})
-    const challenge = await PartChal.find({ ...approved })
+    const challenge = await PartChal.find({...approved})
         .populate('user', 'name image followers')
         .populate('challenge')
         .populate({ path: 'challenge', populate: { path: 'category', select: 'name image' } })
