@@ -281,8 +281,8 @@ const getPaticipation = asyncHandler(async (req, res) => {
     const filter = req.query.following
         ? { user: { $elemMatch: { followers: req.user.id } } }
         : ""
-    const count = await PartChal.countDocuments({ category: user.category })
-    const challenge = await PartChal.find({ category: { $all: user.category } })
+    const count = await PartChal.countDocuments({})
+    const challenge = await PartChal.find({})
         .populate('user', 'name image followers')
         .populate('challenge')
         .populate({ path: 'challenge', populate: { path: 'category', select: 'name image' } })
