@@ -1,0 +1,9 @@
+.text-muted {
+  color: #00060e !important;
+  font-weight: bold;
+  font-size: 14px;
+}
+.text-value-xl {
+  font-size: 1.53125rem;
+  font-weight: bolder;
+}

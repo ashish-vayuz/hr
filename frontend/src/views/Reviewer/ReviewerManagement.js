@@ -170,7 +170,7 @@ const ReviewerManagement = (props) => {
                         {moment(item.createdAt).format("DD/MM/YYYY LT")}/Updated
                         on: {moment(item.updatedAt).format("DD/MM/YYYY LT")}
                       </p>
-                      <CButton color="info" to="/viewChallenge">
+                      <CButton color="info" to="/review/viewReview">
                         View
                       </CButton>
                       <CButton

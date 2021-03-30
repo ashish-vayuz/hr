@@ -1,4 +1,5 @@
-import React from "react";
+import React, { lazy } from "react";
+const ReviewView = lazy(() => import("./views/Reviewer/viewReviewer"));
 const ReviewerManagement = React.lazy(() =>
   import("./views/Reviewer/ReviewerManagement")
 );
@@ -67,6 +68,11 @@ const routes = [
     path: "/reviewer",
     name: "Reviewer Management",
     component: ReviewerManagement,
+  },
+  {
+    path: "/review/viewReview",
+    name: "View Review",
+    component: ReviewView,
   },
   { path: "/", exact: true, name: "Home" },
 ];
