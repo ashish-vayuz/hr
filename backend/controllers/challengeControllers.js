@@ -28,8 +28,8 @@ const getChallenge = asyncHandler(async (req, res) => {
         .skip(pageSize * (page - 1))
 
     challenge.forEach(c => {
-        if (c.participation.indexOf(req.user.id) > -1){
-            isParticipated=true
+        if (c.participation.indexOf(req.user.id) > -1) {
+            isParticipated = true
         }
         c.bookmarks.forEach(b => {
             if (b == req.user.id) {
@@ -327,24 +327,30 @@ const getPaticipation = asyncHandler(async (req, res) => {
 const updateParticipation = asyncHandler(async (req, res) => {
     const category = await PartChal.findById(req.params.id)
     const user = await User.findById(category.user).populate('categories')
+    const reviewer = await User.findById(req.user.id)
     const challenge = await Challenge.findById(category.challenge)
     if (category) {
         category.review_status = req.body.review_status
         category.reviewer = req.user.id;
 
         if (category.review_status == 'Approved') {
-            user.cateogryCoin.forEach(c => {
+            user.categoryCoin.forEach(c => {
+                console.log(c.category, challenge.category);
+                console.log(challenge.coinAllocated);
                 if (c.category.toString() === challenge.category.toString()) {
                     c.coins += challenge.coinAllocated
                 }
             })
         }
+        reviewer.coinsEarned += 1
+        await reviewer.save()
+        await user.save()
         const updatedCategory = await category.save()
 
         res.status(200).json({
             "errorcode": 1,
             "errormessage": `Status Changed to ${updatedCategory.review_status}`,
-            data: user.cateogryCoin
+            data: user.categoryCoin
         })
     } else {
         res.status(404)
@@ -362,13 +368,13 @@ const getParticipationById = asyncHandler(async (req, res) => {
         .populate('challenge')
         .populate({ path: 'challenge', populate: { path: 'category', select: 'name image' } })
         .populate({ path: 'challenge', populate: { path: 'creator', select: 'name image' } })
-        
+
     if (challenge.user.id == req.user.id) {
         challenge.isParticipated = true
     }
-    
-    challenge.user.forEach(u=>{
-        if(u=req.user.id){
+
+    challenge.user.forEach(u => {
+        if (u = req.user.id) {
             challenge.isFollowing = true
         }
     })
@@ -436,4 +442,22 @@ const updateChallenge = asyncHandler(async (req, res) => {
     }
 })
 
-export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge, participateChallenge, updateChallenge, getPaticipation, updateParticipation, getParticipationById, uploadBan }
+// @desc Gupdate participation
+// route GET participation
+// access Private
+const sendAdminParticipation = asyncHandler(async (req, res) => {
+    const category = await PartChal.findById(req.params.id)
+    if (category) {
+        category.adminReview = true
+        await category.save()
+        res.status(200).json({
+            "errorcode": 1,
+            "errormessage": `Request Sent to admin`,
+        })
+    } else {
+        res.status(404)
+        throw new Error('Participation not found')
+    }
+})
+
+export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge, participateChallenge, updateChallenge, getPaticipation, updateParticipation, getParticipationById, uploadBan, sendAdminParticipation }

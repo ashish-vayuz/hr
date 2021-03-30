@@ -3,7 +3,7 @@ const router = express.Router()
 import { protect } from '../middlewares/authMiddlewares.js'
 import multer from 'multer'
 import path from 'path'
-import { getParticipationById, getPaticipation, likeChallengeById, unlikeChallengeById, updateParticipation, uploadChal } from '../controllers/challengeControllers.js'
+import { getParticipationById, getPaticipation, likeChallengeById, unlikeChallengeById, updateParticipation, uploadChal, sendAdminParticipation} from '../controllers/challengeControllers.js'
 
 const storage = multer.diskStorage({
     destination(req, file, cb) {
@@ -39,6 +39,7 @@ const upload = multer({
 router.route('/upload').post(upload.single('video'), uploadChal)
 router.route('/like/:id').get(protect, likeChallengeById)
 router.route('/unlike/:id').get(protect, unlikeChallengeById)
+router.route('/admin/:id').put(protect, sendAdminParticipation)
 router.route('/')
     .get(protect, getPaticipation)
 router.route('/:id').put(protect, updateParticipation).get(protect, getParticipationById)

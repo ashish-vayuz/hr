@@ -518,15 +518,32 @@ const getAllUsers = asyncHandler(async (req, res) => {
             },
         }
         : {}
+
     const count = await User.countDocuments({ ...keyword })
+    const user = await User.findById(req.user.id).populate("followers", 'name image')
     const users = await User.find({ ...keyword })
-        .select('name image totalFollowings totalFollowers location')
+        .select('name image totalFollowings totalFollowers followers location')
         .limit(pageSize)
         .skip(pageSize * (page - 1))
+    const data = users.map(f => {
+        let x = {
+            "location": f.location,
+            "_id": f.id,
+            "name": f.name,
+            "image": f.image,
+            "totalFollowers": f.totalFollowers,
+            "totalFollowings": f.totalFollowings,
+            "return": 0
+        }
+        if (f.followers.indexOf(req.user.id) > -1) {
+            x.return = 1
+        };
+        return x
+    })
     res.json({
         "errorcode": 1,
         "errormessage": "Records found",
-        "list": users,
+        "list": data,
         page,
         pages: Math.ceil(count / pageSize),
     })
@@ -989,13 +1006,21 @@ const googleAuth = asyncHandler(async (req, res) => {
                 token: generateToken(newUser._id)
             })
         }
-        else {
-            res.status(400)
-            throw new Error('Invalid Data')
-        }
+    } else if (user) {
+        res.status(201).json({
+            errorcode: 1,
+            res: 'google',
+            errormessage: 'done',
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            googleId: user.googleId,
+            googleToken: googleToken,
+            token: generateToken(user._id)
+        })
     } else {
-        res.status(401)
-        throw new Error('User already Exist')
+        res.status(400)
+        throw new Error('Invalid Data')
     }
 })
 
@@ -1006,30 +1031,37 @@ const facebookAuth = asyncHandler(async (req, res) => {
     if (!user) {
         const newUser = await User.create({
             name,
-            image,
             facebookId,
+            image,
             facebookToken,
             verified
         })
         if (newUser) {
             res.status(201).json({
                 errorcode: 1,
-                res: 'google',
+                res: 'facebook',
                 errormessage: 'done',
                 _id: newUser._id,
                 name: newUser.name,
                 facebookId: newUser.facebookId,
-                facebookToken: newUser.facebookToken,
+                facebookToken: facebookToken,
                 token: generateToken(newUser._id)
             })
         }
-        else {
-            res.status(400)
-            throw new Error('Invalid Data')
-        }
+    } else if (user) {
+        res.status(201).json({
+            errorcode: 1,
+            res: 'google',
+            errormessage: 'done',
+            _id: user._id,
+            name: user.name,
+            facebookId: user.facebookId,
+            facebookToken: facebookToken,
+            token: generateToken(user._id)
+        })
     } else {
-        res.status(401)
-        throw new Error('User already Exist')
+        res.status(400)
+        throw new Error('Invalid Data')
     }
 })
 
