@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler'
 import Challenge from '../models/challengeModel.js'
 import User from '../models/userModel.js'
 import PartChal from '../models/participatedChallengeModel.js'
+import ChalRedem from '../models/challengeRedeemModel.js'
 
 // @desc Get all challenge
 // route GET challenge
@@ -282,7 +283,7 @@ const getPaticipation = asyncHandler(async (req, res) => {
         ? { user: { $elemMatch: { followers: req.user.id } } }
         : ""
     const count = await PartChal.countDocuments({})
-    const challenge = await PartChal.find({...approved})
+    const challenge = await PartChal.find({ ...approved })
         .populate('user', 'name image followers')
         .populate('challenge')
         .populate({ path: 'challenge', populate: { path: 'category', select: 'name image' } })
@@ -459,4 +460,23 @@ const sendAdminParticipation = asyncHandler(async (req, res) => {
     }
 })
 
-export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge, participateChallenge, updateChallenge, getPaticipation, updateParticipation, getParticipationById, uploadBan, sendAdminParticipation }
+const rewardRedeemRequest = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.id)
+    const challenge = await Challenge.findById(req.params.id)
+    const requset = await ChalRedem.create(
+        {
+            user, challenge
+        }
+    )
+    if (requset) {
+        res.status(201).json({
+            "errorcode": 1,
+            "errormessage": `Request Sent to admin`,
+        })
+    } else {
+        res.status(404)
+        throw new Error('Invalid Request')
+    }
+})
+
+export { getChallenge, postChallenge, uploadChal, getChallengeById, likeChallengeById, unlikeChallengeById, changePayment, deleteChallenge, participateChallenge, updateChallenge, getPaticipation, updateParticipation, getParticipationById, uploadBan, sendAdminParticipation, rewardRedeemRequest }

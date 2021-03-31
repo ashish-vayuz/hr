@@ -1,5 +1,5 @@
 import express from 'express'
-import { signup, authUser, otp, uploadImg, location, category, getProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, updateProfile, reportUser, reviewerRequest, test1, followingList, followerList, changePassword, frogetPassword, updatePassword, deleteUser, googleAuth, facebookAuth, reviewerUpdateProfile, userCoin } from '../controllers/userControllers.js'
+import { signup, authUser, otp, uploadImg, location, category, getProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, updateProfile, reportUser, reviewerRequest, test1, followingList, followerList, changePassword, frogetPassword, updatePassword, deleteUser, googleAuth, facebookAuth, reviewerUpdateProfile, userCoin, coinRedeemRequest } from '../controllers/userControllers.js'
 import { getAllUser } from '../controllers/adminController.js'
 import { protect } from '../middlewares/authMiddlewares.js'
 import multer from 'multer'
@@ -66,6 +66,7 @@ router.route('/changePassword').post(changePassword).put(protect, updatePassword
 router.route('/test1').get(test1)
 router.route('/userCoin').get(protect, userCoin)
 
+router.route('/request').post(protect, coinRedeemRequest)
 router.route('/').get(getAllUser).delete(protect, deleteUser)
 router.route('/:id').delete(deleteUserById).put(updateUser)
 router.route('/:id').get(protect, getUserById)
