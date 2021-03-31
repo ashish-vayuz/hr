@@ -43,7 +43,7 @@ router.route('/upload').post(upload.single('banner'), uploadBan)
 router.route('/like/:id').get(protect, likeChallengeById)
 router.route('/unlike/:id').get(protect, unlikeChallengeById)
 router.route('/payment/successful/:id').get(changePayment)
-router.route('/request/:id').get(protect,rewardRedeemRequest)
+router.route('/request/:id').post(protect,rewardRedeemRequest)
 router.route('/:id/participate').post(protect, participateChallenge)
 router.route('/:id').get(getChallengeById).delete(deleteChallenge).put(updateChallenge)
 
