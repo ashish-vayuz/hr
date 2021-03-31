@@ -777,11 +777,11 @@ const updatePassword = asyncHandler(async (req, res) => {
 // access Private
 const reviewerRequest = asyncHandler(async (req, res) => {
     const data = req.files.map(x => x.path)
-    const { DOB, age, bankName, branchName, IFSCcode, UploadID } = req.body
+    const { DOB, age, bankName, branchName, IFSCcode, UploadID, bankAccountNo } = req.body
     const user = await User.findById(req.user.id)
 
     if (user) {
-        user.reviewerData = { DOB, age, bankName, branchName, IFSCcode, UploadID: data }
+        user.reviewerData = { DOB, age, bankName, branchName, IFSCcode, UploadID: data, bankAccountNo}
         user.reviewerRequest = "true"
         await user.save()
         res.json({
