@@ -269,7 +269,8 @@ const getPaticipation = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user.id)
     const pageSize = 10
     const page = Number(req.query.pageNumber) || 1
-    const approved = req.query.approved ? { review_status: "Approved" } : {};
+    const arr = ['Approved', 'Pending']
+    const approved = req.query.type ? { review_status: arr[req.query.type] } : {};
     const keyword = req.query.keyword
         ? {
             description: {
