@@ -5,6 +5,7 @@ import nodemailer from 'nodemailer'
 import Challenge from '../models/challengeModel.js'
 import Category from '../models/categoryModel.js'
 import PartChal from '../models/participatedChallengeModel.js'
+import UserRedem from '../models/userRedeemSchema.js'
 
 // @desc Signup User to Platform
 // route POST user/signup
@@ -776,11 +777,11 @@ const updatePassword = asyncHandler(async (req, res) => {
 // access Private
 const reviewerRequest = asyncHandler(async (req, res) => {
     const data = req.files.map(x => x.path)
-    const { DOB, age, bankName, branchName, IFSCcode, UploadID } = req.body
+    const { DOB, age, bankName, branchName, IFSCcode, UploadID, bankAccountNo } = req.body
     const user = await User.findById(req.user.id)
 
     if (user) {
-        user.reviewerData = { DOB, age, bankName, branchName, IFSCcode, UploadID: data }
+        user.reviewerData = { DOB, age, bankName, branchName, IFSCcode, UploadID: data, bankAccountNo}
         user.reviewerRequest = "true"
         await user.save()
         res.json({
@@ -1065,4 +1066,25 @@ const facebookAuth = asyncHandler(async (req, res) => {
     }
 })
 
-export { signup, authUser, otp, uploadImg, location, category, changePassword, updatePassword, frogetPassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest, followingList, followerList, test1, deleteUser, googleAuth, facebookAuth, reviewerUpdateProfile,userCoin }
+const coinRedeemRequest = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.id)
+    console.log(user);
+    const { amount } = req.body
+    const requset = await UserRedem.create(
+        {
+            user: user,
+            amount: amount
+        }
+    )
+    if (requset) {
+        res.status(201).json({
+            "errorcode": 1,
+            "errormessage": `Request Sent to admin`,
+        })
+    } else {
+        res.status(404)
+        throw new Error('Invalid Request')
+    }
+})
+
+export { signup, authUser, otp, uploadImg, location, category, changePassword, updatePassword, frogetPassword, getProfile, reportUser, updateProfile, addToBookmark, removeFromBookmark, addToFollowing, removeFromFollowing, getAllUsers, getUserById, forgotOtp, reviewerRequest, followingList, followerList, test1, deleteUser, googleAuth, facebookAuth, reviewerUpdateProfile, userCoin, coinRedeemRequest }

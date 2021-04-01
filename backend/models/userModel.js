@@ -80,12 +80,12 @@ const userSchema = mongoose.Schema({
         required: true,
         ref: 'Category',
     }],
-    categoryCoin:[{
-        coins:{
-            type:Number,
-            default:0
+    categoryCoin: [{
+        coins: {
+            type: Number,
+            default: 0
         },
-        category:{
+        category: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
             ref: 'Category',
@@ -150,7 +150,23 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    googleId: {
+        tpye: String,
+    },
+    googleToken: {
+        type: String,
+    },
+    facebookId: {
+        type: String
+    },
+    facebookToken: {
+        type: String
+    },
     reviewerData: {
+        bankAccountNo: {
+            type: String,
+
+        },
         DOB: {
             type: String,
 
@@ -171,18 +187,7 @@ const userSchema = mongoose.Schema({
             type: String,
 
         },
-        googleId: {
-            tpye: String,
-        },
-        googleToken: {
-            type: String,
-        },
-        facebookId: {
-            type: String
-        },
-        facebookToken: {
-            type: String
-        },
+
         UploadID: []
     }
 }, { timestamps: true })
