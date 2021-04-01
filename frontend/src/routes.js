@@ -1,4 +1,5 @@
 import React, { lazy } from "react";
+const UserViewsManagement = lazy(() => import("./views/User/view"));
 const ReviewView = lazy(() => import("./views/Reviewer/viewReviewer"));
 const ReviewerManagement = React.lazy(() =>
   import("./views/Reviewer/ReviewerManagement")
@@ -34,6 +35,17 @@ const routes = [
   { path: "/login", exact: true, name: "Home" },
   { path: "/dashboard", name: "Dashboard", component: Dashboard },
   { path: "/user", name: "User Management", component: User },
+  {
+    path: "/userview/view",
+    name: "User Views",
+    component: UserViewsManagement,
+  },
+  // /useredit/edit
+  {
+    path: "/useredit/edit",
+    name: "User Edit",
+    component: AddUser,
+  },
   { path: "/adduser", name: "Add User", component: AddUser },
   { path: "/category", name: "Category Management", component: Category },
   {
@@ -58,7 +70,8 @@ const routes = [
     name: "Challenge Management",
     component: ChallengeView,
   },
-  { path: "/addadmin", name: "Dashboard", component: AddAdmin },
+  { path: "/addadmin", name: "Add Admin", component: AddAdmin },
+  { path: "/updateadmin", name: "Update Admin", component: AddAdmin },
   { path: "/admin", name: "Dashboard", component: Admin },
   { path: "/dashboard", name: "Dashboard", component: Dashboard },
   { path: "/dashboard", name: "Dashboard", component: Dashboard },

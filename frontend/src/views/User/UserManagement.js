@@ -19,13 +19,17 @@ import {
 } from "../../actions/userMAction";
 import moment from "moment";
 import Modal from "src/reusable/Modal";
+import { useHistory } from "react-router-dom";
 
 const UserManagement = (props) => {
+  const history = useHistory();
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
   const userList = useSelector((state) => state.userList);
   const { loading, error, users } = userList;
+
   useEffect(() => {
+    document.title = "Human Race |User Management";
     dispatch(listUsers());
     if (!loading) {
       setData(users);
@@ -95,6 +99,21 @@ const UserManagement = (props) => {
     }
   };
   console.log(data);
+
+  const handleMove = (info) => {
+    history.push({
+      pathname: "/userview/view",
+      state: info,
+    });
+  };
+
+  const handleEdit = (info) => {
+    history.push({
+      pathname: "/useredit/edit",
+      state: info,
+    });
+  };
+
   return (
     <>
       {loading ? (
@@ -170,13 +189,14 @@ const UserManagement = (props) => {
                         {moment(item.createdAt).format("DD/MM/YYYY LT")}/Updated
                         on: {moment(item.updatedAt).format("DD/MM/YYYY LT")}
                       </p>
-                      <CButton color="info" to="/viewChallenge">
+                      <CButton color="info" onClick={() => handleMove(item)}>
                         View
                       </CButton>
                       <CButton
                         color="secondary"
                         className="ml-1"
-                        to="/editChallenge"
+                        // to="/editChallenge"
+                        onClick={() => handleEdit(item)}
                       >
                         Edit
                       </CButton>
