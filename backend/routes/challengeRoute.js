@@ -13,6 +13,7 @@ import {
   updateChallenge,
   uploadBan,
   rewardRedeemRequest,
+  getChallengeAdmin,
 } from "../controllers/challengeControllers.js";
 import multer from "multer";
 import path from "path";
@@ -49,7 +50,8 @@ const upload = multer({
   },
 });
 
-router.route("/").get(getChallenge).post(protect, postChallenge);
+router.route("/").get(protect, getChallenge).post(protect, postChallenge);
+router.route("/list").get(getChallengeAdmin);
 router.route("/upload").post(upload.single("banner"), uploadBan);
 router.route("/like/:id").get(protect, likeChallengeById);
 router.route("/unlike/:id").get(protect, unlikeChallengeById);

@@ -41,6 +41,7 @@ import {
   cmsStatusReducer,
   cmsDetailsReducer,
 } from "./reducers/cmsReducer";
+import { ReViewerListReducer } from "./reducers/reviewerReducer";
 
 const reducer = combineReducers({
   challengeList: challengeListReducer,
@@ -63,9 +64,9 @@ const reducer = combineReducers({
   userList: userListReducer,
   deleteUser: userDeleteReducer,
   updateUser: userStatusReducer,
-  //viewerManagement
+  //reviewerManagement
   viewerAdd: userAddReducer,
-  viewerList: userListReducer,
+  viewerList: ReViewerListReducer,
   deleteViewer: userDeleteReducer,
   updateViewer: userStatusReducer,
   //admin

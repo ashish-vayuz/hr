@@ -1,28 +1,28 @@
 import {
-  VIEWER_LIST_REQUEST,
-  VIEWER_LIST_SUCCESS,
-  VIEWER_LIST_FAIL,
-  VIEWER_DETAILS_REQUEST,
-  VIEWER_DETAILS_SUCCESS,
-  VIEWER_DETAILS_FAIL,
-  VIEWER_DELETE_REQUEST,
-  VIEWER_DELETE_SUCCESS,
-  VIEWER_DELETE_FAIL,
-  VIEWER_STATUS_REQUEST,
-  VIEWER_STATUS_SUCCESS,
-  VIEWER_STATUS_FAIL,
-  VIEWER_ADD_FAIL,
-  VIEWER_ADD_REQUEST,
-  VIEWER_ADD_SUCCESS,
-} from "../constants/viewerConstatnt";
+  REVIEWER_LIST_REQUEST,
+  REVIEWER_LIST_SUCCESS,
+  REVIEWER_LIST_FAIL,
+  REVIEWER_DETAILS_REQUEST,
+  REVIEWER_DETAILS_SUCCESS,
+  REVIEWER_DETAILS_FAIL,
+  REVIEWER_DELETE_REQUEST,
+  REVIEWER_DELETE_SUCCESS,
+  REVIEWER_DELETE_FAIL,
+  REVIEWER_STATUS_REQUEST,
+  REVIEWER_STATUS_SUCCESS,
+  REVIEWER_STATUS_FAIL,
+  REVIEWER_ADD_FAIL,
+  REVIEWER_ADD_REQUEST,
+  REVIEWER_ADD_SUCCESS,
+} from "../constants/ReviewerConstatnt";
 
-export const ViewerListReducer = (state = { viewers: [] }, action) => {
+export const ReViewerListReducer = (state = { viewers: [] }, action) => {
   switch (action.type) {
-    case VIEWER_LIST_REQUEST:
+    case REVIEWER_LIST_REQUEST:
       return { loading: true, viewers: [] };
-    case VIEWER_LIST_SUCCESS:
+    case REVIEWER_LIST_SUCCESS:
       return { loading: false, viewers: action.payload };
-    case VIEWER_LIST_FAIL:
+    case REVIEWER_LIST_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;
@@ -34,11 +34,11 @@ export const viewerDetailsReducer = (
   action
 ) => {
   switch (action.type) {
-    case VIEWER_DETAILS_REQUEST:
+    case REVIEWER_DETAILS_REQUEST:
       return { loading: true, ...state };
-    case VIEWER_DETAILS_SUCCESS:
+    case REVIEWER_DETAILS_SUCCESS:
       return { loading: false, user: action.payload };
-    case VIEWER_DETAILS_FAIL:
+    case REVIEWER_DETAILS_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;
@@ -50,11 +50,11 @@ export const viewerDeleteReducer = (
   action
 ) => {
   switch (action.type) {
-    case VIEWER_DELETE_REQUEST:
+    case REVIEWER_DELETE_REQUEST:
       return { loading: true, ...state };
-    case VIEWER_DELETE_SUCCESS:
+    case REVIEWER_DELETE_SUCCESS:
       return { loading: false, user: action.payload };
-    case VIEWER_DELETE_FAIL:
+    case REVIEWER_DELETE_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;
@@ -66,11 +66,11 @@ export const viewerStatusReducer = (
   action
 ) => {
   switch (action.type) {
-    case VIEWER_STATUS_REQUEST:
+    case REVIEWER_STATUS_REQUEST:
       return { loading: true, ...state };
-    case VIEWER_STATUS_SUCCESS:
+    case REVIEWER_STATUS_SUCCESS:
       return { loading: false, user: action.payload };
-    case VIEWER_STATUS_FAIL:
+    case REVIEWER_STATUS_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;
@@ -79,11 +79,11 @@ export const viewerStatusReducer = (
 
 export const viewerAddReducer = (state = { viewers: [] }, action) => {
   switch (action.type) {
-    case VIEWER_ADD_REQUEST:
+    case REVIEWER_ADD_REQUEST:
       return { loading: true, viewers: [] };
-    case VIEWER_ADD_SUCCESS:
+    case REVIEWER_ADD_SUCCESS:
       return { loading: false, viewers: action.payload };
-    case VIEWER_ADD_FAIL:
+    case REVIEWER_ADD_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

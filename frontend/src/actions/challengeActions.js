@@ -22,7 +22,7 @@ export const listChallenges = () => async (dispatch) => {
         "Content-Type": "application/json",
       },
     };
-    const { data } = await axios.get("/challenge", config);
+    const { data } = await axios.get("/challenge/list", config);
     // console.log(data);
     dispatch({
       type: CHALLENGE_LIST_SUCCESS,

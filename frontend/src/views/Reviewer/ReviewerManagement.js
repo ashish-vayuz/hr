@@ -19,25 +19,30 @@ import {
 } from "../../actions/userMAction";
 import moment from "moment";
 import Modal from "src/reusable/Modal";
+import { listReviewer } from "src/actions/reviewerAction";
+import { useHistory } from "react-router-dom";
 
 const ReviewerManagement = (props) => {
+  const history = useHistory();
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
-  const userList = useSelector((state) => state.userList);
-  const { loading, error, users } = userList;
+  const userList = useSelector((state) => state.viewerList);
+
+  const { loading, error, viewers } = userList;
   useEffect(() => {
-    dispatch(listUsers());
+    document.title = "Human Race | Viewer Management";
+    dispatch(listReviewer());
     if (!loading) {
-      setData(users);
+      setData(viewers);
     }
   }, [dispatch]);
 
   const [details, setDetails] = useState([]);
-  const [items, setItems] = useState(users);
+  const [items, setItems] = useState(viewers);
   const [status, setStatus] = useState([]);
   const toggleDetails = (index) => {
     const position = details.indexOf(index);
-    console.log(position);
+    // console.log(position);
     let newDetails = details.slice();
     if (position !== -1) {
       newDetails.splice(position, 1);
@@ -48,18 +53,18 @@ const ReviewerManagement = (props) => {
   };
   const deleteChallengeHandler = async (id) => {
     await dispatch(deleteUser(id));
-    const { data } = await axios.get("/users");
+    const { data } = await axios.get("/admin/reviewer");
     setData(data);
   };
 
   const changeStatusHandler = async (id, active, index) => {
     if (active) {
       await dispatch(updateUser(id, false));
-      const { data } = await axios.get("/users");
+      const { data } = await axios.get("/admin/reviewer");
       setData(data);
     } else {
       await dispatch(updateUser(id, true));
-      const { data } = await axios.get("/users");
+      const { data } = await axios.get("/admin/reviewer");
       setData(data);
     }
   };
@@ -94,7 +99,15 @@ const ReviewerManagement = (props) => {
         return "primary";
     }
   };
-  console.log(data);
+
+  const handleView = (info) => {
+    history.push({
+      pathname: "/review/viewReview",
+      state: info,
+    });
+  };
+
+  console.log(userList);
   return (
     <>
       {loading ? (
@@ -102,15 +115,15 @@ const ReviewerManagement = (props) => {
       ) : (
         <div>
           <CDataTable
-            items={data.list || users.list}
+            items={data.list || viewers.list}
             fields={fields}
             columnFilter
             tableFilter
-            footer
+            // footer
             itemsPerPageSelect
             responsive
             outlined
-            itemsPerPage={20}
+            itemsPerPage={10}
             hover
             sorter
             pagination
@@ -170,16 +183,16 @@ const ReviewerManagement = (props) => {
                         {moment(item.createdAt).format("DD/MM/YYYY LT")}/Updated
                         on: {moment(item.updatedAt).format("DD/MM/YYYY LT")}
                       </p>
-                      <CButton color="info" to="/review/viewReview">
+                      <CButton color="info" onClick={() => handleView(item)}>
                         View
                       </CButton>
-                      <CButton
+                      {/* <CButton
                         color="secondary"
                         className="ml-1"
                         to="/editChallenge"
                       >
                         Edit
-                      </CButton>
+                      </CButton> */}
                       <CButton color="danger" className="ml-1">
                         <Modal
                           message={"Are you sure want to delete?"}

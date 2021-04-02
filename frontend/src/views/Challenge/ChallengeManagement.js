@@ -17,14 +17,17 @@ import {
   deleteChallenge,
   updateChallenge,
 } from "../../actions/challengeActions";
+import { useHistory } from "react-router-dom";
 
 const ChallengeManagement = (props) => {
+  const history = useHistory();
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
   const challengeList = useSelector((state) => state.challengeList);
   const { loading, error, challenges } = challengeList;
   //   console.log(challenges, error);
   useEffect(() => {
+    document.title = "Human Race | Challenge Mangement";
     dispatch(listChallenges());
     if (!loading) {
       setData(challenges);
@@ -47,18 +50,18 @@ const ChallengeManagement = (props) => {
   };
   const deleteChallengeHandler = async (id) => {
     await dispatch(deleteChallenge(id));
-    const { data } = await axios.get("/challenge");
+    const { data } = await axios.get("/challenge/list");
     setData(data);
   };
 
   const changeStatusHandler = async (id, active, index) => {
     if (active) {
       await dispatch(updateChallenge(id, false));
-      const { data } = await axios.get("/challenge");
+      const { data } = await axios.get("/challenge/list");
       setData(data);
     } else {
       await dispatch(updateChallenge(id, true));
-      const { data } = await axios.get("/challenge");
+      const { data } = await axios.get("/challenge/list");
       setData(data);
     }
   };
@@ -97,6 +100,13 @@ const ChallengeManagement = (props) => {
   const createMarkup = () => {
     return { __html: "&#x20B9" };
   };
+  // console.log(data);
+  const handleView = (info) => {
+    history.push({
+      pathname: "/viewChallenge",
+      state: info,
+    });
+  };
   return (
     <>
       {loading ? (
@@ -104,15 +114,15 @@ const ChallengeManagement = (props) => {
       ) : (
         <div>
           <CDataTable
-            items={data && data.list}
+            items={(data && data.list) || challenges.list}
             fields={fields}
             columnFilter
             tableFilter
-            footer
+            // footer
             itemsPerPageSelect
             responsive
             outlined
-            itemsPerPage={20}
+            itemsPerPage={10}
             hover
             sorter
             pagination
@@ -183,9 +193,9 @@ const ChallengeManagement = (props) => {
                         {moment(item.createdAt).format("DD/MM/YYYY LT")}/Updated
                         on: {moment(item.updatedAt).format("DD/MM/YYYY LT")}
                       </p>
-                      {/* <CButton color="info" to="/viewChallenge">
-                                                    View
-                                                </CButton> */}
+                      <CButton color="info" onClick={() => handleView(item)}>
+                        View
+                      </CButton>
                       <CButton
                         color="secondary"
                         className="ml-1"

@@ -12,9 +12,13 @@ import {
 import { useHistory } from "react-router-dom";
 import { useEffect } from "react";
 
-const ReviewView = () => {
+const ReviewView = (props) => {
+  console.log(props);
   useEffect(() => {
     document.title = "Human Race | View User";
+    if (!(props && props.location.state)) {
+      history.push("/reviewer");
+    }
   }, []);
   const history = useHistory();
   return (
@@ -27,9 +31,9 @@ const ReviewView = () => {
         >
           <span className="cib-xing btn-icon mr-2"></span> Back
         </button>
-        <button type="button" className="btn btn-instagram ml-2">
+        {/* <button type="button" className="btn btn-instagram ml-2">
           <span className="cib-instagram btn-icon mr-2 "></span> Edit
-        </button>
+        </button> */}
       </div>
       <div className="row justify-content-center">
         <div className="col-8">
@@ -41,9 +45,11 @@ const ReviewView = () => {
                 <div className="row">
                   <div className="col-sm-6">
                     <div className="c-callout c-callout-danger b-t-1 b-r-1 b-b-1 ml-2 ">
-                      <small className="text-muted"> Earned</small>
+                      <small className="text-muted">Coin Earned</small>
                       <br />
-                      <strong className="h4">384,23</strong>
+                      <strong className="h4">
+                        {props && props.location.state.coinsEarned}
+                      </strong>
                     </div>
                   </div>
                   <div className="col-sm-6">
@@ -68,23 +74,39 @@ const ReviewView = () => {
               {/* </div> */}
               <div className="row mt-4">
                 <CCol>Name</CCol>
-                <CCol>John Due</CCol>
+                <CCol>{props && props.location.state.name}</CCol>
               </div>
               <div className="row mt-2">
                 <CCol>Age</CCol>
-                <CCol>25 year old</CCol>
+                <CCol>
+                  {props &&
+                    props.location.state &&
+                    props.location.state.reviewerData.age}
+                </CCol>
               </div>
               <div className="row mt-2">
                 <CCol>Bank name</CCol>
-                <CCol>ICICI Bank</CCol>
+                <CCol>
+                  {props &&
+                    props.location.state &&
+                    props.location.state.reviewerData.bankName}
+                </CCol>
               </div>
               <div className="row mt-2">
                 <CCol>IFSC code</CCol>
-                <CCol>icicic04134232</CCol>
+                <CCol>
+                  {props &&
+                    props.location.state &&
+                    props.location.state.reviewerData.IFSCcode}
+                </CCol>
               </div>
               <div className="row mt-2">
                 <CCol>Branch name</CCol>
-                <CCol>umari </CCol>
+                <CCol>
+                  {props &&
+                    props.location.state &&
+                    props.location.state.reviewerData.branchName}
+                </CCol>
               </div>
             </CCardBody>
           </CCard>
