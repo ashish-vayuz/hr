@@ -15,6 +15,7 @@ import {
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ViewTable from "./component/viewTable";
+import Columns from "src/reusable/Columns";
 
 const ChallengeView = (props) => {
   console.log(props);
@@ -26,7 +27,7 @@ const ChallengeView = (props) => {
   }, []);
   const history = useHistory();
 
-  const [collapse, setCollapse] = useState(false);
+  const [collapse, setCollapse] = useState(true);
   const [collapse2, setCollapse2] = useState(false);
 
   const onEntering = () => {};
@@ -65,7 +66,71 @@ const ChallengeView = (props) => {
                   onExited={onExited}
                 >
                   <CCardBody>
-                    <CRow className="lg-4 ml-4"></CRow>
+                    <CRow className="lg-4 ml-4">
+                      <CContainer>
+                        <div className="row mt-4">
+                          <CCol className="hover bg-red">
+                            <strong>Title</strong>
+                          </CCol>
+                          <CCol>{props && props.location.state.title}</CCol>
+                        </div>
+                        <hr />
+
+                        <Columns
+                          title="Discription"
+                          data={props && props.location.state.description}
+                        />
+
+                        <Columns
+                          title="Hashtag"
+                          data={props && props.location.state.hashtags}
+                        />
+
+                        <Columns
+                          title="Category"
+                          data={
+                            props &&
+                            props.location.state.category &&
+                            props.location.state.category.name
+                          }
+                        />
+
+                        <Columns
+                          title="Reward"
+                          data={props && props.location.state.rewards}
+                        />
+
+                        <Columns
+                          title="Coins to be Allocated"
+                          data={props && props.location.state.coinAllocated}
+                        />
+
+                        <Columns
+                          title="Coins required to redeem the Reward"
+                          data={props && props.location.state.coinRequired}
+                        />
+
+                        <Columns
+                          title="Duration of the challenge"
+                          data={props && props.location.state.duration}
+                        />
+
+                        <Columns
+                          title="Visibility of the challenge"
+                          data={props && props.location.state.visibility}
+                        />
+
+                        <Columns
+                          title="Amount"
+                          data={props && props.location.state.reviewAmount}
+                        />
+
+                        <Columns
+                          title="Number of participants allowed"
+                          data={props && props.location.state.totalparticipated}
+                        />
+                      </CContainer>
+                    </CRow>
                   </CCardBody>
                 </CCollapse>
                 <CCardFooter>
