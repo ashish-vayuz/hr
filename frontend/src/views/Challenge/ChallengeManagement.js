@@ -196,13 +196,13 @@ const ChallengeManagement = (props) => {
                       <CButton color="info" onClick={() => handleView(item)}>
                         View
                       </CButton>
-                      <CButton
+                      {/* <CButton
                         color="secondary"
                         className="ml-1"
                         to="/editChallenge"
                       >
                         Edit
-                      </CButton>
+                      </CButton> */}
                       <CButton
                         color="danger"
                         className="ml-1"

@@ -3,6 +3,7 @@ const router = express.Router();
 import {
   addAdmin,
   authAdmin,
+  DashboardView,
   deleteAdmin,
   getAllAdmin,
   updateAdmin,
@@ -15,5 +16,6 @@ router.route("/signup").post(addAdmin);
 router.route("/").get(getAllAdmin);
 router.route("/:id").put(updateAdmin).delete(deleteAdmin);
 router.route("/reviewer").get(getReviewer);
+router.route("/dashboard").get(DashboardView);
 
 export default router;

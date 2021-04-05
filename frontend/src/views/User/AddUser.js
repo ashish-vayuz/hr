@@ -63,7 +63,7 @@ const AddUser = (props) => {
             email,
             location
           )
-        : addUser(email, name, location, password)
+        : addUser(name, email, location, password)
     );
     if (users && user) {
       dispatch(listUsers());
@@ -77,6 +77,17 @@ const AddUser = (props) => {
       console.log(error);
     }
   };
+
+  const handleBack = () => {
+    history.push({
+      pathname:
+        props && props.location && props.location.isview
+          ? "/userview/view"
+          : "/challenge",
+      state: props ? props.location.state : "",
+    });
+  };
+
   return (
     <CContainer fluid>
       <CForm
@@ -121,7 +132,12 @@ const AddUser = (props) => {
             required
           />
         </CFormGroup>
-        <CButton type="submit" to="/user" color="secondary" className="mr-2">
+        <CButton
+          type="submit"
+          onClick={() => handleBack()}
+          color="secondary"
+          className="mr-2"
+        >
           Back
         </CButton>
         <CButton

@@ -147,3 +147,12 @@ export const deleteAdmin = (id) => async (dispatch) => {
     });
   }
 };
+
+export const godView = () => async (dispatch) => {
+  try {
+    const { data } = await axios.get("/admin/dashboard");
+    return data ? data.godView : {};
+  } catch (error) {
+    console.log(error);
+  }
+};

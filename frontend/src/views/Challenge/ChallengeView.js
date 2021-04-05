@@ -9,7 +9,13 @@ import {
   CCollapse,
   CContainer,
   CHeader,
+  CNav,
+  CNavItem,
+  CNavLink,
   CRow,
+  CTabContent,
+  CTabPane,
+  CTabs,
   CWidgetBrand,
 } from "@coreui/react";
 import { useHistory } from "react-router-dom";
@@ -45,117 +51,95 @@ const ChallengeView = (props) => {
     setCollapse2(!collapse2);
     e.preventDefault();
   };
-
   return (
-    <CContainer>
-      <CRow>
-        <CCol className="py-3">
-          <CCard>
-            <CHeader className="ml-4 mt-2">
-              <strong>
-                <h4>Challenge details</h4>
-              </strong>
-            </CHeader>
-            <CCardBody className="hover ml-4 mt-0">
-              <CCard>
-                <CCollapse
-                  show={collapse}
-                  onEntering={onEntering}
-                  onEntered={onEntered}
-                  onExiting={onExiting}
-                  onExited={onExited}
-                >
-                  <CCardBody>
-                    <CRow className="lg-4 ml-4">
-                      <CContainer>
-                        <div className="row mt-4">
-                          <CCol className="hover bg-red">
-                            <strong>Title</strong>
-                          </CCol>
-                          <CCol>{props && props.location.state.title}</CCol>
-                        </div>
-                        <hr />
+    <CTabs activeTab="home">
+      <CNav variant="tabs">
+        <CNavItem>
+          <CNavLink data-tab="home">Challenge details</CNavLink>
+        </CNavItem>
+        <CNavItem>
+          <CNavLink data-tab="profile">Responses</CNavLink>
+        </CNavItem>
+        {/* <CNavItem>
+          <CNavLink data-tab="messages">Messages</CNavLink>
+        </CNavItem> */}
+      </CNav>
+      <CTabContent>
+        <CTabPane data-tab="home">
+          <CCardBody>
+            <CRow className="lg-4 ml-4">
+              <CContainer>
+                <div className="row mt-4">
+                  <CCol className="hover bg-red">
+                    <strong>Title</strong>
+                  </CCol>
+                  <CCol>{props && props.location.state.title}</CCol>
+                </div>
+                <hr />
 
-                        <Columns
-                          title="Discription"
-                          data={props && props.location.state.description}
-                        />
+                <Columns
+                  title="Discription"
+                  data={props && props.location.state.description}
+                />
 
-                        <Columns
-                          title="Hashtag"
-                          data={props && props.location.state.hashtags}
-                        />
+                <Columns
+                  title="Hashtag"
+                  data={props && props.location.state.hashtags}
+                />
 
-                        <Columns
-                          title="Category"
-                          data={
-                            props &&
-                            props.location.state.category &&
-                            props.location.state.category.name
-                          }
-                        />
+                <Columns
+                  title="Category"
+                  data={
+                    props &&
+                    props.location.state.category &&
+                    props.location.state.category.name
+                  }
+                />
 
-                        <Columns
-                          title="Reward"
-                          data={props && props.location.state.rewards}
-                        />
+                <Columns
+                  title="Reward"
+                  data={props && props.location.state.rewards}
+                />
 
-                        <Columns
-                          title="Coins to be Allocated"
-                          data={props && props.location.state.coinAllocated}
-                        />
+                <Columns
+                  title="Coins to be Allocated"
+                  data={props && props.location.state.coinAllocated}
+                />
 
-                        <Columns
-                          title="Coins required to redeem the Reward"
-                          data={props && props.location.state.coinRequired}
-                        />
+                <Columns
+                  title="Coins required to redeem the Reward"
+                  data={props && props.location.state.coinRequired}
+                />
 
-                        <Columns
-                          title="Duration of the challenge"
-                          data={props && props.location.state.duration}
-                        />
+                <Columns
+                  title="Duration of the challenge"
+                  data={props && props.location.state.duration}
+                />
 
-                        <Columns
-                          title="Visibility of the challenge"
-                          data={props && props.location.state.visibility}
-                        />
+                <Columns
+                  title="Visibility of the challenge"
+                  data={props && props.location.state.visibility}
+                />
 
-                        <Columns
-                          title="Amount"
-                          data={props && props.location.state.reviewAmount}
-                        />
+                <Columns
+                  title="Amount"
+                  data={props && props.location.state.reviewAmount}
+                />
 
-                        <Columns
-                          title="Number of participants allowed"
-                          data={props && props.location.state.totalparticipated}
-                        />
-                      </CContainer>
-                    </CRow>
-                  </CCardBody>
-                </CCollapse>
-                <CCardFooter>
-                  <CButton color="primary" onClick={toggle} className={"mb-1"}>
-                    {!collapse
-                      ? "See Challenge Details"
-                      : "Hide Challenge Details"}
-                  </CButton>
-                </CCardFooter>
-              </CCard>
-            </CCardBody>
-          </CCard>
-          <CCard className="mt-4">
-            <CHeader className="ml-4 mt-2">
-              <strong>
-                <h4>Responses</h4>
-              </strong>
-            </CHeader>
-            <CCardBody>
-              <ViewTable></ViewTable>
-            </CCardBody>
-          </CCard>
-        </CCol>
-      </CRow>
-    </CContainer>
+                <Columns
+                  title="Number of participants allowed"
+                  data={props && props.location.state.totalparticipated}
+                />
+              </CContainer>
+            </CRow>
+          </CCardBody>
+        </CTabPane>
+        <CTabPane data-tab="profile">
+          <ViewTable></ViewTable>
+        </CTabPane>
+        {/* <CTabPane data-tab="messages">789</CTabPane> */}
+      </CTabContent>
+    </CTabs>
   );
 };
 

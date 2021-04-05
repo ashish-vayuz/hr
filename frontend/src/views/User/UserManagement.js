@@ -125,7 +125,7 @@ const UserManagement = (props) => {
             fields={fields}
             columnFilter
             tableFilter
-            footer
+            // footer
             itemsPerPageSelect
             responsive
             outlined

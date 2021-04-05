@@ -2,6 +2,9 @@ import Admin from "../models/AdminModel.js";
 import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken.js";
 import User from "../models/userModel.js";
+import Challenge from "../models/challengeModel.js";
+import Category from "../models/categoryModel.js";
+import moment from "moment";
 
 // @desc Signin Admin to Platform
 // route POST admin/signin
@@ -140,6 +143,26 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
+const DashboardView = asyncHandler(async (req, res) => {
+  const TotalRegisterUser = await User.find({ isDeleted: false });
+  const TotalChalange = await Challenge.find();
+  const TotalCategory = await Category.find();
+
+  var start = moment().startOf("day"); // set to 12:00 am today
+  var end = moment().endOf("day"); // set to 23:59 pm today
+  const userRegisterToday = await User.find({
+    createdAt: { $gte: start, $lt: end },
+  });
+  res.status(200).json({
+    godView: {
+      TotalRegisterUser,
+      userRegisterToday,
+      TotalChalange,
+      TotalCategory,
+    },
+  });
+});
+
 export {
   authAdmin,
   addAdmin,
@@ -149,4 +172,5 @@ export {
   getAllUser,
   updateUser,
   deleteUserById,
+  DashboardView,
 };

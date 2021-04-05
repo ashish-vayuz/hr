@@ -137,6 +137,9 @@ const CategoryManagement = (props) => {
                   </CButton>
                 </td>
               ),
+              createdAt: (item) => (
+                <td className="py-2">{moment(item.createdAt).format("LLL")}</td>
+              ),
               image: (item) => (
                 <td className="py-2">
                   <CImg

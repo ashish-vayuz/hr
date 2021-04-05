@@ -25,7 +25,7 @@ const TheHeaderDropdown = () => {
         </div>
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
-        <CDropdownItem header tag="div" color="light" className="text-center">
+        {/* <CDropdownItem header tag="div" color="light" className="text-center">
           <strong>Account</strong>
         </CDropdownItem>
         <CDropdownItem>
@@ -80,7 +80,7 @@ const TheHeaderDropdown = () => {
           <CBadge color="primary" className="mfs-auto">
             42
           </CBadge>
-        </CDropdownItem>
+        </CDropdownItem> */}
         <CDropdownItem divider />
         <CDropdownItem onClick={() => dispatch(logout())}>
           <CIcon
