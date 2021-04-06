@@ -48,6 +48,7 @@ const routes = [
   },
   { path: "/adduser", name: "Add User", component: AddUser },
   { path: "/category", name: "Category Management", component: Category },
+  { path: "/updatecategory", name: "Category  Update", component: CategoryAdd },
   {
     path: "/editCategory/:id",
     name: "Category Management",

@@ -65,7 +65,7 @@ const AddUser = (props) => {
           )
         : addUser(name, email, location, password)
     );
-    if (users && user) {
+    if (users || user) {
       dispatch(listUsers());
       props && props.location && props.location.isview
         ? history.push({
