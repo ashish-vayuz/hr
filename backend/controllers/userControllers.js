@@ -781,7 +781,7 @@ const reviewerRequest = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user.id)
 
     if (user) {
-        user.reviewerData = { DOB, age, bankName, branchName, IFSCcode, UploadID: data, bankAccountNo}
+        user.reviewerData = { DOB, age, bankName, branchName, IFSCcode, UploadID: data, bankAccountNo }
         user.reviewerRequest = "true"
         await user.save()
         res.json({
@@ -800,16 +800,16 @@ const reviewerRequest = asyncHandler(async (req, res) => {
 // access Private
 const reviewerUpdateProfile = asyncHandler(async (req, res) => {
     const data = req.files.map(x => x.path)
-    const { DOB, age, bankName, branchName, IFSCcode, UploadID } = req.body
     const user = await User.findById(req.user.id)
 
     if (user) {
         user.DOB = req.body.DOB || user.DOB
         user.age = req.body.age || user.age
         user.bankName = req.body.bankName || user.bankName
+        user.bankAccountNo = req.body.bankAccountNo || user.bankAccountNo
         user.branchName = req.body.branchName || user.branchName
         user.IFSCcode = req.body.IFSCcode || user.IFSCcode
-        user.data = req.body.data || user.data
+        user.data = data || user.data
         user.isReviewer = "true"
         await user.save()
         res.json({

@@ -10,6 +10,11 @@ const CRSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User',
+    },
+    status: {
+        type: String,
+        default: 'Pending',
+        enum: ['Pending', 'Approved', 'Reject']
     }
 },
     {

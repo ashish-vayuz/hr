@@ -9,6 +9,11 @@ const URSchema = mongoose.Schema({
     amount: {
         type: Number,
         required: true
+    },
+    status:{
+        type: String,
+        default: 'Pending',
+        enum: ['Pending', 'Approved', 'Reject']
     }
 },
     {
