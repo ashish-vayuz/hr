@@ -156,3 +156,22 @@ export const godView = () => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const getAllRedeemReq = () => async (dispatch) => {
+  try {
+    const { data } = await axios.get("/admin/userredeemreq");
+    return data ? data : {};
+  } catch (error) {
+    return error.message;
+  }
+};
+
+export const updateRedeemReq = (id, status) => async (dispatch) => {
+  console.log(id, status);
+  try {
+    const { data } = await axios.post("/admin/userredeemreq", { id, status });
+    return data ? data : {};
+  } catch (error) {
+    return error.message;
+  }
+};

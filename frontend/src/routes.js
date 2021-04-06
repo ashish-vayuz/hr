@@ -1,4 +1,7 @@
 import React, { lazy } from "react";
+const TransactionManage = lazy(() =>
+  import("./views/Transaction/TransactionManage")
+);
 const UserViewsManagement = lazy(() => import("./views/User/view"));
 const ReviewView = lazy(() => import("./views/Reviewer/viewReviewer"));
 const ReviewerManagement = React.lazy(() =>
@@ -87,6 +90,12 @@ const routes = [
     path: "/review/viewReview",
     name: "View Review",
     component: ReviewView,
+  },
+  {
+    path: "/transaction",
+    exact: true,
+    name: "Transaction  Management",
+    component: TransactionManage,
   },
   { path: "/", exact: true, name: "Home" },
 ];

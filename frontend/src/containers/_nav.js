@@ -50,6 +50,12 @@ const _nav = [
     to: "/category",
     icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
   },
+  {
+    _tag: "CSidebarNavItem",
+    name: "Transaction Management",
+    to: "/transaction",
+    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
+  },
 ];
 
 export default _nav;

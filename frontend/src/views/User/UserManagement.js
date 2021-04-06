@@ -147,8 +147,10 @@ const UserManagement = (props) => {
                   </CButton>
                 </td>
               ),
-              isReviewer: (item, index) => (
-                <td className="py-2">{item.isReviewer ? "Yes" : "No"}</td>
+              isReviewer: (item) => (
+                <td className="py-2">
+                  {item.isReviewer == "true" ? "Yes" : "No"}
+                </td>
               ),
               image: (item) => (
                 <td className="py-2">
