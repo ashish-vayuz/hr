@@ -143,8 +143,9 @@ const userSchema = mongoose.Schema({
     },
     reports: [reportSchema],
     isReviewer: {
-        type: Boolean,
-        default: false
+        type: String,
+        default: 'Pending',
+        enum: ['Pending', 'Approved', 'Reject']
     },
     reviewerRequest: {
         type: Boolean,
