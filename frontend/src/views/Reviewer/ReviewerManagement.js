@@ -5,7 +5,10 @@ import {
   CCollapse,
   CDataTable,
   CImg,
+  CRow,
 } from "@coreui/react";
+import { CSVLink } from "react-csv";
+
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
@@ -21,6 +24,7 @@ import moment from "moment";
 import Modal from "src/reusable/Modal";
 import { listReviewer } from "src/actions/reviewerAction";
 import { useHistory } from "react-router-dom";
+import Report from "src/reusable/Report";
 
 const ReviewerManagement = (props) => {
   const history = useHistory();
@@ -30,7 +34,7 @@ const ReviewerManagement = (props) => {
 
   const { loading, error, viewers } = userList;
   useEffect(() => {
-    document.title = "Human Race | Viewer Management";
+    document.title = "Human Race | Re-Viewer Management";
     dispatch(listReviewer());
     if (!loading) {
       setData(viewers);
@@ -106,14 +110,47 @@ const ReviewerManagement = (props) => {
       state: info,
     });
   };
-
+  const [dateFormat, setDateFormat] = useState({
+    start: "",
+    end: "",
+  });
   console.log(userList);
+  const header = [
+    { label: " Name", key: "name" },
+    { label: "Email", key: "email" },
+    { label: "Contact", key: "contact" },
+    { label: "Location", key: "location" },
+    { label: "Total Reports	", key: "totalReports" },
+    { label: "Is Reviewer	", key: "isReviewer" },
+    { label: "Active", key: "active" },
+  ];
+  const csvReport = {
+    data: `${viewers}` && viewers.list,
+    headers: header,
+    filename: "ReViewer-Report.csv",
+  };
   return (
     <>
       {loading ? (
         <Loader />
       ) : (
         <div>
+          <CRow
+            className="container"
+            style={{
+              background: "white",
+              marginBottom: "4px",
+              marginLeft: "5px",
+              padding: "10px",
+            }}
+          >
+            <Report dateFormat={dateFormat} setDateFormat={setDateFormat} />
+          </CRow>
+          <CButton className="float-right ml-2 mt-1" color="primary">
+            <CSVLink style={{ color: "white" }} {...csvReport}>
+              Export to CSV
+            </CSVLink>
+          </CButton>
           <CDataTable
             items={data.list || viewers.list}
             fields={fields}

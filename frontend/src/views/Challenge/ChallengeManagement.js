@@ -5,19 +5,22 @@ import {
   CCollapse,
   CDataTable,
   CImg,
+  CRow,
 } from "@coreui/react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import Loader from "../Loader/Loader";
 import axios from "axios";
+import { CSVLink } from "react-csv";
+
 import {
   listChallenges,
-  listChallengeDetails,
   deleteChallenge,
   updateChallenge,
 } from "../../actions/challengeActions";
 import { useHistory } from "react-router-dom";
+import Report from "src/reusable/Report";
 
 const ChallengeManagement = (props) => {
   const history = useHistory();
@@ -107,14 +110,50 @@ const ChallengeManagement = (props) => {
       state: info,
     });
   };
+  const header = [
+    { label: " Title", key: "title" },
+    { label: "Hashtags", key: "hashtags" },
+    { label: "CoinAllocated", key: "coinAllocated" },
+    { label: "Duration	", key: "duration" },
+    { label: "Visibility	", key: "visibility" },
+    { label: "ReviewAmount	", key: "reviewAmount" },
+    { label: "Payment Status	", key: "isPaymentDone" },
+    { label: "Visibility", key: "visibility" },
+  ];
+  const csvReport = {
+    data: `${data}` && data.list,
+    headers: header,
+    filename: "challenge-Report.csv",
+  };
+  const [dateFormat, setDateFormat] = useState({
+    start: "",
+    end: "",
+  });
+
   return (
     <>
       {loading ? (
         <Loader />
       ) : (
         <div>
+          <CRow
+            className="container"
+            style={{
+              background: "white",
+              marginBottom: "4px",
+              marginLeft: "5px",
+              padding: "10px",
+            }}
+          >
+            <Report dateFormat={dateFormat} setDateFormat={setDateFormat} />
+          </CRow>
+          <CButton className="float-right ml-2 mt-1" color="primary">
+            <CSVLink style={{ color: "white" }} {...csvReport}>
+              Export to CSV
+            </CSVLink>
+          </CButton>
           <CDataTable
-            items={(data && data.list) || challenges.list}
+            items={challenges && challenges.list}
             fields={fields}
             columnFilter
             tableFilter

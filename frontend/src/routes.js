@@ -76,7 +76,7 @@ const routes = [
   },
   { path: "/addadmin", name: "Add Admin", component: AddAdmin },
   { path: "/updateadmin", name: "Update Admin", component: AddAdmin },
-  { path: "/admin", name: "Dashboard", component: Admin },
+  { path: "/admin", name: "Sub-Admin", component: Admin },
   { path: "/dashboard", name: "Dashboard", component: Dashboard },
   { path: "/dashboard", name: "Dashboard", component: Dashboard },
   { path: "/cms", name: "cms", component: Cms },

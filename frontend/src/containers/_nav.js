@@ -20,12 +20,12 @@ const _nav = [
     to: "/challenge",
     icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
   },
-  {
-    _tag: "CSidebarNavItem",
-    name: "Report Management",
-    to: "/dashboard",
-    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
-  },
+  // {
+  //   _tag: "CSidebarNavItem",
+  //   name: "Report Management",
+  //   to: "/dashboard",
+  //   icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
+  // },
   {
     _tag: "CSidebarNavItem",
     name: "CMS",

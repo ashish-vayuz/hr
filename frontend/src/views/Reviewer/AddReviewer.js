@@ -11,7 +11,7 @@ import {
   CSpinner,
 } from "@coreui/react";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../../actions/userMAction";
 import Loader from "../Loader/Loader";
@@ -25,6 +25,10 @@ const Reviewer = ({ history }) => {
   const userAdd = useSelector((state) => state.userAdd);
   const { loading, error, users } = userAdd;
   const submitHandler = (e) => {
+    useEffect(() => {
+      document.title = "Human Race | Add New Reviewer";
+    }, []);
+
     e.preventDefault();
     var length = 8,
       charset =

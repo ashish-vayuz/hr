@@ -5,7 +5,10 @@ import {
   CCollapse,
   CDataTable,
   CImg,
+  CRow,
 } from "@coreui/react";
+import { CSVLink } from "react-csv";
+
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
@@ -17,6 +20,7 @@ import {
   updateAdmin,
 } from "../../actions/adminAction";
 import { useHistory } from "react-router-dom";
+import Report from "src/reusable/Report";
 
 const CategoryManagement = (props) => {
   const history = useHistory();
@@ -26,6 +30,8 @@ const CategoryManagement = (props) => {
   const adminList = useSelector((state) => state.adminList);
   const { loading, error, admins } = adminList;
   useEffect(() => {
+    document.title = "Human Race | Staff Management";
+
     dispatch(listAdmins());
     if (!loading) {
       setData(admins);
@@ -83,7 +89,18 @@ const CategoryManagement = (props) => {
       filter: false,
     },
   ];
-
+  const header = [
+    { label: " Name", key: "name" },
+    { label: "Email", key: "email" },
+    { label: "role", key: "role" },
+    { label: "createdAt", key: "createdAt" },
+    { label: "Active", key: "active" },
+  ];
+  const csvReport = {
+    data: `${admins}` && admins.list,
+    headers: header,
+    filename: "SubAdmin-Report.csv",
+  };
   const getBadge = (active) => {
     switch (active) {
       case true:
@@ -104,12 +121,34 @@ const CategoryManagement = (props) => {
     });
   };
   console.log(data);
+
+  const [dateFormat, setDateFormat] = useState({
+    start: "",
+    end: "",
+  });
+
   return (
     <>
       {loading ? (
         <Loader />
       ) : (
         <div>
+          <CRow
+            className="container"
+            style={{
+              background: "white",
+              marginBottom: "4px",
+              marginLeft: "5px",
+              padding: "10px",
+            }}
+          >
+            <Report dateFormat={dateFormat} setDateFormat={setDateFormat} />
+          </CRow>
+          <CButton className="float-right ml-2 mt-1" color="primary">
+            <CSVLink style={{ color: "white" }} {...csvReport}>
+              Export to CSV
+            </CSVLink>
+          </CButton>
           <CDataTable
             items={data.list || admins.list}
             fields={fields}
