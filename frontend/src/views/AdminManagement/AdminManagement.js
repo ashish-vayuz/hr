@@ -31,7 +31,6 @@ const CategoryManagement = (props) => {
   const { loading, error, admins } = adminList;
   useEffect(() => {
     document.title = "Human Race | Staff Management";
-
     dispatch(listAdmins());
     if (!loading) {
       setData(admins);
