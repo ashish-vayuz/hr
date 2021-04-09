@@ -15,7 +15,7 @@ import { useEffect } from "react";
 const ReviewView = (props) => {
   console.log(props);
   useEffect(() => {
-    document.title = "Human Race | View User";
+    document.title = "Human Race | View Reviewer";
     if (!(props && props.location.state)) {
       history.push("/reviewer");
     }

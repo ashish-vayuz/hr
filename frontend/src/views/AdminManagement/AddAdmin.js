@@ -34,8 +34,8 @@ const AddUser = (props) => {
   useEffect(() => {
     document.title =
       props && props.location.state
-        ? "Human Race | Update Admin "
-        : "Human Race | Add Admin";
+        ? "Human Race | Update Staff "
+        : "Human Race | Add Staff";
 
     if (props && props.location.state) {
       setEmail(props.location.state.email);

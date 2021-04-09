@@ -1,5 +1,5 @@
-import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   CHeader,
   CToggler,
@@ -9,37 +9,40 @@ import {
   CHeaderNavLink,
   CSubheader,
   CBreadcrumbRouter,
-  CLink
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import AddButton from './AddButton'
-import { useLocation } from 'react-router-dom';
-
+  CLink,
+} from "@coreui/react";
+import CIcon from "@coreui/icons-react";
+import AddButton from "./AddButton";
+import { useLocation } from "react-router-dom";
 
 // routes config
-import routes from '../routes'
+import routes from "../routes";
 
 import {
   TheHeaderDropdown,
   TheHeaderDropdownMssg,
   TheHeaderDropdownNotif,
-  TheHeaderDropdownTasks
-} from './index'
+  TheHeaderDropdownTasks,
+} from "./index";
 
 const TheHeader = () => {
-  const location = useLocation()
-  const dispatch = useDispatch()
-  const sidebarShow = useSelector(state => state.sidebarShow)
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const sidebarShow = useSelector((state) => state.sidebarShow);
 
   const toggleSidebar = () => {
-    const val = [true, 'responsive'].includes(sidebarShow) ? true : 'responsive'
-    dispatch({ type: 'set', sidebarShow: val })
-  }
+    const val = [true, "responsive"].includes(sidebarShow)
+      ? true
+      : "responsive";
+    dispatch({ type: "set", sidebarShow: val });
+  };
 
   const toggleSidebarMobile = () => {
-    const val = [true, 'responsive'].includes(sidebarShow) ? true : 'responsive'
-    dispatch({ type: 'set', sidebarShow: val })
-  }
+    const val = [true, "responsive"].includes(sidebarShow)
+      ? true
+      : "responsive";
+    dispatch({ type: "set", sidebarShow: val });
+  };
 
   return (
     <CHeader withSubheader>
@@ -58,8 +61,8 @@ const TheHeader = () => {
       </CHeaderBrand>
 
       <CHeaderNav className="d-md-down-none mr-auto">
-        <CHeaderNavItem className="px-3" >
-          <CHeaderNavLink to="/dashboard">Dashboard</CHeaderNavLink>
+        <CHeaderNavItem className="px-3">
+          {/* <CHeaderNavLink to="/dashboard">Dashboard</CHeaderNavLink> */}
         </CHeaderNavItem>
       </CHeaderNav>
 
@@ -76,11 +79,11 @@ const TheHeader = () => {
           routes={routes}
         />
         <div className="d-md-down-none mfe-2 c-subheader-nav">
-        <AddButton location={location.pathname}/>
+          <AddButton location={location.pathname} />
         </div>
       </CSubheader>
     </CHeader>
-  )
-}
+  );
+};
 
-export default TheHeader
+export default TheHeader;

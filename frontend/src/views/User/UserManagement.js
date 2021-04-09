@@ -5,7 +5,10 @@ import {
   CCollapse,
   CDataTable,
   CImg,
+  CRow,
 } from "@coreui/react";
+import { CSVLink } from "react-csv";
+
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
@@ -20,6 +23,7 @@ import {
 import moment from "moment";
 import Modal from "src/reusable/Modal";
 import { useHistory } from "react-router-dom";
+import Report from "src/reusable/Report";
 
 const UserManagement = (props) => {
   const history = useHistory();
@@ -30,6 +34,7 @@ const UserManagement = (props) => {
 
   useEffect(() => {
     document.title = "Human Race |User Management";
+
     dispatch(listUsers());
     if (!loading) {
       setData(users);
@@ -113,23 +118,60 @@ const UserManagement = (props) => {
       state: info,
     });
   };
+  const header = [
+    { label: " Name", key: "name" },
+    { label: "Email", key: "email" },
+    { label: "Contact", key: "contact" },
+    { label: "Location", key: "location" },
+    { label: "Total Reports	", key: "totalReports" },
+    { label: "Is Reviewer	", key: "isReviewer" },
+    { label: "Active", key: "active" },
+  ];
 
+  const csvReport = {
+    data: `${users}` && users.list,
+    headers: header,
+    filename: "User-Report.csv",
+  };
+  const [dateFormat, setDateFormat] = useState({
+    start: "",
+    end: "",
+  });
+  console.log(dateFormat);
   return (
     <>
       {loading ? (
         <Loader />
       ) : (
         <div>
+          <CRow
+            className="container"
+            style={{
+              background: "white",
+              marginBottom: "4px",
+              marginLeft: "5px",
+              padding: "10px",
+            }}
+          >
+            <Report dateFormat={dateFormat} setDateFormat={setDateFormat} />
+          </CRow>
+          {users && (
+            <CButton className="float-right ml-2 mt-1" color="primary">
+              <CSVLink style={{ color: "white" }} {...csvReport}>
+                Export to CSV
+              </CSVLink>
+            </CButton>
+          )}
           <CDataTable
-            items={data.list || users.list}
+            items={users && users.list}
             fields={fields}
             columnFilter
             tableFilter
-            // footer
             itemsPerPageSelect
+            loadingSlot
             responsive
             outlined
-            itemsPerPage={20}
+            itemsPerPage={10}
             hover
             sorter
             pagination

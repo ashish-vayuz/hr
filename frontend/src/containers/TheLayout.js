@@ -13,7 +13,7 @@ const TheLayout = () => {
           <div className="c-body">
             <TheContent />
           </div>
-          <TheFooter />
+          {/* <TheFooter /> */}
         </div>
       </div>
     </AuthWrapped>

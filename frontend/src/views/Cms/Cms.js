@@ -26,6 +26,8 @@ const CmsManagement = ({ history }) => {
   const cmsList = useSelector((state) => state.cmsList);
   const { loading, error, cmss } = cmsList;
   useEffect(() => {
+    document.title = "Human Race |  CMS";
+
     dispatch(listCmss());
     if (!loading) {
       setData(cmss);
