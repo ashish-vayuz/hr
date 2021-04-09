@@ -435,6 +435,56 @@ const getProfile = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc allow user to get profile data
+// route POST users/profile
+// access Private
+const getReviewerProfile = asyncHandler(async (req, res) => {
+  const challenge = await PartChal.find({ "reviewer": req.user.id})
+  const user = await User.findById(req.user.id)
+    .select("-password -OTP -verified -isDeleted -report")
+    .populate("myChallenges bookmarks participatedChallenges liked")
+    .populate("followings", "name image")
+    .populate("followers", "name image")
+    .populate("categories", "name image")
+    .populate({
+      path: "categoryCoin",
+      populate: { path: "category", select: "name image" },
+    })
+    .populate({
+      path: "myChallenges",
+      populate: { path: "category", select: "name image" },
+    })
+    .populate({
+      path: "myChallenges",
+      populate: { path: "creator", select: "name image" },
+    })
+    .populate({
+      path: "participatedChallenges",
+      populate: { path: "user", select: "name image" },
+    })
+    .populate({
+      path: "participatedChallenges",
+      populate: {
+        path: "challenge",
+        populate: {
+          path: "creator category",
+          select: "name image",
+        },
+      },
+    });
+  if (user) {
+    res.json({
+      errorcode: 1,
+      errormessage: "Records found",
+      list: user,
+      videoLlist:challenge
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not Found");
+  }
+})
+
 // @desc allow user to update profile data
 // route POST users/profile
 // access Private
@@ -1147,4 +1197,5 @@ export {
   coinRedeemRequest,
   coinRedeemRequestList,
   coinRedeemRequestUpdate,
+  getReviewerProfile
 };

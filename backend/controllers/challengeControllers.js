@@ -344,7 +344,7 @@ const getPaticipation = asyncHandler(async (req, res) => {
     ? { user: { $elemMatch: { followers: req.user.id } } }
     : "";
   const count = await PartChal.countDocuments({});
-  const challenge = await PartChal.find({ ...approved })
+  const challenge = await PartChal.find({})
     .populate("user", "name image followers")
     .populate("challenge")
     .populate({
@@ -357,6 +357,7 @@ const getPaticipation = asyncHandler(async (req, res) => {
     })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
+    
   if (challenge) {
     challenge.forEach((c) => {
       if (c.user.id == req.user.id) {

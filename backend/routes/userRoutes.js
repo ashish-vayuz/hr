@@ -29,6 +29,7 @@ import {
   reviewerUpdateProfile,
   userCoin,
   coinRedeemRequest,
+  getReviewerProfile,
 } from "../controllers/userControllers.js";
 import { getAllUser } from "../controllers/adminController.js";
 import { protect } from "../middlewares/authMiddlewares.js";
@@ -79,6 +80,7 @@ router.route("/category").post(protect, category);
 router.route("/forgotOtp").post(protect, forgotOtp);
 router.route("/all").get(protect, getAllUsers);
 router.route("/profile").get(protect, getProfile).post(protect, updateProfile);
+router.route("/reviewerprofile").get(protect, getReviewerProfile)
 router.route("/report/:id").post(protect, reportUser);
 router.route("/save/:id").put(protect, addToBookmark);
 router.route("/unsave/:id").put(protect, removeFromBookmark);

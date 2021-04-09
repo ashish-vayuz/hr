@@ -15,6 +15,29 @@ const reportSchema = mongoose.Schema(
     }
 )
 
+const reviewerSchema = mongoose.Schema(
+    {
+        reviews: {
+            type: Number,
+            required: false,
+            default: 0
+        },
+        challenged: {
+            type: Number,
+            required: false,
+            default: 0
+        },
+        challenged: {
+            type: Number,
+            required: false,
+            default: 0
+        },
+    },
+    {
+        timestamps: true,
+    }
+)
+
 const userSchema = mongoose.Schema({
     name: {
         type: String,
@@ -144,7 +167,7 @@ const userSchema = mongoose.Schema({
     reports: [reportSchema],
     isReviewer: {
         type: String,
-        default: 'Pending',
+        default: 'Reject',
         enum: ['Pending', 'Approved', 'Reject']
     },
     reviewerRequest: {
@@ -164,6 +187,9 @@ const userSchema = mongoose.Schema({
         type: String
     },
     reviewerData: {
+        data: {
+            reviewerSchema
+        },
         bankAccountNo: {
             type: String,
 
