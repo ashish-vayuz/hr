@@ -6,8 +6,8 @@ import User from "../models/userModel.js";
 // access Public/admin
 
 const getReviewer = asyncHandler(async (req, res) => {
-  const reviewer = await User.find({ isReviewer: true });
-  console.log("reviewer:", reviewer);
+  const reviewer = await User.find({ isReviewer: "Approved" });
+  // console.log("reviewer:", reviewer);
   if (reviewer) {
     res.send({
       res: "chal",

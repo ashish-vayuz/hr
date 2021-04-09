@@ -27,10 +27,10 @@ const TransactionManage = () => {
 
   console.log(status);
   const fields = [
-    { key: "user", _style: { width: "10%" } },
-    { key: "amount", _style: { width: "10%" } },
+    { label: "Reviewer name", key: "user", _style: { width: "10%" } },
+    { label: "Amount requested", key: "amount", _style: { width: "10%" } },
+    { label: "Requested on", key: "createdAt", _style: { width: "10%" } },
     { key: "status", _style: { width: "10%" } },
-    { key: "createdAt", _style: { width: "10%" } },
   ];
   const getBadge = (active) => {
     switch (active) {

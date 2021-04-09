@@ -75,6 +75,12 @@ const getChallengeAdmin = asyncHandler(async (req, res) => {
     .populate("creator", "name image")
     .populate("category", "name image")
     .populate("participant")
+    .populate({
+      path: "participant",
+      populate: {
+        path: "user",
+      },
+    })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
 
@@ -357,7 +363,7 @@ const getPaticipation = asyncHandler(async (req, res) => {
     })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
-    
+
   if (challenge) {
     challenge.forEach((c) => {
       if (c.user.id == req.user.id) {
