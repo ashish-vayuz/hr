@@ -16,9 +16,9 @@ const importData = async () => {
     try {
         await Challenge.deleteMany()
         await User.deleteMany()
-        await Challenge.insertMany(challenge)
-        await User.insertMany(user)
-        await PartChal.insertMany()
+        // await Challenge.insertMany(challenge)
+        // await User.insertMany(user)
+        // await PartChal.insertMany()
         
 
 

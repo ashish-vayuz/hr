@@ -13,11 +13,11 @@ const getChallenge = asyncHandler(async (req, res) => {
 
   const keyword = req.query.keyword
     ? {
-        description: {
-          $regex: req.query.keyword,
-          $options: "i",
-        },
-      }
+      description: {
+        $regex: req.query.keyword,
+        $options: "i",
+      },
+    }
     : {};
 
   const count = await Challenge.countDocuments({ ...keyword });
@@ -63,11 +63,11 @@ const getChallengeAdmin = asyncHandler(async (req, res) => {
 
   const keyword = req.query.keyword
     ? {
-        description: {
-          $regex: req.query.keyword,
-          $options: "i",
-        },
-      }
+      description: {
+        $regex: req.query.keyword,
+        $options: "i",
+      },
+    }
     : {};
 
   const count = await Challenge.countDocuments({ ...keyword });
@@ -333,17 +333,17 @@ const getPaticipation = asyncHandler(async (req, res) => {
   const approved = req.query.type ? { review_status: arr[req.query.type] } : {};
   const keyword = req.query.keyword
     ? {
-        description: {
-          $regex: req.query.keyword,
-          $options: "i",
-        },
-      }
+      description: {
+        $regex: req.query.keyword,
+        $options: "i",
+      },
+    }
     : {};
 
   const filter = req.query.following
     ? { user: { $elemMatch: { followers: req.user.id } } }
     : "";
-  const count = await PartChal.countDocuments({});
+  const count = await PartChal.countDocuments({ ...approved });
   const challenge = await PartChal.find({})
     .populate("user", "name image followers")
     .populate("challenge")
@@ -357,7 +357,7 @@ const getPaticipation = asyncHandler(async (req, res) => {
     })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
-    
+
   if (challenge) {
     challenge.forEach((c) => {
       if (c.user.id == req.user.id) {
