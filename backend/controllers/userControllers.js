@@ -840,6 +840,7 @@ const reviewerRequest = asyncHandler(async (req, res) => {
       bankAccountNo,
     };
     user.reviewerRequest = "true";
+    user.isReviewer = "Pending"
     await user.save();
     res.json({
       errorcode: 1,
