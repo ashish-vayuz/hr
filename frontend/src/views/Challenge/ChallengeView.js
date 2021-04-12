@@ -135,7 +135,9 @@ const ChallengeView = (props) => {
           </CCardBody>
         </CTabPane>
         <CTabPane data-tab="profile">
-          <ViewTable></ViewTable>
+          <ViewTable
+            usersData={props && props.location.state.participant}
+          ></ViewTable>
         </CTabPane>
         {/* <CTabPane data-tab="messages">789</CTabPane> */}
       </CTabContent>

@@ -75,6 +75,12 @@ const getChallengeAdmin = asyncHandler(async (req, res) => {
     .populate("creator", "name image")
     .populate("category", "name image")
     .populate("participant")
+    .populate({
+      path: "participant",
+      populate: {
+        path: "user",
+      },
+    })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
 

@@ -103,7 +103,7 @@ const UserManagement = (props) => {
         return "primary";
     }
   };
-  console.log(data);
+  // console.log(data);
 
   const handleMove = (info) => {
     history.push({
@@ -137,7 +137,7 @@ const UserManagement = (props) => {
     start: "",
     end: "",
   });
-  console.log(dateFormat);
+  // console.log(dateFormat);
   return (
     <>
       {loading ? (
@@ -163,15 +163,16 @@ const UserManagement = (props) => {
             </CButton>
           )}
           <CDataTable
-            items={users && users.list}
+            items={data.list || (users && users.list)}
             fields={fields}
             columnFilter
             tableFilter
             itemsPerPageSelect
             loadingSlot
             responsive
+            tableFilter={(e) => console.log(e)}
             outlined
-            itemsPerPage={10}
+            itemsPerPage={5}
             hover
             sorter
             pagination
@@ -189,16 +190,12 @@ const UserManagement = (props) => {
                   </CButton>
                 </td>
               ),
-              isReviewer: (item) => (
-                <td className="py-2">
-                  {item.isReviewer == "true" ? "Yes" : "No"}
-                </td>
-              ),
+              isReviewer: (item) => <td className="py-2">{item.isReviewer}</td>,
               image: (item) => (
                 <td className="py-2">
                   <CImg
                     style={{ borderRadius: "50%" }}
-                    src={`${item.image}`}
+                    src={item.image}
                     fluid
                     className="mb-2"
                     width="50px"
