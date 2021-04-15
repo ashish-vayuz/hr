@@ -122,6 +122,8 @@ const deleteUserById = asyncHandler(async (req, res) => {
     }
   });
 });
+//Hello this is a test commit
+
 
 // @desc Update category
 // route put category/:id
